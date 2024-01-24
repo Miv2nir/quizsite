@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+  <body>
+    {% if user_found %}
+      <p class="text-2xl text-red-500">Sorry, that username already exists.</p>
+    {% endif %}
+    {% if password_mismatch %}
+      <p class="text-2xl text-red-500">Sorry, passwords did not match.</p>
+    {% endif %}
+    {% if incomplete_form %}
+      <p class="text-2xl text-red-500">Sorry, you should fill in all the credential fields.</p>
+    {% endif %}
+    <form class="content-center" action="/register/" method="post">
+      {% csrf_token %}
+      <div class="text-center">{{ form.as_p }}</div>
+    </form>
+  </body>
+</html>
