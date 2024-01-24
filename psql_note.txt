@@ -1,0 +1,3 @@
+https://www.postgresql.org/docs/current/libpq-pgpass.html
+https://www.postgresql.org/docs/current/libpq-pgservice.html
+Need to be specified accordingly
