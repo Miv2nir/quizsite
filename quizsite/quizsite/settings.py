@@ -77,8 +77,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "OPTIONS": {
-            "service": "quizdb",
-            "passfile": ".my_pgpass",
+            "service": "quizapp",
+            "passfile": "/home/miv2nir/project/quizsite/.pgpass",
         },
     }
 }
