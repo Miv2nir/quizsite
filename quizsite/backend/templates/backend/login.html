@@ -17,5 +17,10 @@
       <div class="text-center">{{ form.as_p }}</div>
       <button type="submit" value="OK">Login</button>
     </form>
+    <h3>New to the system?</h3>
+    <form action="/register/" method="post">
+      {% csrf_token %}
+      <button type="submit" value="OK">Register</button>
+    </form>
   </body>
 </html>

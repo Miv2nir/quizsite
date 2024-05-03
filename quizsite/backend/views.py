@@ -72,3 +72,11 @@ def logout_user(request):
         print('Logging out '+request.user.username)
         logout(request)
     return HttpResponseRedirect('/login/')
+
+
+#site's landing page
+def home(request):
+    if not request.user.is_authenticated:
+            #if the user is not authenticated, redirect to the login page
+            return HttpResponseRedirect('/login/')
+    return render (request,'backend/home.html')
