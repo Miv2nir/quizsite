@@ -53,7 +53,6 @@ main {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-indent: 0.2rem;
     /* transition: var(--highlight-color); */
     background-color: var(--highlight-color);
 }
