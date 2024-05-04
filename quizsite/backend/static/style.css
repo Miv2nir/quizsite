@@ -50,11 +50,17 @@ main {
     padding-bottom: 1rem;
     margin-top: 0.3rem;
     margin-bottom: 0.3rem;
+    align-items: center;
+    /* transition: var(--highlight-color); */
+    background-color: var(--highlight-color);
+}
+
+.sidebar-text {
+    padding-left: 1rem;
+    padding-right: 1rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* transition: var(--highlight-color); */
-    background-color: var(--highlight-color);
 }
 
 .sidebar-element:hover {
