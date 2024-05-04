@@ -3,6 +3,7 @@
     font-family: 'Open Sans';
     --bg-color: #fbe5d6;
     --highlight-color: white;
+    --selection-color: #fff4ed;
     --text-color: black;
     --sidebar-width: 10rem;
 }
@@ -64,7 +65,7 @@ main {
 }
 
 .sidebar-element:hover {
-    --highlight-color: #f2f3f5;
+    --highlight-color: var(--selection-color);
     transition: background-color 200ms ease;
 }
 
