@@ -52,6 +52,7 @@ main {
     margin-top: 0.3rem;
     margin-bottom: 0.3rem;
     align-items: center;
+    transition: background-color 200ms ease;
     /* transition: var(--highlight-color); */
     background-color: var(--highlight-color);
 }
