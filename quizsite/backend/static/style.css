@@ -12,8 +12,7 @@ body {
     margin: 0;
     color: black;
     background-color: white;
-    display: flex;
-    overflow: hidden;
+    min-height: 100vh;
     /* flex-direction: row;*/
 }
 
@@ -23,11 +22,22 @@ main {
     display: block;
 }
 
+.split {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+}
+
+.content {
+    overflow: auto;
+}
 
 
 .sidebar {
     background-color: var(--bg-color);
-    height: 100vh;
+    min-height: 100vh;
+    flex-direction: column;
     width: var(--sidebar-width);
     position: relative;
     overflow: hidden;
@@ -89,7 +99,6 @@ main {
     flex-direction: row;
     overflow: hidden;
 }
-
 
 .pfp {
     padding-left: 1rem;

@@ -13,61 +13,63 @@
 <!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
 
 <body>
-  <nav class="sidebar">
-    <ul class="sidebar-list">
-      <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
-      <li class="sidebar-element">
-        <div class="sidebar-text">Test 1вапвыраывпвыаыавпвпрвап</div>
+  <div class="split">
+    <nav class="sidebar">
+      <ul class="sidebar-list">
+        <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 1вапвыраывпвыаыавпвпрвап</div>
 
-      </li>
-      <li class="sidebar-element">
-        <div class="sidebar-text">Test 2dsgdhfshfbfdsgfdg</div>
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 2dsgdhfshfbfdsgfdg</div>
 
-      </li>
-      <li class="sidebar-element">
-        <div class="sidebar-text">Test 3sdagfdhfdhbdfghjgfjdhgjghkjhudsfgfgdagfdgbfdsay</div>
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 3sdagfdhfdhbdfghjgfjdhgjghkjhudsfgfgdagfdgbfdsay</div>
 
-      </li>
-    </ul>
-  </nav>
-  <main>
-    <span style="overflow: hidden;">
-      <div class="main-div-quick-access">
-        <div style="display:block;">
+        </li>
+      </ul>
+    </nav>
+    <main>
+      <span style="overflow: hidden;">
+        <div class="main-div-quick-access">
+          <div style="display:block;">
+            <p>
+              N notifications
+            </p>
+            <p>
+              Menu
+            </p>
+          </div>
+          <img class="pfp" src="{% static 'pfp.png' %}" />
+        </div>
+        <!--welcome-->
+        <div style="overflow: hidden;">
           <p>
-            N notifications
-          </p>
-          <p>
-            Menu
+            Welcome back!
           </p>
         </div>
-        <img class="pfp" src="{% static 'pfp.png' %}" />
-      </div>
-      <!--welcome-->
-      <div style="overflow: hidden;">
-        <p>
-          Welcome back!
-        </p>
-      </div>
-    </span>
-    <span style="overflow-y: visible; position:absolute;">
-      <div>
-        <!--current assignments section-->
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaa</p>
-      </div>
-      <div>
-        <!--public courses section-->
-      </div>
-    </span>
-  </main>
+      </span>
+      <span class="content">
+        <div>
+          <!--current assignments section-->
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+          <p>aaaaaaaaaaaa</p>
+        </div>
+        <div>
+          <!--public courses section-->
+        </div>
+      </span>
+    </main>
+  </div>
 </body>
 
 </html>
