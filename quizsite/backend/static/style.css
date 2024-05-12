@@ -13,6 +13,7 @@ body {
     color: black;
     background-color: white;
     min-height: 100vh;
+    overflow-x: hidden;
     /* flex-direction: row;*/
 }
 
@@ -27,21 +28,28 @@ h1 {
     unicode-bidi: isolate;
 }
 
-main {
-    color: black;
-    padding-left: 1rem;
-    display: block;
-}
-
 .split {
     position: relative;
     display: flex;
+    min-width: 100%;
     flex-direction: row;
     min-height: 100vh;
 }
 
+main {
+    color: black;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: inline;
+    flex-grow: 3;
+}
+
+
+
 .content {
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
@@ -49,10 +57,11 @@ main {
     background-color: var(--bg-color);
     min-height: 100vh;
     flex-direction: column;
-    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    max-width: var(--sidebar-width);
     position: relative;
     overflow: hidden;
-    transition: width 200ms ease;
+    transition: 200ms ease;
 }
 
 .sidebar:hover {
@@ -118,24 +127,37 @@ main {
     overflow: hidden !important;
 }
 
+.assignments-container {
+    max-width: 100%;
+}
+
 .assignments-list {
     display: flex;
     direction: row;
+    flex-basis: 20rem;
+    max-width: 63rem;
     overflow-x: scroll;
 }
 
+
+
 .assignments-box {
-    display: box;
+    flex-shrink: 1;
+    display: block;
     border: solid;
     border-color: black;
-    width: 15rem;
-    text-align: end;
+    width: 20rem;
+    text-align: right;
     margin-right: 1rem;
 }
 
+.assignments-box:last-child {
+    margin-right: 0;
+}
+
 .course-image {
-    max-width: 100%;
-    max-height: 100%;
+    width: 20rem;
+    height: 5rem;
 }
 
 .course-text {
