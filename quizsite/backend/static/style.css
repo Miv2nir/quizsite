@@ -129,17 +129,17 @@ main {
 
 .assignments-container {
     max-width: 100%;
+    align-self: center;
 }
 
 .assignments-list {
-    display: flex;
+    display: inline-flex;
+
     direction: row;
     flex-basis: 20rem;
     max-width: 63rem;
     overflow-x: scroll;
 }
-
-
 
 .assignments-box {
     flex-shrink: 1;
