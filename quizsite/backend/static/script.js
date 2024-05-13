@@ -8,7 +8,8 @@
 function width_update() {
     var assignments_list = document.getElementsByClassName('assignments-list')[0];
     var sidebar = document.getElementsByClassName('sidebar')[0];
-    var target_width = (window.innerWidth - sidebar.clientWidth - 40).toString() + "px";
+    var precalc = Math.min(((window.innerWidth - sidebar.clientWidth - 40) / 20), 63);
+    var target_width = precalc.toString() + "rem";
     assignments_list.style.maxWidth = target_width;
     console.log(target_width, assignments_list.clientWidth);
     requestAnimationFrame(width_update);
