@@ -124,7 +124,7 @@ main {
     padding-left: 1rem;
     padding-top: 0.5rem;
     width: 120px;
-    overflow: hidden !important;
+    overflow: hidden;
 }
 
 .assignments-container {
@@ -134,15 +134,14 @@ main {
 
 .assignments-list {
     display: inline-flex;
-
+    min-width: none;
     direction: row;
-    flex-basis: 20rem;
-    max-width: 63rem;
     overflow-x: scroll;
 }
 
 .assignments-box {
     flex-shrink: 1;
+
     display: block;
     border: solid;
     border-color: black;
