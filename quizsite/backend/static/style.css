@@ -142,10 +142,13 @@ main {
 .assignments-grid {
     position: relative;
     display: flex;
-    flex-flow: row wrap;
-    max-width: 64rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 66rem;
     max-height: 100vh;
     overflow: hidden;
+    justify-content: flex-start;
+    padding-left: 0.9rem;
 }
 
 
@@ -158,10 +161,12 @@ main {
     width: 20rem;
     text-align: right;
     margin-right: 1rem;
+
 }
 
 .assignments-grid>.assignments-box {
     margin-bottom: 1rem;
+
 }
 
 .assignments-box:last-child {
@@ -175,4 +180,5 @@ main {
 
 .course-text {
     padding-right: 0.5rem;
+    overflow: hidden;
 }
