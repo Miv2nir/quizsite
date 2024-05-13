@@ -139,6 +139,16 @@ main {
     overflow-x: scroll;
 }
 
+.assignments-grid {
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    max-width: 64rem;
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+
 .assignments-box {
     flex-shrink: 1;
 
@@ -148,6 +158,10 @@ main {
     width: 20rem;
     text-align: right;
     margin-right: 1rem;
+}
+
+.assignments-grid>.assignments-box {
+    margin-bottom: 1rem;
 }
 
 .assignments-box:last-child {
