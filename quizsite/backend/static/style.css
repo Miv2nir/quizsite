@@ -4,6 +4,8 @@
     --bg-color: #fbe5d6;
     --highlight-color: white;
     --selection-color: #fff4ed;
+    --border-color: #ed7d31;
+    --error-text-color: red;
     --text-color: black;
     --sidebar-width: 10rem;
 }
@@ -181,4 +183,74 @@ main {
 .course-text {
     padding-right: 0.5rem;
     overflow: hidden;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    min-width: fit-content;
+    padding: 2rem;
+    border: solid;
+    border-radius: 1rem;
+    border-color: var(--border-color);
+}
+
+.error-text {
+    color: var(--error-text-color);
+}
+
+.login-button-primary {
+    width: 80%;
+    min-height: 2rem;
+    border: solid;
+    border-radius: 1rem;
+    background-color: var(--border-color);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-color: var(--border-color);
+    transition: 200ms ease;
+}
+
+.login-button-primary:hover {
+    background-color: #e06816;
+    transition: 200ms ease;
+}
+
+.login-button-secondary {
+    width: 80%;
+    min-height: 2rem;
+    border: solid;
+    border-radius: 1rem;
+    background-color: white;
+    color: black;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-color: var(--border-color);
+    transition: 200ms ease;
+}
+
+.login-button-secondary:hover {
+    background-color: var(--selection-color);
+    transition: 200ms ease;
+}
+
+.login-input-box {
+    width: 80%;
+    min-height: 2rem;
+    border: solid;
+    border-radius: 0.5rem;
+    border-width: 0.1rem;
+    font-size: 1rem;
+    text-align: center;
+    background-color: white;
+    color: grey;
+    border-color: black;
 }
