@@ -79,11 +79,11 @@ def home(request):
     if not request.user.is_authenticated:
         #if the user is not authenticated, redirect to the login page
         return HttpResponseRedirect('/login/')
-    return render (request,'backend/home.html')
+    return render (request,'backend/home.html',{'username':request.user})
 
 def userpage(request):
     if not request.user.is_authenticated:
         #if the user is not authenticated, redirect to the login page
         return HttpResponseRedirect('/login/')
-    return render (request,'backend/user.html')
+    return render (request,'backend/user.html',{'username':request.user})
     
