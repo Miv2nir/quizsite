@@ -54,6 +54,12 @@ main {
     justify-content: center;
 }
 
+.content.center {
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+
 
 .sidebar {
     background-color: var(--bg-color);
@@ -255,9 +261,19 @@ main {
     border-color: black;
 }
 
-.login-face {
+.user-face {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     text-align: center;
+    justify-content: space-between;
+    max-width: 40rem;
+    /*background: linear-gradient(0deg, var(--border-color) 0%, white 50%);*/
+}
+
+.user-link-spread {
+    margin-left: 7rem;
+    text-align: end;
 }
 
 .link-text {

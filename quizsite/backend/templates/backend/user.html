@@ -32,31 +32,49 @@
       </ul>
     </nav>
     <main>
-      <span style="overflow: hidden;">
-        <div class="main-div-quick-access">
-          <div style="display:block;">
-            <p>
-              N notifications
-            </p>
-            <p>
-              Menu
-            </p>
-          </div>
+      <h1>My Account</h1>
+      <span class="content center">
+        <br />
+        <br />
+        <div class="user-face">
           <img class="pfp" src="{% static 'pfp.png' %}" />
-        </div>
-        <!--welcome-->
-        <div style="overflow: hidden;">
-          <p>
-            Welcome back, {{ username }}!
-          </p>
+          <div class="user-link-spread">
+            <h2>{{ username }}</h2>
+            <p onclick="window.location.href='/settings/';" class="link-text">Settings</p>
+            <p onclick="window.location.href='/logout/';" class="link-text">Log Out</p>
+          </div>
         </div>
       </span>
-      <span class="content">
-        <br />
-        <br />
-        <div class="login-face">
-          <img class="pfp" src="{% static 'pfp.png' %}" />
-        </div>
+      <hr>
+      </hr>
+      <h1>Enrolled Courses</h1>
+      <span class="content center">
+
+        <span class="assignments-container">
+          <div class="assignments-grid">
+            <!--available assignments section-->
+            <div class="assignments-box">
+              <img class="course-image" src="{% static 'course.png' %}">
+              <a class="course-text">Course Name</a>
+            </div>
+            <div class="assignments-box">
+              <img class="course-image" src="{% static 'course.png' %}">
+              <a class="course-text">Course Name</a>
+            </div>
+            <div class="assignments-box">
+              <img class="course-image" src="{% static 'course.png' %}">
+              <a class="course-text">Course Name</a>
+            </div>
+            <div class="assignments-box">
+              <img class="course-image" src="{% static 'course.png' %}">
+              <a class="course-text">Course Name</a>
+            </div>
+            <div class="assignments-box">
+              <img class="course-image" src="{% static 'course.png' %}">
+              <a class="course-text">Course Name</a>
+            </div>
+          </div>
+        </span>
       </span>
     </main>
   </div>
