@@ -258,5 +258,12 @@ main {
 .login-face {
     align-items: center;
     text-align: center;
+}
 
+.link-text {
+    cursor: pointer;
+}
+
+.link-text:hover {
+    text-decoration: underline;
 }
