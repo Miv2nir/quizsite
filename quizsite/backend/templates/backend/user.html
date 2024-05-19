@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <!-- font import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet" />
+</head>
+<!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
+
+<body>
+  <div class="split">
+    <nav class="sidebar">
+      <ul class="sidebar-list">
+        <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 1вапвыраывпвыаыавпвпрвап</div>
+
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 2dsgdhfshfbfdsgfdg</div>
+
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 3sdagfdhfdhbdfghjgfjdhgjghkjhudsfgfgdagfdgbfdsay</div>
+
+        </li>
+      </ul>
+    </nav>
+    <main>
+      <span style="overflow: hidden;">
+        <div class="main-div-quick-access">
+          <div style="display:block;">
+            <p>
+              N notifications
+            </p>
+            <p>
+              Menu
+            </p>
+          </div>
+          <img class="pfp" src="{% static 'pfp.png' %}" />
+        </div>
+        <!--welcome-->
+        <div style="overflow: hidden;">
+          <p>
+            Welcome back, {{ username }}!
+          </p>
+        </div>
+      </span>
+      <span class="content">
+        <br />
+        <br />
+        <div class="login-face">
+          <img class="pfp" src="{% static 'pfp.png' %}" />
+        </div>
+      </span>
+    </main>
+  </div>
+</body>
+<script src="{% static 'script.js' %}"></script>
+
+</html>

@@ -254,3 +254,9 @@ main {
     color: grey;
     border-color: black;
 }
+
+.login-face {
+    align-items: center;
+    text-align: center;
+
+}
