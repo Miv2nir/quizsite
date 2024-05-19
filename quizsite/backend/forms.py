@@ -22,3 +22,11 @@ class AuthForm(forms.Form):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.label = ""
+
+class SearchForm(forms.Form):
+    search = forms.CharField(label='search', widget=forms.TextInput(attrs={'placeholder': 'search', 'class': 'search-box'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.label = ""

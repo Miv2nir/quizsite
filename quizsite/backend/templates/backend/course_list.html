@@ -47,41 +47,18 @@
         <!--welcome-->
         <div style="overflow: hidden;">
           <h1>
-            Welcome back, {{ username }}!
+            Course List
           </h1>
         </div>
       </span>
       <span class="content">
         <br />
         <br />
-        <h1>Quick Access Panel</h1>
-        <p>TODO (probably)</p>
-        <h1>Current Assignments</h1>
-        <span class="assignments-container">
-          <div class="assignments-list">
-            <!--current assignments section-->
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-          </div>
-        </span>
+        <!--h1>Search</h1-->
+        <form action="/courses/search" class="content center" method="post">
+          {% csrf_token %}
+          <div>{{ form.as_p }}</div>
+        </form>
         <br />
         <h1>Available Courses</h1>
         <span class="assignments-container">

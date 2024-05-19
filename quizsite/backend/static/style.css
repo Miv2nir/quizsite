@@ -283,3 +283,17 @@ main {
 .link-text:hover {
     text-decoration: underline;
 }
+
+.search-box {
+    width: 80%;
+    min-width: 40rem;
+    min-height: 2rem;
+    border: solid;
+    border-radius: 0.2rem;
+    border-width: 0.05rem;
+    font-size: 0.8rem;
+    text-align: center;
+    background-color: white;
+    color: grey;
+    border-color: black;
+}

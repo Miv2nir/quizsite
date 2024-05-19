@@ -86,4 +86,16 @@ def userpage(request):
         #if the user is not authenticated, redirect to the login page
         return HttpResponseRedirect('/login/')
     return render (request,'backend/user.html',{'username':request.user})
+def course_list(request):
+    form=forms.SearchForm()
+    if not request.user.is_authenticated:
+        #if the user is not authenticated, redirect to the login page
+        return HttpResponseRedirect('/login/')
+    return render (request,'backend/course_list.html',{'form': form,'username':request.user})
+def course_item(request,course_name):
+    
+    if not request.user.is_authenticated:
+        #if the user is not authenticated, redirect to the login page
+        return HttpResponseRedirect('/login/')
+    return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name})
     

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <!-- font import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet" />
+</head>
+<!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
+
+<body>
+  <div class="split">
+    <nav class="sidebar">
+      <ul class="sidebar-list">
+        <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 1вапвыраывпвыаыавпвпрвап</div>
+
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 2dsgdhfshfbfdsgfdg</div>
+
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 3sdagfdhfdhbdfghjgfjdhgjghkjhudsfgfgdagfdgbfdsay</div>
+
+        </li>
+      </ul>
+    </nav>
+    <main>
+      <h1>Course Description</h1>
+      <p onclick="window.location.href='/courses';" class="link-text">
+        Back to course list </p>
+      <span class="content center">
+        <br />
+        <br />
+        <div class="user-face">
+          <div class="assignments-box">
+            <img class="course-image" src="{% static 'course.png' %}">
+            <a class="course-text">{{ course_name }}</a>
+          </div>
+          <div class="user-link-spread">
+            <h2>Info 1</h2>
+            <p class="link-text">Info 2</p>
+            <p class="link-text">Info 3</p>
+          </div>
+        </div>
+      </span>
+      <hr>
+      </hr>
+      <h1>Course Description</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum</p>
+    </main>
+
+  </div>
+</body>
+<script src="{% static 'script.js' %}"></script>
+
+</html>
