@@ -3,9 +3,17 @@ from django.contrib.auth.models import User
 
 from django.http import HttpResponse, HttpResponseRedirect, FileResponse, JsonResponse
 import backend.forms as forms
+import backend.models as models
 from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
+def find_courses(prompt=''):
+    if not prompt:
+        lookup=models.Course.objects.filter()
+    else:
+        lookup=models.Course.objects.filter(access='A',name__unaccent__icontains=prompt)
+    return lookup
+
 
 #TODO Sort these functions out so that it wouldn't go yandere sim mode like last year
 #I imagine that the auth will have to be served by django/passed through vue without much change
@@ -87,11 +95,13 @@ def userpage(request):
         return HttpResponseRedirect('/login/')
     return render (request,'backend/user.html',{'username':request.user})
 def course_list(request):
-    form=forms.SearchForm()
     if not request.user.is_authenticated:
         #if the user is not authenticated, redirect to the login page
         return HttpResponseRedirect('/login/')
-    return render (request,'backend/course_list.html',{'form': form,'username':request.user})
+    form=forms.SearchForm()
+    lookup=find_courses()
+    print(lookup)
+    return render (request,'backend/course_list.html',{'form': form,'username':request.user,'lookup':lookup})
 def course_item(request,course_name):
     if not request.user.is_authenticated:
         #if the user is not authenticated, redirect to the login page
