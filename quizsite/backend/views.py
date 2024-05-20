@@ -100,7 +100,7 @@ def course_list(request):
         return HttpResponseRedirect('/login/')
     form=forms.SearchForm()
     lookup=find_courses()
-    print(lookup)
+    #print(lookup)
     return render (request,'backend/course_list.html',{'form': form,'username':request.user,'lookup':lookup})
 def course_item(request,course_name):
     if not request.user.is_authenticated:
