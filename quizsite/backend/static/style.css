@@ -289,11 +289,64 @@ main {
     min-width: 40rem;
     min-height: 2rem;
     border: solid;
-    border-radius: 0.2rem;
+    border-radius: 0.4rem;
     border-width: 0.05rem;
     font-size: 0.8rem;
     text-align: center;
     background-color: white;
     color: grey;
     border-color: black;
+}
+
+.course-button {
+    width: 80%;
+    max-width: 30rem;
+    min-height: 2rem;
+    border: solid;
+    border-radius: 1rem;
+    background-color: var(--border-color);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-color: var(--border-color);
+    transition: 200ms ease;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 2rem;
+    max-width: 20rem;
+    display: flex;
+    direction: row;
+    justify-content: space-evenly;
+}
+
+.img-nav-arrow {
+    height: 5rem;
+}
+
+.img-nav-arrow-rotate {
+    height: 5rem;
+    transform: rotate(180deg);
+}
+
+.img-nav-button {
+    position: relative;
+    text-align: center;
+
+}
+
+.img-nav-box {
+    height: 5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.img-nav-button-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
+    font-size: 2rem;
+    transform: translate(-50%, -50%);
 }

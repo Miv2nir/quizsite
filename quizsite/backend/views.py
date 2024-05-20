@@ -93,9 +93,27 @@ def course_list(request):
         return HttpResponseRedirect('/login/')
     return render (request,'backend/course_list.html',{'form': form,'username':request.user})
 def course_item(request,course_name):
-    
     if not request.user.is_authenticated:
         #if the user is not authenticated, redirect to the login page
         return HttpResponseRedirect('/login/')
     return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name})
+def course_browse_redir(request,course_name):
+    if not request.user.is_authenticated:
+        #if the user is not authenticated, redirect to the login page
+        return HttpResponseRedirect('/login/')
+    return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
+def course_browse(request,course_name,page_number):
+    if not request.user.is_authenticated:
+        #if the user is not authenticated, redirect to the login page
+        return HttpResponseRedirect('/login/')
+    page_next=page_number+1
+    if page_number == 1:
+        page_previous='1'
+    else:
+        page_previous=page_number-1
+    return render (request,'backend/course_browse.html',{'username':request.user,
+    'course_name':course_name,
+    'page_number':page_number,
+    'page_previous':page_previous,
+    'page_next':page_next})
     
