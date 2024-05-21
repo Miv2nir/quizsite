@@ -47,15 +47,24 @@
                 <!--welcome-->
                 <div style="overflow: hidden;">
                     <h1>
-                        {{ course_name }}
+                        {{ course_name }}: General Information
                     </h1>
                 </div>
             </span>
             <span class="content center">
                 <br />
                 <br />
+                <div class="user-face">
+                    <div class="assignments-box">
+                        <img class="course-image" src="{% static 'course.png' %}">
+                        <a class="course-text">{{ course_name }}</a>
+                    </div>
+                </div>
 
                 <br />
+            </span>
+            <hr />
+            <span class="content center">
                 <div class="bottom-nav">
                     <img class="img-nav-arrow-rotate"
                         onclick="window.location.href='/courses/{{ course_name }}/browse/{{ page_previous }}';"
