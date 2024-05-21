@@ -26,7 +26,7 @@
       {% if incomplete_form %}
       <p class="error-text">Sorry, you should fill in all the credential fields.</p>
       {% endif %}
-      <form action="/login/" method="post">
+      <form action="/login/?next={{next}}" method="post">
         {% csrf_token %}
         <div class="text-center">{{ form.as_p }}</div>
         <button class="login-button-primary" type="submit" value="OK">Login</button>

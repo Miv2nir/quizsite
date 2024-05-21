@@ -71,12 +71,12 @@ def login_user(request):
                 return HttpResponseRedirect(forward_path)
             else:  # failed credentials check
                 form = forms.AuthForm()
-                return render(request, 'backend/login.html', {'form': form,'register':False, 'failed_login': True})
+                return render(request, 'backend/login.html', {'form': form,'register':False, 'failed_login': True,'next':forward_path})
     else:  # prompt the form
         form = forms.AuthForm()
         if request.user.is_authenticated:  # if logged in, redirect to the main page
             return HttpResponseRedirect(forward_path)
-    return render(request, 'backend/login.html', {'form': form,'register':False})
+    return render(request, 'backend/login.html', {'form': form,'register':False,'next':forward_path})
 
 
 def logout_user(request):
@@ -87,15 +87,15 @@ def logout_user(request):
 
 
 #site's landing page
-@login_required(redirect_field_name=None)
+@login_required
 def home(request):
     return render (request,'backend/home.html',{'username':request.user})
 
-@login_required(redirect_field_name=None)
+@login_required
 def userpage(request):
     return render (request,'backend/user.html',{'username':request.user})
 
-@login_required(redirect_field_name=None)
+@login_required
 def course_list(request):
     if request.method == 'POST':
         form = forms.SearchForm(request.POST)
@@ -109,15 +109,15 @@ def course_list(request):
     #print(lookup)
     return render (request,'backend/course_list.html',{'form': form,'username':request.user,'lookup':lookup})
 
-@login_required(redirect_field_name=None)
+@login_required
 def course_item(request,course_name):
     return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name})
 
-@login_required(redirect_field_name=None)
+@login_required
 def course_browse_redir(request,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
 
-@login_required(redirect_field_name=None)
+@login_required
 def course_browse(request,course_name,page_number):
     page_next=page_number+1
     if page_number == 1:
