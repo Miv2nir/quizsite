@@ -104,7 +104,7 @@ def course_list(request):
             return HttpResponseRedirect('/courses/?prompt='+prompt)
         else:
             return HttpResponseRedirect('/courses/')
-    form=forms.SearchForm()
+    form=forms.SearchForm(initial={'search':request.GET.get('prompt','')})
     lookup=find_courses(request.GET.get('prompt',''))
     #print(lookup)
     return render (request,'backend/course_list.html',{'form': form,'username':request.user,'lookup':lookup})
