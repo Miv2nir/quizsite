@@ -129,4 +129,14 @@ def course_browse(request,course_name,page_number):
     'page_number':page_number,
     'page_previous':page_previous,
     'page_next':page_next})
+
+@login_required
+def course_edit_redir(request,course_name):
+    return HttpResponseRedirect('/courses/'+course_name+'/edit/0')
+
+@login_required
+def course_edit(request,course_name,page_number=0):
+    return render (request,'backend/course_edit.html',{'username':request.user,
+    'course_name':course_name,
+    'page_number':page_number})
     
