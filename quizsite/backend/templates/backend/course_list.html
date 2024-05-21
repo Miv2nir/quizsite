@@ -56,6 +56,7 @@
         <br />
         <!--h1>Search</h1-->
         <div class="content">
+          <!--TODO: change form to GET-->
           <form action="/courses/" class="content center" method="post">
             {% csrf_token %}
             <div>{{ form.as_p }}</div>

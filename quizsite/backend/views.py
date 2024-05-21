@@ -95,6 +95,7 @@ def home(request):
 def userpage(request):
     return render (request,'backend/user.html',{'username':request.user})
 
+#TODO: change basis of name to ID
 @login_required
 def course_list(request):
     if request.method == 'POST':
@@ -137,6 +138,8 @@ def course_edit_redir(request,course_name):
 @login_required
 def course_edit(request,course_name,page_number=0):
     if page_number==0:
+        lookup=find_courses()
+        form=forms.CourseForm(initial={'name'})
         return render (request,'backend/course_edit_page0.html',{'username':request.user,
     'course_name':course_name,
     'page_number':page_number})

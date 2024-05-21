@@ -24,9 +24,20 @@ class AuthForm(forms.Form):
             field.label = ""
 
 class SearchForm(forms.Form):
-    search = forms.CharField(label='search', widget=forms.TextInput(attrs={'placeholder': 'Type the course name here', 'class': 'search-box'}))
+    search = forms.CharField(label='Search',required=False, widget=forms.TextInput(attrs={'placeholder': 'Type the course name here', 'class': 'search-box'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.label = ""
+
+class CourseForm(forms.Form):
+    ACCESS_LEVEL = (
+        ('A','Public'),
+        ('B','Unlisted'),
+        ('C','Private'),
+    )
+    name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Course Name'}))
+    description=forms.CharField(label='Description',widget=forms.TextInput(attrs={'placeholder':'Description'}))
+    access=forms.ChoiceField(choices=ACCESS_LEVEL)
+    image=forms.ImageField(required=False)
