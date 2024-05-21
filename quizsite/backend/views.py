@@ -6,6 +6,8 @@ import backend.forms as forms
 import backend.models as models
 from django.contrib.auth import authenticate, login, logout
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def find_courses(prompt=''):
     if not prompt:
@@ -51,6 +53,8 @@ def register_user(request):  #reused from the past year's course project
 
 
 def login_user(request):
+    forward_path=request.GET.get('next','/')
+    print(forward_path)
     if request.method == 'POST':  # look for the imports
         form = forms.AuthForm(request.POST)
         if form.is_valid():
@@ -59,19 +63,19 @@ def login_user(request):
             user = authenticate(username=user_login, password=user_password)
 
             if request.user.is_authenticated:  # if logged in, redirect to the main page
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(forward_path)
 
             if user is not None:  # accept the form and login the user
                 print('Logging in '+user_login)  # for the tests
                 login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect(forward_path)
             else:  # failed credentials check
                 form = forms.AuthForm()
                 return render(request, 'backend/login.html', {'form': form,'register':False, 'failed_login': True})
     else:  # prompt the form
         form = forms.AuthForm()
         if request.user.is_authenticated:  # if logged in, redirect to the main page
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect(forward_path)
     return render(request, 'backend/login.html', {'form': form,'register':False})
 
 
@@ -83,39 +87,27 @@ def logout_user(request):
 
 
 #site's landing page
+@login_required(redirect_field_name=None)
 def home(request):
-    if not request.user.is_authenticated:
-        #if the user is not authenticated, redirect to the login page
-        return HttpResponseRedirect('/login/')
     return render (request,'backend/home.html',{'username':request.user})
 
+@login_required(redirect_field_name=None)
 def userpage(request):
-    if not request.user.is_authenticated:
-        #if the user is not authenticated, redirect to the login page
-        return HttpResponseRedirect('/login/')
     return render (request,'backend/user.html',{'username':request.user})
+@login_required(redirect_field_name=None)
 def course_list(request):
-    if not request.user.is_authenticated:
-        #if the user is not authenticated, redirect to the login page
-        return HttpResponseRedirect('/login/')
     form=forms.SearchForm()
     lookup=find_courses()
     #print(lookup)
     return render (request,'backend/course_list.html',{'form': form,'username':request.user,'lookup':lookup})
+@login_required(redirect_field_name=None)
 def course_item(request,course_name):
-    if not request.user.is_authenticated:
-        #if the user is not authenticated, redirect to the login page
-        return HttpResponseRedirect('/login/')
     return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name})
+@login_required(redirect_field_name=None)
 def course_browse_redir(request,course_name):
-    if not request.user.is_authenticated:
-        #if the user is not authenticated, redirect to the login page
-        return HttpResponseRedirect('/login/')
     return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
+@login_required(redirect_field_name=None)
 def course_browse(request,course_name,page_number):
-    if not request.user.is_authenticated:
-        #if the user is not authenticated, redirect to the login page
-        return HttpResponseRedirect('/login/')
     page_next=page_number+1
     if page_number == 1:
         page_previous='1'

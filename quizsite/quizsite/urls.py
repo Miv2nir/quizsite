@@ -40,6 +40,6 @@ urlpatterns = [
     path('courses/', views.course_list, name='course_list'),
     path('courses/<slug:course_name>', views.course_item, name='course_item'),
     path('courses/<slug:course_name>/browse/', views.course_browse_redir, name='course_browse_redir'),
-    path('courses/<slug:course_name>/browse/<int:page_number>', views.course_browse, name='course_browse'),
+    path('courses/<slug:course_name>/browse/<int:page_number>/', views.course_browse, name='course_browse'),
     path('logout/', views.logout_user, name='logout')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

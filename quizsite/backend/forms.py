@@ -24,7 +24,7 @@ class AuthForm(forms.Form):
             field.label = ""
 
 class SearchForm(forms.Form):
-    search = forms.CharField(label='search', widget=forms.TextInput(attrs={'placeholder': 'search', 'class': 'search-box'}))
+    search = forms.CharField(label='search', widget=forms.TextInput(attrs={'placeholder': 'Type the course name here', 'class': 'search-box'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
