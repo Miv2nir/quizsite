@@ -11,9 +11,9 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 def find_courses(prompt=''):
     if not prompt:
-        lookup=models.Course.objects.filter()
+        lookup=models.Course.objects.filter(access='A')
     else:
-        lookup=models.Course.objects.filter(access='A',name__unaccent__icontains=prompt)
+        lookup=models.Course.objects.filter(access='A',name__contains=prompt)
     return lookup
 
 
@@ -94,18 +94,29 @@ def home(request):
 @login_required(redirect_field_name=None)
 def userpage(request):
     return render (request,'backend/user.html',{'username':request.user})
+
 @login_required(redirect_field_name=None)
 def course_list(request):
+    if request.method == 'POST':
+        form = forms.SearchForm(request.POST)
+        if form.is_valid():
+            prompt=form.cleaned_data['search']
+            return HttpResponseRedirect('/courses/?prompt='+prompt)
+        else:
+            return HttpResponseRedirect('/courses/')
     form=forms.SearchForm()
-    lookup=find_courses()
+    lookup=find_courses(request.GET.get('prompt',''))
     #print(lookup)
     return render (request,'backend/course_list.html',{'form': form,'username':request.user,'lookup':lookup})
+
 @login_required(redirect_field_name=None)
 def course_item(request,course_name):
     return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name})
+
 @login_required(redirect_field_name=None)
 def course_browse_redir(request,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
+
 @login_required(redirect_field_name=None)
 def course_browse(request,course_name,page_number):
     page_next=page_number+1
