@@ -67,7 +67,7 @@
             <h1>Edit Course Metadata</h1>
             <!--course info form-->
             <span class="content center">
-                <form action="/courses/{{course_name}}/edit/0" method="post">
+                <form action="/courses/{{course_name}}/edit/0/" method="post">
                     {% csrf_token %}
                     <div class="content center">
                         <div>Course Name:</div>
@@ -81,6 +81,7 @@
                         <div>Course Access Level:</div>
                         {{form.access}}
                     </div>
+                    <button class="course-button" type="submit" value="OK">Update</button>
                 </form>
             </span>
             <!--bottom navbar-->

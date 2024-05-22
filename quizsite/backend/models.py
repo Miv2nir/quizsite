@@ -11,6 +11,7 @@ class Course(models.Model):
         ('B','Unlisted'),
         ('C','Private'),
     )
+    description=models.TextField(default='')
     access=models.CharField(max_length=1,choices=ACCESS_LEVEL,default='C')
 
     def __str__(self):
