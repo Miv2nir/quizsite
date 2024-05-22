@@ -352,17 +352,18 @@ main {
 
 .img-nav-arrow {
     height: 5rem;
+    cursor: pointer;
 }
 
 .img-nav-arrow-rotate {
     height: 5rem;
     transform: rotate(180deg);
+    cursor: pointer;
 }
 
 .img-nav-button {
     position: relative;
     text-align: center;
-
 }
 
 .img-nav-box {

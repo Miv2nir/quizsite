@@ -139,6 +139,8 @@ def course_edit_redir(request,course_name):
 
 @login_required
 def course_edit(request,course_name,page_number=0):
+    page_previous=max(0,page_number-1)
+    page_next=page_number+1 #add check for page limit
     if page_number==0:
         course_obj=models.Course.objects.filter(name=course_name)[0]
         if request.method=='POST':
@@ -152,10 +154,15 @@ def course_edit(request,course_name,page_number=0):
             return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0')
         form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description})
         return render (request,'backend/course_edit_page0.html',{'username':request.user,'form':form,
-    'course_name':course_name,
-    'page_number':page_number})
+        'course_name':course_name,
+        'page_number':page_number,
+        'page_previous':page_previous,
+        'page_next':page_next})
 
+    #content pages
     return render (request,'backend/course_edit.html',{'username':request.user,
     'course_name':course_name,
-    'page_number':page_number})
+    'page_number':page_number,
+    'page_previous':page_previous,
+    'page_next':page_next})
     
