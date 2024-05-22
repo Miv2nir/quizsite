@@ -113,7 +113,8 @@ def course_list(request):
 @login_required
 def course_item(request,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
-    return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name,'course_description':course_obj.description})
+    if_owner=request.user==course_obj.author
+    return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name,'course_description':course_obj.description,'owner':if_owner})
 
 @login_required
 def course_browse_redir(request,course_name):

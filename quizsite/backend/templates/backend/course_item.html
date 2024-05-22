@@ -53,7 +53,11 @@
       <span class="content center">
 
         <button class="course-button"
-          onclick="window.location.href='/courses/{{ course_name}}/browse/1';">Enroll</button>
+          onclick="window.location.href='/courses/{{ course_name }}/browse/1';">Enroll</button>
+        {% if owner %}
+        <button class="course-button secondary"
+          onclick="window.location.href='/courses/{{ course_name }}/edit/0';">Edit</button>
+        {% endif %}
       </span>
       <hr>
       </hr>

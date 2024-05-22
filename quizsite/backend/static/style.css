@@ -334,6 +334,13 @@ main {
     transition: 200ms ease;
 }
 
+.course-button.secondary {
+    background-color: white;
+    color: black;
+    border-color: var(--border-color);
+    margin-left: 1rem;
+}
+
 .bottom-nav {
     position: fixed;
     bottom: 2rem;
