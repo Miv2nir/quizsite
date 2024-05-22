@@ -67,7 +67,8 @@
             <h1>Edit Course Metadata</h1>
             <span class="content center">
                 <form action="/courses/{{course_name}}/edit/0" method="post">
-
+                    {% csrf_token %}
+                    <div class="content center">{{form.name}}</div>
                 </form>
             </span>
             <!--bottom navbar-->

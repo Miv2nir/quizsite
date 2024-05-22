@@ -139,8 +139,8 @@ def course_edit_redir(request,course_name):
 def course_edit(request,course_name,page_number=0):
     if page_number==0:
         lookup=find_courses()
-        form=forms.CourseForm(initial={'name'})
-        return render (request,'backend/course_edit_page0.html',{'username':request.user,
+        form=forms.CourseForm(initial={'name':course_name})
+        return render (request,'backend/course_edit_page0.html',{'username':request.user,'form':form,
     'course_name':course_name,
     'page_number':page_number})
     return render (request,'backend/course_edit.html',{'username':request.user,

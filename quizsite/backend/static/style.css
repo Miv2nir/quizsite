@@ -372,3 +372,11 @@ main {
     font-size: 2rem;
     transform: translate(-50%, -50%);
 }
+
+.form-field {
+    min-width: fit-content;
+    padding: 2rem;
+    border: solid;
+    border-radius: 1rem;
+    border-color: var(--border-color);
+}
