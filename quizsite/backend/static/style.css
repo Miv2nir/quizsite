@@ -377,7 +377,7 @@ main {
     width: 80%;
     min-height: 2rem;
     border: solid;
-    /*border-radius: 0.5rem;*/
+    border-radius: 0.2rem;
     border-width: 0.08rem;
     font-size: 0.8rem;
     text-align: center;
@@ -388,6 +388,7 @@ main {
 
 .form-field.description {
     resize: vertical;
-    height: 5rem;
+    height: 2rem;
+
     font-family: 'Open Sans';
 }
