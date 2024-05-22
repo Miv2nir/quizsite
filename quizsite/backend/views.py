@@ -112,7 +112,8 @@ def course_list(request):
 
 @login_required
 def course_item(request,course_name):
-    return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name})
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name,'course_description':course_obj.description})
 
 @login_required
 def course_browse_redir(request,course_name):
@@ -143,9 +144,12 @@ def course_edit(request,course_name,page_number=0):
             form=forms.CourseForm(request.POST)
             if not form.is_valid():
                 return HttpResponseRedirect('/courses/'+course_name+'/edit/0')
+            course_obj.name=form.cleaned_data['name']
             course_obj.description=form.cleaned_data['description']
+            course_obj.access=form.cleaned_data['access']
             course_obj.save()
-        form=forms.CourseForm(initial={'name':course_name,'description':course_obj.description})
+            return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0')
+        form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description})
         return render (request,'backend/course_edit_page0.html',{'username':request.user,'form':form,
     'course_name':course_name,
     'page_number':page_number})
