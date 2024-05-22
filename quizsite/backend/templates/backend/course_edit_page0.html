@@ -65,24 +65,32 @@
             </span>
             <hr />
             <h1>Edit Course Metadata</h1>
+            <!--course info form-->
             <span class="content center">
                 <form action="/courses/{{course_name}}/edit/0" method="post">
                     {% csrf_token %}
-                    <div class="content center">{{form.name}}</div>
+                    <div class="content center">
+                        <div>Course Name:</div>
+                        {{form.name}}
+                    </div>
+                    <div class="content center">
+                        <div>Course Description:</div>
+                        {{form.description}}
+                    </div>
                 </form>
             </span>
             <!--bottom navbar-->
             <span class="content center">
                 <div class="bottom-nav">
                     <img class="img-nav-arrow-rotate"
-                        onclick="window.location.href='/courses/{{ course_name }}/browse/{{ page_previous }}';"
+                        onclick="window.location.href='/courses/{{ course_name }}/edit/{{ page_previous }}';"
                         src="{% static 'nav_arrow.png' %}" />
                     <div class="img-nav-button">
                         <img class="img-nav-box" src="{% static 'nav_box.png' %}" />
                         <div class="img-nav-button-text">{{ page_number }}</div>
                     </div>
                     <img class="img-nav-arrow"
-                        onclick="window.location.href='/courses/{{ course_name }}/browse/{{page_next}}';"
+                        onclick="window.location.href='/courses/{{ course_name }}/edit/{{page_next}}';"
                         src="{% static 'nav_arrow.png' %}" />
                 </div>
             </span>

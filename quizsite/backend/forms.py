@@ -37,7 +37,7 @@ class CourseForm(forms.Form):
         ('B','Unlisted'),
         ('C','Private'),
     )
-    name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Course Name'}))
-    description=forms.CharField(label='Description',widget=forms.TextInput(attrs={'placeholder':'Description'}))
+    name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
+    description=forms.CharField(label='Description',widget=forms.Textarea(attrs={'placeholder':'Description','class':'form-field description'}))
     access=forms.ChoiceField(choices=ACCESS_LEVEL)
     image=forms.ImageField(required=False)

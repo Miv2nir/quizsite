@@ -264,7 +264,7 @@ main {
     font-size: 0.8rem;
     text-align: center;
     background-color: white;
-    color: grey;
+    color: black;
     border-color: black;
 }
 
@@ -374,9 +374,20 @@ main {
 }
 
 .form-field {
-    min-width: fit-content;
-    padding: 2rem;
+    width: 80%;
+    min-height: 2rem;
     border: solid;
-    border-radius: 1rem;
-    border-color: var(--border-color);
+    /*border-radius: 0.5rem;*/
+    border-width: 0.08rem;
+    font-size: 0.8rem;
+    text-align: center;
+    background-color: white;
+    color: black;
+    border-color: black;
+}
+
+.form-field.description {
+    resize: vertical;
+    height: 5rem;
+    font-family: 'Open Sans';
 }
