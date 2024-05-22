@@ -16,3 +16,13 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+class CoursePage(models.Model):
+    parent=models.ForeignKey(Course,on_delete=models.CASCADE)
+    number=models.IntegerField()
+    title=models.TextField(default=('Page'+str(number)))
+    text=models.TextField(default='')
+    
+
+    def __str__(self):
+        return 'Page '+str(self.number)

@@ -141,8 +141,8 @@ def course_edit_redir(request,course_name):
 def course_edit(request,course_name,page_number=0):
     page_previous=max(0,page_number-1)
     page_next=page_number+1 #add check for page limit
+    course_obj=models.Course.objects.filter(name=course_name)[0]
     if page_number==0:
-        course_obj=models.Course.objects.filter(name=course_name)[0]
         if request.method=='POST':
             form=forms.CourseForm(request.POST)
             if not form.is_valid():
@@ -160,6 +160,8 @@ def course_edit(request,course_name,page_number=0):
         'page_next':page_next})
 
     #content pages
+    course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
+    form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text})
     return render (request,'backend/course_edit.html',{'username':request.user,
     'course_name':course_name,
     'page_number':page_number,
