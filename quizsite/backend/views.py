@@ -127,8 +127,16 @@ def course_browse(request,course_name,page_number):
         page_previous='1'
     else:
         page_previous=page_number-1
+    
+    #get the course object & page
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
+    page_title=course_page_obj.title
+    page_text=course_page_obj.text
     return render (request,'backend/course_browse.html',{'username':request.user,
     'course_name':course_name,
+    'page_title':page_title,
+    'page_text':page_text,
     'page_number':page_number,
     'page_previous':page_previous,
     'page_next':page_next})
