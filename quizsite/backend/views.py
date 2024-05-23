@@ -177,8 +177,9 @@ def course_edit(request,course_name,page_number=0):
     'course_name':course_name,
     'page_number':page_number,
     'page_previous':page_previous})
+
     form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text})
-    return render (request,'backend/course_edit.html',{'username':request.user,
+    return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
     'course_name':course_name,
     'page_number':page_number,
     'page_previous':page_previous,
