@@ -5,6 +5,7 @@ window.onload = function () {
     console.log(text);
     showdown.setOption('strikethrough', 'true');
     showdown.setOption('tables', 'true');
+    showdown.setOption('underline', 'true');
     var converter = new showdown.Converter(),
         html = converter.makeHtml(text);
     console.log(html);
