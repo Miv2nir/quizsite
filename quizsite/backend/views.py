@@ -147,10 +147,12 @@ def course_edit(request,course_name,page_number=0):
             form=forms.CourseForm(request.POST)
             if not form.is_valid():
                 return HttpResponseRedirect('/courses/'+course_name+'/edit/0')
+
             course_obj.name=form.cleaned_data['name']
             course_obj.description=form.cleaned_data['description']
             course_obj.access=form.cleaned_data['access']
             course_obj.save()
+
             return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0')
         form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description})
         return render (request,'backend/course_edit_page0.html',{'username':request.user,'form':form,
@@ -160,7 +162,21 @@ def course_edit(request,course_name,page_number=0):
         'page_next':page_next})
 
     #content pages
-    course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
+    #TODO: page maker
+    print(request.GET.get('create'))
+    if request.GET.get('create')=='1':
+        print('making a new page')
+        course_page_obj=models.CoursePage()
+        course_page_obj.parent=course_obj
+        course_page_obj.number=page_number
+        course_page_obj.save()
+    try:
+        course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
+    except: #no page created yet
+        return render (request,'backend/course_edit_empty.html',{'username':request.user,
+    'course_name':course_name,
+    'page_number':page_number,
+    'page_previous':page_previous})
     form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text})
     return render (request,'backend/course_edit.html',{'username':request.user,
     'course_name':course_name,
