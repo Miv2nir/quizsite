@@ -114,7 +114,13 @@ def course_list(request):
 def course_item(request,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     if_owner=request.user==course_obj.author
-    return render (request,'backend/course_item.html',{'username':request.user,'course_name':course_name,'course_description':course_obj.description,'owner':if_owner})
+    pages=len(models.CoursePage.objects.filter(parent=course_obj))
+    return render (request,'backend/course_item.html',{'username':request.user,
+    'course_name':course_name,
+    'course_description':course_obj.description,
+    'owner':if_owner,
+    'n_pages':pages,
+    'author_name':course_obj.author})
 
 @login_required
 def course_browse_redir(request,course_name):
@@ -135,16 +141,25 @@ def course_browse(request,course_name,page_number):
     page_title=course_page_obj.title
     page_text=course_page_obj.text
     #Handle the answer forms
+    answer_type=course_page_obj.answer_type
     #1. No answer needed
-    
-    #TODO: move the tuple out of the function somewhere else
-    return render (request,'backend/course_browse.html',{'username':request.user,
+    template_values={'username':request.user,
     'course_name':course_name,
     'page_title':page_title,
     'page_text':page_text,
     'page_number':page_number,
     'page_previous':page_previous,
-    'page_next':page_next})
+    'page_next':page_next}
+    if answer_type=='N':
+            return render (request,'backend/course_browse.html',template_values)
+    #2. Text answer
+    if answer_type=='T':
+        answer_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
+        form=forms.AnswerText()
+    #temporary fallback
+    return render (request,'backend/course_browse.html',template_values)
+    #TODO: move the tuple out of the function somewhere else
+
 
 @login_required
 def course_edit_redir(request,course_name):
@@ -156,7 +171,9 @@ def course_edit(request,course_name,page_number=0):
     page_previous=max(0,page_number-1)
     page_next=page_number+1 #add check for page limit
     course_obj=models.Course.objects.filter(name=course_name)[0]
+    #page 0 stuff
     if page_number==0:
+        #if the form was submitted waawawa
         if request.method=='POST':
             form=forms.CourseForm(request.POST)
             if not form.is_valid():
@@ -166,8 +183,9 @@ def course_edit(request,course_name,page_number=0):
             course_obj.description=form.cleaned_data['description']
             course_obj.access=form.cleaned_data['access']
             course_obj.save()
-
             return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0/')
+
+        #if the page is being requested
         form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description})
         pages=len(models.CoursePage.objects.filter(parent=course_obj))
         return render (request,'backend/course_edit_page0.html',{'username':request.user,'form':form,
@@ -180,8 +198,7 @@ def course_edit(request,course_name,page_number=0):
 
     #content pages
     #TODO: page deleter
-    print(request.GET.get('create'))
-    if request.GET.get('create')=='1':
+    if request.GET.get('create')=='1': #making a new page
         print('making a new page')
         course_page_obj=models.CoursePage()
         course_page_obj.parent=course_obj
@@ -195,10 +212,12 @@ def course_edit(request,course_name,page_number=0):
     'page_number':page_number,
     'page_previous':page_previous})
 
+    #page information update
     if request.method=='POST':
         form=forms.CoursePageForm(request.POST)
         if not form.is_valid():
             return HttpResponseRedirect('/courses/'+course_name+'/edit/'+str(page_number)+'/')
+
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
         course_page_obj.answer_type=form.cleaned_data['answer_type']
