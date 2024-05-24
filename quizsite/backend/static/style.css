@@ -415,6 +415,7 @@ main {
 }
 
 .form-field.big {
+    resize: both;
     height: fit-content;
     width: 70vw;
 }

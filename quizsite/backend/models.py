@@ -22,7 +22,20 @@ class CoursePage(models.Model):
     number=models.IntegerField()
     title=models.TextField(default='')
     text=models.TextField(default='')
-    
+    has_answer=models.BooleanField(default=False)
 
     def __str__(self):
         return 'Page '+str(self.number)
+
+#Answer form models
+#Concept: several models each storing an answer for pages that have something to submit. Each submission is done by a specific user so that it can be pulled up later on.
+
+class CoursePageAnswer(models.Model): #abstract parent
+    page=models.OneToOneField(CoursePage,on_delete=models.CASCADE)
+    user=models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
+    class Meta:
+        abstract=True
+    def __str__(self):
+        return 'Answer for '+str(self.page)+' by '+str(self.user)
+class PageAnswerText(CoursePageAnswer):
+    text=models.TextField(default='')
