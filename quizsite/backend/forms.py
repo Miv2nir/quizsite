@@ -43,4 +43,4 @@ class CourseForm(forms.Form):
     #image=forms.ImageField(required=False)
 class CoursePageForm(forms.Form):
     title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
-    text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description'}))
+    text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description big'}))

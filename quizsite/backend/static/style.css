@@ -413,3 +413,8 @@ main {
 
     font-family: 'Open Sans';
 }
+
+.form-field.big {
+    height: fit-content;
+    width: 70vw;
+}
