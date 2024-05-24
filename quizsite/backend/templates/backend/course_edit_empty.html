@@ -66,9 +66,7 @@
                         <img class="img-nav-box" src="{% static 'nav_box.png' %}" />
                         <div class="img-nav-button-text">{{ page_number }}</div>
                     </div>
-                    <img class="img-nav-arrow" style="display: none;"
-                        onclick="window.location.href='/courses/{{ course_name }}/edit/{{page_next}}';"
-                        src="{% static 'nav_arrow.png' %}" />
+                    <img class="img-nav-arrow" style="visibility: hidden;" src="{% static 'nav_arrow.png' %}" />
                 </div>
             </span>
         </main>

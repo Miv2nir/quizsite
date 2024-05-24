@@ -39,7 +39,7 @@
                             N notifications
                         </p>
                         <p onclick="window.location.href='/user/';" class="link-text">
-                            Menu
+                            Profile
                         </p>
                     </div>
                     <img class="pfp" src="{% static 'pfp.png' %}" />
@@ -59,9 +59,18 @@
                         <img class="course-image" src="{% static 'course.png' %}">
                         <a class="course-text">{{ course_name }}</a>
                     </div>
+                    <div class="user-link-spread">
+                        <p>Visibility: {{course_access}}</p>
+                        <p>Enrolled: 0</p>
+                        <p>Number of pages: {{n_pages}}</p>
+                    </div>
                 </div>
 
                 <br />
+            </span>
+            <span class="content center row">
+                <button class="course-button"
+                    onclick="window.location.href='/courses/{{ course_name }}/edit/pages/';">Manage Pages</button>
             </span>
             <hr />
             <h1>Edit Course Metadata</h1>

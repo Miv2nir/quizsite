@@ -152,6 +152,7 @@ def course_edit_redir(request,course_name):
 
 @login_required
 def course_edit(request,course_name,page_number=0):
+    #metadata page (does not really exist but is a way to fit some general info of the course here)
     page_previous=max(0,page_number-1)
     page_next=page_number+1 #add check for page limit
     course_obj=models.Course.objects.filter(name=course_name)[0]
@@ -168,14 +169,17 @@ def course_edit(request,course_name,page_number=0):
 
             return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0/')
         form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description})
+        pages=len(models.CoursePage.objects.filter(parent=course_obj))
         return render (request,'backend/course_edit_page0.html',{'username':request.user,'form':form,
         'course_name':course_name,
         'page_number':page_number,
         'page_previous':page_previous,
-        'page_next':page_next})
+        'page_next':page_next,
+        'n_pages':pages,
+        'course_access':course_obj.get_access_display()})
 
     #content pages
-    #TODO: page maker
+    #TODO: page deleter
     print(request.GET.get('create'))
     if request.GET.get('create')=='1':
         print('making a new page')
