@@ -55,9 +55,12 @@ main {
 }
 
 .content.center {
-    flex-direction: row;
     align-items: center;
     text-align: center;
+}
+
+.content.row {
+    flex-direction: row;
 }
 
 
@@ -334,11 +337,21 @@ main {
     transition: 200ms ease;
 }
 
+.course-button:hover {
+    background-color: #e06816;
+    transition: 200ms ease;
+}
+
 .course-button.secondary {
     background-color: white;
     color: black;
     border-color: var(--border-color);
     margin-left: 1rem;
+}
+
+.course-button.secondary:hover {
+    background-color: var(--selection-color);
+    transition: 200ms ease;
 }
 
 .bottom-nav {
