@@ -42,5 +42,13 @@ class CourseForm(forms.Form):
     access=forms.ChoiceField(choices=ACCESS_LEVEL,widget=forms.Select(attrs={'class':'form-field'}))
     #image=forms.ImageField(required=False)
 class CoursePageForm(forms.Form):
+    A_TYPE = (
+        ('N',None),
+        ('T','Text'),
+        ('C','Singular Choice'),
+        ('M','Multiple Choice'),
+        ('F','File Upload'),
+    )
+    answer_type=forms.ChoiceField(choices=A_TYPE,widget=forms.Select(attrs={'class':'form-field'}))
     title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
     text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description big'}))

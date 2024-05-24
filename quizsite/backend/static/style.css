@@ -395,7 +395,7 @@ main {
 }
 
 .form-field {
-    width: 80%;
+    width: fit-content;
     min-height: 2rem;
     border: solid;
     border-radius: 0.2rem;

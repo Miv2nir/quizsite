@@ -22,7 +22,16 @@ class CoursePage(models.Model):
     number=models.IntegerField()
     title=models.TextField(default='')
     text=models.TextField(default='')
-    has_answer=models.BooleanField(default=False)
+    #has_answer=models.BooleanField(default=False)
+
+    ANSWER_TYPE = (
+        ('N',None),
+        ('T','Text'),
+        ('C','Singular Choice'),
+        ('M','Multiple Choice'),
+        ('F','File Upload'),
+    )
+    answer_type=models.CharField(max_length=1,choices=ANSWER_TYPE,default='N')
 
     def __str__(self):
         return 'Page '+str(self.number)
@@ -38,4 +47,4 @@ class CoursePageAnswer(models.Model): #abstract parent
     def __str__(self):
         return 'Answer for '+str(self.page)+' by '+str(self.user)
 class PageAnswerText(CoursePageAnswer):
-    text=models.TextField(default='')
+    text_answer=models.TextField(default='')

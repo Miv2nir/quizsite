@@ -122,6 +122,7 @@ def course_browse_redir(request,course_name):
 
 @login_required
 def course_browse(request,course_name,page_number):
+    #navbar values
     page_next=page_number+1
     if page_number == 1:
         page_previous='1'
@@ -133,6 +134,10 @@ def course_browse(request,course_name,page_number):
     course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
     page_title=course_page_obj.title
     page_text=course_page_obj.text
+    #Handle the answer forms
+    #1. No answer needed
+    
+    #TODO: move the tuple out of the function somewhere else
     return render (request,'backend/course_browse.html',{'username':request.user,
     'course_name':course_name,
     'page_title':page_title,
@@ -192,10 +197,11 @@ def course_edit(request,course_name,page_number=0):
             return HttpResponseRedirect('/courses/'+course_name+'/edit/'+str(page_number)+'/')
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
+        course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
         return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/'+str(page_number)+'/')
     
-    form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text})
+    form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text,'answer_type':course_page_obj.answer_type})
     return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
     'course_name':course_name,
     'page_number':page_number,
