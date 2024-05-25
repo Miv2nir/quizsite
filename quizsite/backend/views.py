@@ -261,16 +261,21 @@ def course_edit(request,course_name,page_number=0):
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
         #time to handle the answer type model
-        #come up with some choices as an example, should change it to prompting the user later on
-        choices={'1':'Choice 1','2':'Choice 2','3':'Choice 3'}
+        choices={'1':'Choice 1','2':'Choice 2','3':'Choice 3'} #get as json from client somehow
         answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],choices=choices)
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
 
         return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/'+str(page_number)+'/')
-    
+    #come up with some choices as an example, should change it to prompting the user later on
+    answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
+    if answer_type_obj:
+        form_answer_type=forms.AnswerTypeForm(initial={'question':answer_type_obj.text})
+    else:
+        form_answer_type=None
     form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text,'answer_type':course_page_obj.answer_type})
-    return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
+    #form_answer_type=forms.
+    return render (request,'backend/course_edit.html',{'username':request.user,'form':form, 'form_answer_type':form_answer_type,
     'course_name':course_name,
     'page_number':page_number,
     'page_previous':page_previous,
