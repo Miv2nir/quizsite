@@ -16,7 +16,46 @@ def find_courses(prompt=''):
         lookup=models.Course.objects.filter(access='A',name__contains=prompt)
     return lookup
 
-
+def define_answer(course_page_obj,form_answer_type,choices=()):
+    '''
+    Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
+    returns either a None (when no new object is being made) or the object itself
+    '''
+    #assuming that the function gets an old course_page_obj, before writing a respective field
+    print(course_page_obj.answer_type,form_answer_type)
+    if course_page_obj.answer_type != form_answer_type: #page answer type has changed
+        if course_page_obj.answer_type!='N': #delete the old object if it exists
+            try:
+                models.PageAnswerText.objects.filter(page=course_page_obj)[0].delete()
+            except IndexError: #in case there was an exception and the course page didnt get a chance to change its attribute
+                pass
+        #making a new one
+        if form_answer_type=='N': #do not make anything new
+            answer_type_obj=None
+        elif form_answer_type=='T':
+            answer_type_obj=models.PageAnswerText(page=course_page_obj)
+        elif form_answer_type=='F':
+            raise NotImplementedError
+        else:
+            answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=choices)
+            answer_type_obj.is_choice=True
+            if form_answer_type=='M':
+                answer_type_obj.is_multiple=True
+        try:
+            answer_type_obj.save()
+        except AttributeError:
+            pass
+    else: #no changes were made, grab the object and go
+        if course_page_obj.answer_type=='N':
+            answer_type_obj=None
+        elif course_page_obj.answer_type=='F':
+            raise NotImplementedError
+        else:
+            answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
+    return answer_type_obj
+    #1. None to something: create new object
+    #2. Something to something
+    #3. Something to none
 #TODO Sort these functions out so that it wouldn't go yandere sim mode like last year
 #I imagine that the auth will have to be served by django/passed through vue without much change
 
@@ -217,11 +256,17 @@ def course_edit(request,course_name,page_number=0):
         form=forms.CoursePageForm(request.POST)
         if not form.is_valid():
             return HttpResponseRedirect('/courses/'+course_name+'/edit/'+str(page_number)+'/')
-
+        #get the answer object if present
+        
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
+        #time to handle the answer type model
+        #come up with some choices as an example, should change it to prompting the user later on
+        choices={'1':'Choice 1','2':'Choice 2','3':'Choice 3'}
+        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],choices=choices)
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
+
         return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/'+str(page_number)+'/')
     
     form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text,'answer_type':course_page_obj.answer_type})

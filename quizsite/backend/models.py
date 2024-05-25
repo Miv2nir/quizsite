@@ -27,7 +27,7 @@ class CoursePage(models.Model):
     ANSWER_TYPE = (
         ('N',None),
         ('T','Text'),
-        ('C','Singular Choice'),
+        ('S','Singular Choice'),
         ('M','Multiple Choice'),
         ('F','File Upload'),
     )
@@ -41,10 +41,32 @@ class CoursePage(models.Model):
 
 class CoursePageAnswer(models.Model): #abstract parent
     page=models.OneToOneField(CoursePage,on_delete=models.CASCADE)
-    user=models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
+    #user=models.OneToOneField(User,on_delete=models.SET_NULL,null=True)
     class Meta:
         abstract=True
     def __str__(self):
-        return 'Answer for '+str(self.page)+' by '+str(self.user)
+        return 'Answer type for page '+str(self.page)
+
+#testing out a different approach
 class PageAnswerText(CoursePageAnswer):
-    text_answer=models.TextField(default='')
+    text=models.TextField(default='')
+    is_choice=models.BooleanField(default=False)
+    is_multiple=models.BooleanField(default=False)
+    choices=models.JSONField(default=dict)
+
+
+#this simply didn't work :(
+'''
+    def __init(self,*args,CHOICE_DATA=None,**kwargs):
+        #CHOICE_DATA=kwargs.pop('CHOICE_DATA',None)
+        super(PageAnswerText,self).__init__(*args,**kwargs)
+        if CHOICE_DATA != None:
+            self._apply_choices(CHOICE_DATA)
+        
+    def _apply_choices(self,CHOICE_DATA):
+        if CHOICE_DATA:
+            self.text=models.TextField(default='',choices=CHOICE_DATA)
+        else:
+            self.text=models.TextField(default='')
+
+'''

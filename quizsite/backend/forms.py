@@ -45,7 +45,7 @@ class CoursePageForm(forms.Form):
     A_TYPE = (
         ('N',None),
         ('T','Text'),
-        ('C','Singular Choice'),
+        ('S','Singular Choice'),
         ('M','Multiple Choice'),
         ('F','File Upload'),
     )
