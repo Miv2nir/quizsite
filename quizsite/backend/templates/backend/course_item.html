@@ -32,7 +32,18 @@
       </ul>
     </nav>
     <main>
-      <h1>Course Description</h1>
+      <div class="main-div-quick-access">
+        <div style="display:block;">
+          <p>
+            N notifications
+          </p>
+          <p onclick="window.location.href='/user/';" class="link-text">
+            Profile
+          </p>
+        </div>
+        <img class="pfp" src="{% static 'pfp.png' %}" />
+      </div>
+      <h2>Course Description</h2>
       <p onclick="window.location.href='/courses';" class="link-text">
         Back to course list </p>
       <span class="content center">
@@ -61,7 +72,7 @@
       </span>
       <hr>
       </hr>
-      <h1>Course Description</h1>
+      <h2>Course Description</h2>
       {{course_description}}
     </main>
 
