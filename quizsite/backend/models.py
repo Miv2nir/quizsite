@@ -34,7 +34,7 @@ class CoursePage(models.Model):
     answer_type=models.CharField(max_length=1,choices=ANSWER_TYPE,default='N')
 
     def __str__(self):
-        return 'Page '+str(self.number)
+        return 'Page '+str(self.number)+' of '+self.parent.name
 
 #Answer form models
 #Concept: several models each storing an answer for pages that have something to submit. Each submission is done by a specific user so that it can be pulled up later on.
@@ -45,7 +45,7 @@ class CoursePageAnswer(models.Model): #abstract parent
     class Meta:
         abstract=True
     def __str__(self):
-        return 'Answer type for page '+str(self.page)
+        return 'Answer type for page '+str(self.page.title)
 
 #testing out a different approach
 class PageAnswerText(CoursePageAnswer):
