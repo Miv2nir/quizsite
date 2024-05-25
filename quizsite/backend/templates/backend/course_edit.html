@@ -52,7 +52,7 @@
                     </h2>
                 </div>
             </span>
-            <span class="content center">
+            <span class="content center" style="margin-bottom: 8rem;">
                 <br />
                 <br />
                 <form action="/courses/{{course_name}}/edit/{{page_number}}/" method="post">
@@ -90,7 +90,10 @@
                 </form>
                 {%endif%}
                 <br />
+            </span>
+            <span class="content center">
                 <div class="bottom-nav">
+
                     <img class="img-nav-arrow-rotate"
                         onclick="window.location.href='/courses/{{ course_name }}/edit/{{ page_previous }}';"
                         src="{% static 'nav_arrow.png' %}" />
@@ -110,5 +113,6 @@
 <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 <script src="{% static 'easyMDE_load.js' %}"></script>
 <script src="{% static 'easyMDE_resize.js' %}"></script>
+<script src="{% static 'build_list.js' %}"></script>
 
 </html>
