@@ -263,9 +263,10 @@ def course_edit(request,course_name,page_number=0):
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
         #time to handle the answer type model
-        choices={0:'Choice 1',1:'Choice 2',2:'Choice 3'} #get as json from client somehow
-        print(json.dumps(choices))
+        #choices={0:'Choice 1',1:'Choice 2',2:'Choice 3'} #get as json from client somehow
         answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],choices=json.dumps(choices))
+        choices=answer_type_obj.choices
+        print(json.dumps(choices))
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
 

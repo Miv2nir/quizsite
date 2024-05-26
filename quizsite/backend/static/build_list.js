@@ -37,11 +37,15 @@ function del_list_item(item) {
     console.log(choices[pos]);
     item.parentElement.remove(); //delete rendered list item
     delete choices[pos]; //delete respective json item
+
+    write_result(choices);
 }
 function upd_list_item(item) {
     var pos = parseInt(item.parentElement.id.split("-")[1]);
     choices[pos] = item.value;
     console.log(choices);
+
+    write_result(choices);
 }
 function add_list_item(item) {
     //pos = document.getElementById('choices-container').childElementCount + 1;
@@ -57,5 +61,9 @@ function add_list_item(item) {
     choices[pos] = 'Choice ' + (pos + 1).toString();
     console.log(choices);
     render_list_item(pos, choices[pos]);
-}
 
+    write_result(choices);
+}
+function write_result(choices) {
+    thing.textContent = JSON.stringify(choices);
+}
