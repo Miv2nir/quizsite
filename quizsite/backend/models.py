@@ -53,6 +53,7 @@ class PageAnswerText(CoursePageAnswer):
     is_choice=models.BooleanField(default=False)
     is_multiple=models.BooleanField(default=False)
     choices=models.JSONField(default=dict,blank=True)
+    correct_choices=models.JSONField(default=dict,blank=True)
 
 
 #this simply didn't work :(

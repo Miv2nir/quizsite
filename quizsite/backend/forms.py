@@ -49,12 +49,12 @@ class CoursePageForm(forms.Form):
         ('M','Multiple Choice'),
         ('F','File Upload'),
     )
-    answer_type=forms.ChoiceField(choices=A_TYPE,widget=forms.Select(attrs={'class':'form-field','id':'answer_type','onChange':'displayWarning()'}))
+    answer_type=forms.ChoiceField(choices=A_TYPE,widget=forms.Select(attrs={'class':'form-field','id':'answer_type','onChange':'displayWarning();'}))
     title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
     text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description big','id':'textfield'}))
     question=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Question here','class':'form-field description'}))
     choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input','style':'display: none;'}))
-
+    correct_choices=forms.CharField(label='Correct Choices',required=False,widget=forms.Textarea(attrs={'id':'json_check','style':'display: none;'}))
 '''
 class AnswerTypeForm(forms.Form):
     def __init__(self, *args, **kwargs):

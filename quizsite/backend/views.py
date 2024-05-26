@@ -61,7 +61,7 @@ def define_answer_old(course_page_obj,form_answer_type,a_choices={}):
 #TODO Sort these functions out so that it wouldn't go yandere sim mode like last year
 #I imagine that the auth will have to be served by django/passed through vue without much change
 
-def define_answer(course_page_obj,form_answer_type,a_choices={},a_text=""):
+def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_text=""):
     '''
     Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
     returns either a None (when no new object is being made) or the object itself
@@ -74,7 +74,7 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},a_text=""):
         if answer_type_obj.text=="":
             answer_type_obj.text=a_text
     except IndexError:
-        answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=a_choices,text=a_text)
+        answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=a_choices,correct_choices=c_choices,text=a_text)
     #defining the thing
     if form_answer_type=='N': #do not make anything new
         answer_type_obj.is_choice=False
@@ -96,6 +96,8 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},a_text=""):
         print('choices define answer:',answer_type_obj.choices)
         if a_choices!={} or course_page_obj==form_answer_type:
             answer_type_obj.choices=a_choices
+        if c_choices!={} or course_page_obj==form_answer_type:
+            answer_type_obj.correct_choices=c_choices
         if a_text!="" or course_page_obj==form_answer_type:
             answer_type_obj.text=a_text
     try:
@@ -306,8 +308,10 @@ def course_edit(request,course_name,page_number=0):
         choices=form.cleaned_data['choices']
         if not choices:
             choices={}
-        print('choices:',json.dumps(choices))
-        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,a_text=form.cleaned_data['question'])
+        #print('choices:',json.dumps(choices))
+        correct_choices=form.cleaned_data['correct_choices']
+        print(correct_choices)
+        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,c_choices=correct_choices,a_text=form.cleaned_data['question'])
         #choices=answer_type_obj.choices
         
         course_page_obj.answer_type=form.cleaned_data['answer_type']
@@ -322,13 +326,14 @@ def course_edit(request,course_name,page_number=0):
     try:
         answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
     except:
-        answer_type_obj=models.PageAnswerText(page=course_page_obj,choices={})
+        answer_type_obj=models.PageAnswerText(page=course_page_obj,choices={},correct_choices={})
         answer_type_obj.save()
     form=forms.CoursePageForm(initial={'title':course_page_obj.title,
     'text':course_page_obj.text,
     'answer_type':course_page_obj.answer_type,
     'question':answer_type_obj.text,
-    'choices':answer_type_obj.choices})
+    'choices':answer_type_obj.choices,
+    'correct_choices':answer_type_obj.correct_choices})
     
     #form_answer_type=forms.
     return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
