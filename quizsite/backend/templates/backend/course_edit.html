@@ -88,8 +88,9 @@
                         {{form_answer_type.choices}}
                     </div>
                     <div class="content center" id="choices-container">
-
+                        <!--list generates here,don't add anything here pls-->
                     </div>
+                    <button type="button" class="course-button" onclick="add_list_item(this);">Add</button>
                 </form>
                 {%endif%}
                 <br />
@@ -116,6 +117,9 @@
 <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 <script src="{% static 'easyMDE_load.js' %}"></script>
 <script src="{% static 'easyMDE_resize.js' %}"></script>
+<script>
+    var option_type = "{{option_type}}";
+</script>
 <script src="{% static 'build_list.js' %}"></script>
 
 </html>

@@ -280,10 +280,12 @@ def course_edit(request,course_name,page_number=0):
     else:
         form_answer_type=None
     form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text,'answer_type':course_page_obj.answer_type})
+    
     #form_answer_type=forms.
     return render (request,'backend/course_edit.html',{'username':request.user,'form':form, 'form_answer_type':form_answer_type,
     'course_name':course_name,
     'page_number':page_number,
     'page_previous':page_previous,
-    'page_next':page_next})
+    'page_next':page_next,
+    'option_type':course_page_obj.answer_type})
     

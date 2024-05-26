@@ -418,3 +418,16 @@ main {
     height: 1.5rem;
     margin-right: 1rem;
 }
+
+.list-delete-button {
+    margin-left: 1rem;
+    background-color: red;
+    color: white;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.list-delete-button:hover {
+    cursor: pointer;
+}
