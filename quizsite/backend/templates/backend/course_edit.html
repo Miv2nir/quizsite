@@ -74,25 +74,23 @@
                     </div>
 
                     <br />
-                    <button class="course-button" type="submit" value="OK">Save Changes</button>
-                </form>
-                {% if form_answer_type%}
-                <form action"/courses/{{course_name}}/edit/{{page_number}}/" method="post">
-                    {% csrf_token %}
+                    {%if choice_type%}
                     <div class="content center">
                         <div>Question Text:</div>
-                        {{form_answer_type.question}}
+                        {{form.question}}
                     </div>
                     <div class="content center">
                         <div>Answer Choices:</div>
-                        {{form_answer_type.choices}}
+                        {{form.choices}}
                     </div>
                     <div class="content center" id="choices-container">
                         <!--list generates here,don't add anything here pls-->
                     </div>
-                    <button type="button" class="course-button" onclick="add_list_item(this);">Add</button>
+                    <button type="button" class="course-button secondary" onclick="add_list_item(this);">Add</button>
+                    <br />
+                    {%endif%}
+                    <button class="course-button" type="submit" value="OK">Save Changes</button>
                 </form>
-                {%endif%}
                 <br />
             </span>
             <span class="content center">

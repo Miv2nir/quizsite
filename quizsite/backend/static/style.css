@@ -52,6 +52,7 @@ main {
 
 .content.row {
     flex-direction: row;
+    gap: 1rem;
 }
 
 
@@ -337,7 +338,7 @@ main {
     background-color: white;
     color: black;
     border-color: var(--border-color);
-    margin-left: 1rem;
+    /*margin-left: 1rem;*/
 }
 
 .course-button.secondary:hover {

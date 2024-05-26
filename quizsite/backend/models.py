@@ -49,10 +49,10 @@ class CoursePageAnswer(models.Model): #abstract parent
 
 #testing out a different approach
 class PageAnswerText(CoursePageAnswer):
-    text=models.TextField(default='')
+    text=models.TextField(default='',blank=True)
     is_choice=models.BooleanField(default=False)
     is_multiple=models.BooleanField(default=False)
-    choices=models.JSONField(default=dict)
+    choices=models.JSONField(default=dict,blank=True)
 
 
 #this simply didn't work :(

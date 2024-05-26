@@ -18,11 +18,9 @@ def find_courses(prompt=''):
         lookup=models.Course.objects.filter(access='A',name__contains=prompt)
     return lookup
 
-def define_answer(course_page_obj,form_answer_type,choices=()):
-    '''
-    Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
-    returns either a None (when no new object is being made) or the object itself
-    '''
+def define_answer_old(course_page_obj,form_answer_type,a_choices={}):
+    #Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
+    #returns either a None (when no new object is being made) or the object itself
     #assuming that the function gets an old course_page_obj, before writing a respective field
     print(course_page_obj.answer_type,form_answer_type)
     if course_page_obj.answer_type != form_answer_type: #page answer type has changed
@@ -39,10 +37,11 @@ def define_answer(course_page_obj,form_answer_type,choices=()):
         elif form_answer_type=='F':
             raise NotImplementedError
         else:
-            answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=choices)
+            answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=a_choices)
             answer_type_obj.is_choice=True
             if form_answer_type=='M':
                 answer_type_obj.is_multiple=True
+            print('choices define answer:',answer_type_obj.choices)
         try:
             answer_type_obj.save()
         except AttributeError:
@@ -54,12 +53,51 @@ def define_answer(course_page_obj,form_answer_type,choices=()):
             raise NotImplementedError
         else:
             answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
+    print('choices 2:',answer_type_obj.choices)
     return answer_type_obj
     #1. None to something: create new object
     #2. Something to something
     #3. Something to none
 #TODO Sort these functions out so that it wouldn't go yandere sim mode like last year
 #I imagine that the auth will have to be served by django/passed through vue without much change
+
+def define_answer(course_page_obj,form_answer_type,a_choices={}):
+    '''
+    Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
+    returns either a None (when no new object is being made) or the object itself
+    '''
+    print(course_page_obj.answer_type,form_answer_type)
+    try:
+        answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
+        if answer_type_obj.choices=="":
+            answer_type_obj.choices=a_choices
+    except IndexError:
+        answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=a_choices)
+    #defining the thing
+    if form_answer_type=='N': #do not make anything new
+        answer_type_obj.is_choice=False
+        answer_type_obj.is_multiple=False
+    elif form_answer_type=='T':
+        #answer_type_obj=models.PageAnswerText(page=course_page_obj)
+        answer_type_obj.is_choice=False
+        answer_type_obj.is_multiple=False
+    elif form_answer_type=='F':
+        raise NotImplementedError
+    else:
+        #answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=a_choices)
+        answer_type_obj.is_choice=True
+        if form_answer_type=='M':
+            answer_type_obj.is_multiple=True
+        else:
+            answer_type_obj.is_multiple=False
+        print('choices define answer:',answer_type_obj.choices)
+        if a_choices!={} or course_page_obj==form_answer_type:
+            answer_type_obj.choices=a_choices
+    try:
+        answer_type_obj.save()
+    except AttributeError:
+        pass
+    return answer_type_obj
 
 def register_user(request):  #reused from the past year's course project
     if request.method == 'POST':
@@ -91,8 +129,6 @@ def register_user(request):  #reused from the past year's course project
             return HttpResponseRedirect('/')
     return render(request, 'backend/register.html', {'form': form,'register':False})
 
-
-
 def login_user(request):
     forward_path=request.GET.get('next','/')
     print(forward_path)
@@ -119,13 +155,11 @@ def login_user(request):
             return HttpResponseRedirect(forward_path)
     return render(request, 'backend/login.html', {'form': form,'register':False,'next':forward_path})
 
-
 def logout_user(request):
     if request.user.is_authenticated:
         print('Logging out '+request.user.username)
         logout(request)
     return HttpResponseRedirect('/login/')
-
 
 #site's landing page
 @login_required
@@ -264,29 +298,39 @@ def course_edit(request,course_name,page_number=0):
         course_page_obj.text=form.cleaned_data['text']
         #time to handle the answer type model
         #choices={0:'Choice 1',1:'Choice 2',2:'Choice 3'} #get as json from client somehow
-        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],choices=json.dumps(choices))
-        choices=answer_type_obj.choices
-        print(json.dumps(choices))
+        choices=form.cleaned_data['choices']
+        if not choices:
+            choices={}
+        print('choices:',json.dumps(choices))
+        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices)
+        #choices=answer_type_obj.choices
+        
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
 
         return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/'+str(page_number)+'/')
     #come up with some choices as an example, should change it to prompting the user later on
+    #if answer_type_obj:
+        #form_answer_type=forms.AnswerTypeForm(initial={'question':answer_type_obj.text,'choices':answer_type_obj.choices})
+    #else:
+    #    form_answer_type=None
     try:
         answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
-    except IndexError:
-        answer_type_obj=None
-    if answer_type_obj:
-        form_answer_type=forms.AnswerTypeForm(initial={'question':answer_type_obj.text,'choices':answer_type_obj.choices})
-    else:
-        form_answer_type=None
-    form=forms.CoursePageForm(initial={'title':course_page_obj.title,'text':course_page_obj.text,'answer_type':course_page_obj.answer_type})
+    except:
+        answer_type_obj=models.PageAnswerText(page=course_page_obj,choices={})
+        answer_type_obj.save()
+    form=forms.CoursePageForm(initial={'title':course_page_obj.title,
+    'text':course_page_obj.text,
+    'answer_type':course_page_obj.answer_type,
+    'question':answer_type_obj.text,
+    'choices':answer_type_obj.choices})
     
     #form_answer_type=forms.
-    return render (request,'backend/course_edit.html',{'username':request.user,'form':form, 'form_answer_type':form_answer_type,
+    return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
     'course_name':course_name,
     'page_number':page_number,
     'page_previous':page_previous,
     'page_next':page_next,
-    'option_type':course_page_obj.answer_type})
+    'option_type':course_page_obj.answer_type,
+    'choice_type':course_page_obj.answer_type in ['S','M']})
     

@@ -52,11 +52,13 @@ class CoursePageForm(forms.Form):
     answer_type=forms.ChoiceField(choices=A_TYPE,widget=forms.Select(attrs={'class':'form-field','id':'answer_type','onChange':'displayWarning()'}))
     title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
     text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description big','id':'textfield'}))
-
-class AnswerTypeForm(forms.Form):
     question=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Question here','class':'form-field description'}))
-    choices=forms.CharField(label='Answer Choices',disabled=True,required=False,widget=forms.Textarea(attrs={'id':'json_input'}))
+    choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input','style':'display: none;'}))
+
+'''
+class AnswerTypeForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.label = ""
+'''
