@@ -333,14 +333,14 @@ def course_edit(request,course_name,page_number=0):
     'answer_type':course_page_obj.answer_type,
     'question':answer_type_obj.text,
     'choices':answer_type_obj.choices,
-    'correct_choices':answer_type_obj.correct_choices})
+    'correct_choices':answer_type_obj.correct_choices,})
     
-    #form_answer_type=forms.
     return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
     'course_name':course_name,
     'page_number':page_number,
     'page_previous':page_previous,
     'page_next':page_next,
     'option_type':course_page_obj.answer_type,
+    'question_presence':course_page_obj.answer_type!='N',
     'choice_type':course_page_obj.answer_type in ['S','M']})
     

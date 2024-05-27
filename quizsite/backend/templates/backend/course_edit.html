@@ -40,7 +40,7 @@
                             N notifications
                         </p>
                         <p onclick="window.location.href='/user/';" class="link-text">
-                            Menu
+                            Profile
                         </p>
                     </div>
                     <img class="pfp" src="{% static 'pfp.png' %}" />
@@ -74,11 +74,13 @@
                     </div>
 
                     <br />
-                    {%if choice_type%}
+                    {%if question_presence%}
                     <div class="content center">
                         <div>Question Text:</div>
                         {{form.question}}
                     </div>
+                    {%endif%}
+                    {%if choice_type%}
                     <div class="content center">
                         <div>Answer Choices:</div>
                         {{form.choices}}
@@ -86,13 +88,14 @@
                     <div class="content center">
                         {{form.correct_choices}}
                     </div>
-                    <div class="content center" id="choices-container">
+                    <div class="content center" id="choices-container" style="margin-bottom: 1rem;">
                         <!--list generates here,don't add anything here pls-->
                     </div>
-                    <button type="button" class="course-button secondary" onclick="add_list_item(this);">Add</button>
+                    <button type="button" class="course-button secondary editor" style="margin-bottom: 1rem;"
+                        onclick="add_list_item(this);">Add</button>
                     <br />
                     {%endif%}
-                    <button class="course-button" type="submit" value="OK">Save Changes</button>
+                    <button class="course-button editor" type="submit" value="OK">Save Changes</button>
                 </form>
                 <br />
             </span>

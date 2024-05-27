@@ -329,6 +329,10 @@ main {
     transition: 200ms ease;
 }
 
+.course-button.editor {
+    width: 17rem;
+}
+
 .course-button:hover {
     background-color: #e06816;
     transition: 200ms ease;
@@ -389,7 +393,7 @@ main {
 }
 
 .form-field {
-    width: fit-content;
+    min-width: fit-content;
     min-height: 2rem;
     border: solid;
     border-radius: 0.2rem;
@@ -401,8 +405,12 @@ main {
     border-color: black;
 }
 
+.form-field.stretch {
+    width: 21rem;
+}
+
 .form-field.description {
-    resize: vertical;
+    resize: both;
     height: 2rem;
 
     font-family: 'Open Sans';
