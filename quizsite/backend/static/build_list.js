@@ -34,6 +34,10 @@ if (option_type === "S") {
     var html_text_template = '<input type="radio" name="choices-radio" class="checkbox-editor" onclick="upd_r_list_correctness(this);">\
     <input value="" placeholder="Answer Choice" class="form-field" onchange="upd_list_item(this);" required>\
     <button type="button" class="list-delete-button" onclick="del_list_item(this);">-</button>';
+    var i = Object.keys(correct_choices)[0];
+    console.log(JSON.parse('{"' + i.toString() + '":"' + correct_choices[i] + '"}'));
+    correct_choices = JSON.parse('{"' + i.toString() + '":"' + correct_choices[i] + '"}');
+    write_c_result(correct_choices);
 }
 for (var i in choices) {
     console.log(i);
