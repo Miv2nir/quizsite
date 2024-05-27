@@ -53,8 +53,8 @@ class CoursePageForm(forms.Form):
     title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field stretch'}))
     text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description big','id':'textfield'}))
     question=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Question here','class':'form-field description'}))
-    choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input','style':'display: none;'}))
-    correct_choices=forms.CharField(label='Correct Choices',required=False,widget=forms.Textarea(attrs={'id':'json_check','style':'display: none;'}))
+    choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input'}))
+    correct_choices=forms.CharField(label='Correct Choices',required=False,widget=forms.Textarea(attrs={'id':'json_check'}))
 '''
 class AnswerTypeForm(forms.Form):
     def __init__(self, *args, **kwargs):

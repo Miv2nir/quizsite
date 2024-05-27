@@ -29,6 +29,12 @@ if (option_type === "M") {
 <input value="" placeholder="Answer Choice" class="form-field" onchange="upd_list_item(this);" required>\
 <button type="button" class="list-delete-button" onclick="del_list_item(this);">-</button>';
 }
+
+if (option_type === "S") {
+    var html_text_template = '<input type="radio" name="choices-radio" class="checkbox-editor" onclick="upd_r_list_correctness(this);">\
+    <input value="" placeholder="Answer Choice" class="form-field" onchange="upd_list_item(this);" required>\
+    <button type="button" class="list-delete-button" onclick="del_list_item(this);">-</button>';
+}
 for (var i in choices) {
     console.log(i);
     render_list_item(i, choices[i], correct_choices[i]);
@@ -69,6 +75,19 @@ function upd_list_correctness(item) {
     }
     write_c_result(correct_choices);
 }
+function upd_r_list_correctness(item) {
+    var pos = parseInt(item.parentElement.id.split("-")[1]);
+    console.log(pos);
+    if (item.checked == true) {
+        correct_choices = {};
+        correct_choices[pos] = "True";
+    }
+    else {
+        delete correct_choices[pos];
+    }
+    write_c_result(correct_choices);
+}
+
 
 function add_list_item(item) {
     //pos = document.getElementById('choices-container').childElementCount + 1;

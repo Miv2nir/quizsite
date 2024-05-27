@@ -71,6 +71,8 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_t
         answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
         if answer_type_obj.choices=="":
             answer_type_obj.choices=a_choices
+        if answer_type_obj.correct_choices=="":
+            answer_type_obj.correct_choices=c_choices
         if answer_type_obj.text=="":
             answer_type_obj.text=a_text
     except IndexError:
@@ -310,6 +312,8 @@ def course_edit(request,course_name,page_number=0):
             choices={}
         #print('choices:',json.dumps(choices))
         correct_choices=form.cleaned_data['correct_choices']
+        if not correct_choices:
+            correct_choices={}
         print(correct_choices)
         answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,c_choices=correct_choices,a_text=form.cleaned_data['question'])
         #choices=answer_type_obj.choices
