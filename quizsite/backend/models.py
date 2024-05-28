@@ -71,3 +71,12 @@ class PageAnswerText(CoursePageAnswer):
             self.text=models.TextField(default='')
 
 '''
+'''
+class StudentAnswer(models.Model):
+    user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    page=models.ForeignKey(CoursePage,on_delete=models.CASCADE)
+    class Meta:
+        abstract=True
+class StudentAnswerText(StudentAnswer):
+    response=models.TextField(default='',blank=True)
+'''

@@ -78,14 +78,14 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_t
     except IndexError:
         answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=a_choices,correct_choices=c_choices,text=a_text)
     #defining the thing
-    if form_answer_type=='N': #do not make anything new
-        answer_type_obj.is_choice=False
-        answer_type_obj.is_multiple=False
-    elif form_answer_type=='T':
+    #if form_answer_type=='N': #do not make anything new
+    #    answer_type_obj.is_choice=False
+    #    answer_type_obj.is_multiple=False
+    if form_answer_type in ['T','N']: #for non-destructive saving
         #answer_type_obj=models.PageAnswerText(page=course_page_obj)
         answer_type_obj.is_choice=False
         answer_type_obj.is_multiple=False
-        answer_type_obj.text=a_text
+        #answer_type_obj.text=a_text
     elif form_answer_type=='F':
         raise NotImplementedError
     else:
@@ -338,9 +338,13 @@ def course_edit(request,course_name,page_number=0):
         if not correct_choices:
             correct_choices={}
         print(correct_choices)
-        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,c_choices=correct_choices,a_text=form.cleaned_data['question'])
+        q_text=form.cleaned_data['question']
+        if not q_text:
+            q_text=""
+        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,c_choices=correct_choices,a_text=q_text)
         #choices=answer_type_obj.choices
-        
+        answer_type_obj
+
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
 
