@@ -53,8 +53,8 @@ class CoursePageForm(forms.Form):
     title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field stretch'}))
     text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description big','id':'textfield'}))
     question=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Question here','class':'form-field description'}))
-    choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input'}))
-    correct_choices=forms.CharField(label='Correct Choices',required=False,widget=forms.Textarea(attrs={'id':'json_check'}))
+    choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input','style':'display:none;'}))
+    correct_choices=forms.CharField(label='Correct Choices',required=False,widget=forms.Textarea(attrs={'id':'json_check','style':'display:none;'}))
 '''
 class AnswerTypeForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -62,3 +62,13 @@ class AnswerTypeForm(forms.Form):
         for key, field in self.fields.items():
             field.label = ""
 '''
+
+class UserResponseText(forms.Form):
+    user_response=forms.CharField(label='Type your answer below:',widget=forms.Textarea(attrs={'placeholder':'Type your answer here','class':'form-field description big'}))
+
+class UserResponseSingular(forms.Form):
+    #pass choices as an argument to response from the respective view
+    user_response=forms.ChoiceField(label='Select your answer from the following options:',widget=forms.RadioSelect())
+
+class UserResponseMultiple(forms.Form):
+    user_response=forms.MultipleChoiceField(label='Select all correct answers below:',widget=forms.CheckboxSelectMultiple())

@@ -244,13 +244,25 @@ def course_browse(request,course_name,page_number):
     'page_next':page_next,
     'next_exists':next_exists,
     'first_page':page_number==1}
+
+    if answer_type=='N': #no answer, proceed with the serving
+        return render (request,'backend/course_browse.html',template_values)
+
+    answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
+    tuple_choices=tuple(json.loads(answer_type_obj.choices).items()) #apparently it's needed to be like that in forms
+    if answer_type=='T': #answer_type is text
+        form=forms.UserResponseText()
+    if answer_type=='S':
+        form=forms.UserResponseSingular()
+        form.fields['user_response'].choices=tuple(tuple_choices)
+    if answer_type=='M':
+        form=forms.UserResponseMultiple()
+        form.fields['user_response'].choices=tuple(tuple_choices)
+    template_values['form']=form
     
-    if answer_type=='N':
-            return render (request,'backend/course_browse.html',template_values)
-    #2. Text answer
-    if answer_type=='T':
-        answer_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
-        form=forms.AnswerText()
+    
+
+
     #temporary fallback
     return render (request,'backend/course_browse.html',template_values)
     #TODO: move the tuple out of the function somewhere else

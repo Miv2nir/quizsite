@@ -55,7 +55,18 @@
                 <br />
                 <br />
                 <p id="mdtext">{{page_text}}</p>
-                <br />
+            </span>
+            <span class="content center">
+                <!--reponse goes here-->
+                {%if form%}
+                <form action="/courses/{{course_name}}/browse/{{page_number}}/" method="post">
+                    {%csrf_token%}
+                    <h3>{{form.user_response.label}}</h3>
+                    {{form.user_response}}
+                </form>
+                {%endif%}
+            </span>
+            <span class="content center room-for-navbar">
                 <div class="bottom-nav">
                     <img class="img-nav-arrow-rotate"
                         onclick="window.location.href='/courses/{{ course_name }}/browse/{{ page_previous }}';"
@@ -75,7 +86,6 @@
 </body>
 <!--md to html-->
 <script src="https://cdn.jsdelivr.net/npm/showdown@2.0.4/dist/showdown.min.js"></script>
-<script src="{% static 'script.js' %}"></script>
 <script src="{% static 'mdread.js' %}"></script>
 
 </html>

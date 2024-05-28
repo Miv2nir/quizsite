@@ -440,3 +440,7 @@ main {
 .list-delete-button:hover {
     cursor: pointer;
 }
+
+.room-for-navbar {
+    margin-bottom: 8rem;
+}
