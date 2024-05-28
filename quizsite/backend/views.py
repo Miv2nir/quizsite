@@ -212,19 +212,27 @@ def course_browse_redir(request,course_name):
 
 @login_required
 def course_browse(request,course_name,page_number):
-    #navbar values
-    page_next=page_number+1
-    if page_number == 1:
-        page_previous='1'
-    else:
-        page_previous=page_number-1
     
     #get the course object & page
     course_obj=models.Course.objects.filter(name=course_name)[0]
     course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
     page_title=course_page_obj.title
     page_text=course_page_obj.text
-    #Handle the answer forms
+    
+    #navbar values
+    try:
+        models.CoursePage.objects.filter(parent=course_obj,number=page_number+1)[0]
+        page_next=page_number+1
+        next_exists=True
+    except IndexError:
+        page_next=page_number
+        next_exists=False
+    #page_next=page_number+1
+    if page_number == 1:
+        page_previous='1'
+    else:
+        page_previous=page_number-1
+
     answer_type=course_page_obj.answer_type
     #1. No answer needed
     template_values={'username':request.user,
@@ -233,7 +241,10 @@ def course_browse(request,course_name,page_number):
     'page_text':page_text,
     'page_number':page_number,
     'page_previous':page_previous,
-    'page_next':page_next}
+    'page_next':page_next,
+    'next_exists':next_exists,
+    'first_page':page_number==1}
+    
     if answer_type=='N':
             return render (request,'backend/course_browse.html',template_values)
     #2. Text answer
