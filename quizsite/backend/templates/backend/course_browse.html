@@ -11,6 +11,17 @@
         rel="stylesheet" />
 </head>
 <!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
+<style>
+    input[type='checkbox'] {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    input[type='radio'] {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+</style>
 
 <body>
     <div class="split">
@@ -56,15 +67,17 @@
                 <br />
                 <p id="mdtext">{{page_text}}</p>
             </span>
+            {%if form%}
+            <hr />
+            {%endif%}
             <span class="content center">
                 <!--reponse goes here-->
                 {%if form%}
-                <hr />
                 <p>{{question_itself}}</p>
                 <form action="/courses/{{course_name}}/browse/{{page_number}}/" class="content center" method="post">
                     {%csrf_token%}
                     <h3>{{form.user_response.label}}</h3>
-                    {{form.user_response}}
+                    <div class="room-for-button">{{form.user_response}}</div>
                     <button class="course-button editor" type="submit" value="OK">Submit Answer</button>
                 </form>
                 {%endif%}
@@ -90,5 +103,6 @@
 <!--md to html-->
 <script src="https://cdn.jsdelivr.net/npm/showdown@2.0.4/dist/showdown.min.js"></script>
 <script src="{% static 'mdread.js' %}"></script>
+<script src="{% static 'browse_checkbox_reshaper.js' %}"></script>
 
 </html>
