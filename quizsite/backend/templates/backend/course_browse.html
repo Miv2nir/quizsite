@@ -59,10 +59,11 @@
             <span class="content center">
                 <!--reponse goes here-->
                 {%if form%}
-                <form action="/courses/{{course_name}}/browse/{{page_number}}/" method="post">
+                <form action="/courses/{{course_name}}/browse/{{page_number}}/" class="content center" method="post">
                     {%csrf_token%}
                     <h3>{{form.user_response.label}}</h3>
                     {{form.user_response}}
+                    <button class="course-button editor" type="submit" value="OK">Submit Answer</button>
                 </form>
                 {%endif%}
             </span>

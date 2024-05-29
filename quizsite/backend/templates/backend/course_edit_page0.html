@@ -75,7 +75,7 @@
             <hr />
             <h2>Edit Course Metadata</h2>
             <!--course info form-->
-            <span class="content center">
+            <span class="content center room-for-navbar">
                 <form action="/courses/{{course_name}}/edit/0/" method="post">
                     {% csrf_token %}
                     <div class="content center">
@@ -110,6 +110,5 @@
         </main>
     </div>
 </body>
-<script src="{% static 'script.js' %}"></script>
 
 </html>

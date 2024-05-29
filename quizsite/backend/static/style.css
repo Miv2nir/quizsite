@@ -419,7 +419,7 @@ main {
 .form-field.big {
     resize: both;
     height: fit-content;
-    width: 70vw;
+    width: 40vw;
 }
 
 .checkbox-editor {
