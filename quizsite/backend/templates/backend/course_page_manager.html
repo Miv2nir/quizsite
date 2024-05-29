@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <!-- font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet" />
+</head>
+<!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
+
+<body>
+    <div class="split">
+        <nav class="sidebar">
+            <ul class="sidebar-list">
+                <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+                <li class="sidebar-element">
+                    <div class="sidebar-text" onclick="window.location.href='/'">Home Page</div>
+
+                </li>
+                <li class="sidebar-element">
+                    <div class="sidebar-text" onclick="window.location.href='/courses/'">Course Search</div>
+
+                </li>
+                <li class="sidebar-element">
+                    <div class="sidebar-text">Test 3sdagfdhfdhbdfghjgfjdhgjghkjhudsfgfgdagfdgbfdsay</div>
+
+                </li>
+            </ul>
+        </nav>
+        <main id="main">
+            <span style="overflow: hidden;">
+                <div class="main-div-quick-access">
+                    <div style="display:block;">
+                        <p>
+                            N notifications
+                        </p>
+                        <p onclick="window.location.href='/user/';" class="link-text">
+                            Profile
+                        </p>
+                    </div>
+                    <img class="pfp" src="{% static 'pfp.png' %}" />
+                </div>
+                <!--welcome-->
+                <div style="overflow: hidden;">
+                    <h2>
+                        {{ course_name }}: Page Manager
+                    </h2>
+                </div>
+            </span>
+            <span class="content center">
+                <p>This course contains {{n_pages}} page{%if n_pages != 1 %}s{%endif%}.</p>
+            </span>
+            <hr />
+            <span class="content center">
+                {%for i in pages%}
+                <div class="content center row">
+                    <div>{{i.number}}</div>
+                    <div>|</div>
+                    <div>{{i.title}}</div>
+                    <div>|</div>
+                    <div>{{i.get_answer_type_display}}</div>
+                    <div>|</div>
+                    <button type="button" value="{{i.number}}" class="list-delete-button"
+                        onclick="del_page_item(this);">-</button>
+                </div>
+                {%endfor%}
+            </span>
+        </main>
+        <main id="warn" style="display: none;">
+        </main>
+    </div>
+</body>
+<script src="{%static 'page_manager_trigger_warn.js' %}"></script>
+
+</html>

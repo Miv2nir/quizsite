@@ -475,3 +475,9 @@ def course_edit(request,course_name,page_number=0):
     'question_presence':course_page_obj.answer_type!='N',
     'choice_type':course_page_obj.answer_type in ['S','M']})
     
+@login_required
+def course_page_manager(request,course_name):
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    pages=models.CoursePage.objects.filter(parent=course_obj)
+    n_pages=len(pages)
+    return render (request,'backend/course_page_manager.html',{'course_name':course_name,"n_pages":n_pages,'pages':pages})
