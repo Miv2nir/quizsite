@@ -60,7 +60,12 @@ def define_answer_old(course_page_obj,form_answer_type,a_choices={}):
     #3. Something to none
 #TODO Sort these functions out so that it wouldn't go yandere sim mode like last year
 #I imagine that the auth will have to be served by django/passed through vue without much change
-
+def to_paired_tuples(l):
+    '''makes a set of paired tuples of answer choices and empty data as fsr the multiplechoice widget refuses to accept lists'''
+    r_tuples=[]
+    for i in l:
+        r_tuples.append((i,''))
+    return tuple(r_tuples)
 def clear_answers(course_page_obj,form_answer_type): #void
     '''if a change is done to the answer type, invalidate (aka remove) all of the user given answers as they would no longer be valid'''
     print(course_page_obj.answer_type,form_answer_type)
@@ -293,6 +298,11 @@ def course_browse(request,course_name,page_number):
         #got the form
         if request.method=='POST':
             form=forms.UserResponseSingular(request.POST)
+            #validation or something
+            user_response=request.POST.get('user_response')
+            print(user_response)
+            form.fields['user_response'].choices=[(user_response,'')] #fsr the response does not get passed so gotta shove it into the form for the rest to make sense
+            print(form.fields['user_response'].choices)
             if form.is_valid(): #do stuff
                 #if response already exists
                 #same model as choices store text data
@@ -306,18 +316,50 @@ def course_browse(request,course_name,page_number):
             return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
         form=forms.UserResponseSingular()
         form.fields['user_response'].choices=tuple(tuple_choices)
+        print(form.fields['user_response'].choices)
         try: #grab existing response and serve in a form
             user_response_obj=models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
             form.initial={'user_response':user_response_obj.response}
-        except:
+        except IndexError:
             pass 
-    if answer_type=='M':
+    if answer_type=='M': #answer_type is multiple choice
+        #got the form
+        if request.method=='POST':
+            form=forms.UserResponseMultiple(request.POST)
+            #print(request.POST['user_response'])
+            #same validation thing
+            #user_response=request.POST.get('user_response')
+            #print(user_response)
+            #form.fields['user_response'].choices=[(user_response,'')] #fsr the response does not get passed so gotta shove it into the form for the rest to make sense
+            #print(form.fields['user_response'].choices)
+            user_response=request.POST.getlist('user_response')
+            form.fields['user_response'].choices=to_paired_tuples(user_response)
+            #form.fields['user_response'].choices=tuple(user_response)
+            print(form.errors)
+            if form.is_valid(): #do stuff
+                #if response already exists
+                #same model as choices store text data
+                lookup = models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)
+                if lookup:
+                    user_response_obj=lookup[0]
+                else:
+                    user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
+                user_response_obj.response=form.cleaned_data['user_response']
+                user_response_obj.save()
+            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
         form=forms.UserResponseMultiple()
+        print(tuple(tuple_choices))
         form.fields['user_response'].choices=tuple(tuple_choices)
+        try: #grab existing response and serve in a form
+            user_response_obj=models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
+            response_list=json.loads(user_response_obj.response.replace("'",'"'))
+            for i in response_list:
+                print(i)
+            #form.initial={'user_response':serialized_list_from_str(user_response_obj.response)}
+            form.initial={'user_response':response_list}
+        except IndexError:
+            pass
     template_values['form']=form
-    
-    
-
 
     #temporary fallback
     return render (request,'backend/course_browse.html',template_values)
@@ -401,7 +443,7 @@ def course_edit(request,course_name,page_number=0):
         clear_answers(course_page_obj,form.cleaned_data['answer_type'])
         answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,c_choices=correct_choices,a_text=q_text)
         #choices=answer_type_obj.choices
-        answer_type_obj
+        
 
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()

@@ -71,4 +71,4 @@ class UserResponseSingular(forms.Form):
     user_response=forms.ChoiceField(label='Select your answer from the following options:',widget=forms.RadioSelect())
 
 class UserResponseMultiple(forms.Form):
-    user_response=forms.MultipleChoiceField(label='Select all correct answers below:',widget=forms.CheckboxSelectMultiple())
+    user_response=forms.MultipleChoiceField(label='Select all correct answers below:',widget=forms.CheckboxSelectMultiple(),required=False)
