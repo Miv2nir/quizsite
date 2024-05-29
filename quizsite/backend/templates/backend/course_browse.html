@@ -59,6 +59,8 @@
             <span class="content center">
                 <!--reponse goes here-->
                 {%if form%}
+                <hr />
+                <p>{{question_itself}}</p>
                 <form action="/courses/{{course_name}}/browse/{{page_number}}/" class="content center" method="post">
                     {%csrf_token%}
                     <h3>{{form.user_response.label}}</h3>

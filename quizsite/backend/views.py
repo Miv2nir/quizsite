@@ -61,6 +61,23 @@ def define_answer_old(course_page_obj,form_answer_type,a_choices={}):
 #TODO Sort these functions out so that it wouldn't go yandere sim mode like last year
 #I imagine that the auth will have to be served by django/passed through vue without much change
 
+def clear_answers(course_page_obj,form_answer_type): #void
+    '''if a change is done to the answer type, invalidate (aka remove) all of the user given answers as they would no longer be valid'''
+    print(course_page_obj.answer_type,form_answer_type)
+    if course_page_obj.answer_type==form_answer_type:
+        print('not deleting anything')
+        return True
+    else:
+        print(course_page_obj.answer_type in ['N','T','S','M'])
+        if course_page_obj.answer_type in ['N','T','S','M']: #text data
+            lookup=models.StudentAnswerText.objects.filter(answer_type=course_page_obj.answer_type,page=course_page_obj)
+            print(lookup)
+            for i in lookup:
+                print('deleting',i)
+                i.delete()
+        #TODO: deletion for files after they're done
+        return True
+
 def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_text=""):
     '''
     Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
@@ -249,6 +266,7 @@ def course_browse(request,course_name,page_number):
         return render (request,'backend/course_browse.html',template_values)
 
     answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
+    template_values['question_itself']=answer_type_obj.text #get question text
     tuple_choices=tuple(json.loads(answer_type_obj.choices).items()) #apparently it's needed to be like that in forms
     if answer_type=='T': #answer_type is text
         #got the form
@@ -256,24 +274,43 @@ def course_browse(request,course_name,page_number):
             form=forms.UserResponseText(request.POST)
             if form.is_valid(): #do stuff
                 #if the response already exists
-                lookup = models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user)
+                lookup = models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)
                 if lookup:
                     user_response_obj=lookup[0]
                 else:
-                    user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user)
+                    user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
                 user_response_obj.response=form.cleaned_data['user_response']
                 user_response_obj.save()
             return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
         #request is a get
         form=forms.UserResponseText()
-        try:
-            user_response_obj=models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user)[0]
+        try: #grab existing response and serve in a form
+            user_response_obj=models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
             form.initial={'user_response':user_response_obj.response}
-        except IndexError:
+        except IndexError: #if it does not exist, pass
             pass
-    if answer_type=='S':
+    if answer_type=='S': #answer_type is singular choice
+        #got the form
+        if request.method=='POST':
+            form=forms.UserResponseSingular(request.POST)
+            if form.is_valid(): #do stuff
+                #if response already exists
+                #same model as choices store text data
+                lookup = models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)
+                if lookup:
+                    user_response_obj=lookup[0]
+                else:
+                    user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
+                user_response_obj.response=form.cleaned_data['user_response']
+                user_response_obj.save()
+            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
         form=forms.UserResponseSingular()
         form.fields['user_response'].choices=tuple(tuple_choices)
+        try: #grab existing response and serve in a form
+            user_response_obj=models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
+            form.initial={'user_response':user_response_obj.response}
+        except:
+            pass 
     if answer_type=='M':
         form=forms.UserResponseMultiple()
         form.fields['user_response'].choices=tuple(tuple_choices)
@@ -360,6 +397,8 @@ def course_edit(request,course_name,page_number=0):
         q_text=form.cleaned_data['question']
         if not q_text:
             q_text=""
+        #on change of the answer type: delete all of the given answers to that question
+        clear_answers(course_page_obj,form.cleaned_data['answer_type'])
         answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,c_choices=correct_choices,a_text=q_text)
         #choices=answer_type_obj.choices
         answer_type_obj

@@ -75,7 +75,16 @@ class PageAnswerText(CoursePageAnswer):
 class StudentAnswer(models.Model):
     user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     page=models.ForeignKey(CoursePage,on_delete=models.CASCADE)
+    ANSWER_TYPE = (
+        ('N',None),
+        ('T','Text'),
+        ('S','Singular Choice'),
+        ('M','Multiple Choice'),
+        ('F','File Upload'),
+    )
+    answer_type=models.CharField(max_length=1,choices=ANSWER_TYPE,default='N') #for nuking non-matching responses
     class Meta:
         abstract=True
 class StudentAnswerText(StudentAnswer):
     response=models.TextField(default='',blank=True)
+
