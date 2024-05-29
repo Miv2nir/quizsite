@@ -251,7 +251,26 @@ def course_browse(request,course_name,page_number):
     answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
     tuple_choices=tuple(json.loads(answer_type_obj.choices).items()) #apparently it's needed to be like that in forms
     if answer_type=='T': #answer_type is text
+        #got the form
+        if request.method=='POST':
+            form=forms.UserResponseText(request.POST)
+            if form.is_valid(): #do stuff
+                #if the response already exists
+                lookup = models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user)
+                if lookup:
+                    user_response_obj=lookup[0]
+                else:
+                    user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user)
+                user_response_obj.response=form.cleaned_data['user_response']
+                user_response_obj.save()
+            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
+        #request is a get
         form=forms.UserResponseText()
+        try:
+            user_response_obj=models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user)[0]
+            form.initial={'user_response':user_response_obj.response}
+        except IndexError:
+            pass
     if answer_type=='S':
         form=forms.UserResponseSingular()
         form.fields['user_response'].choices=tuple(tuple_choices)

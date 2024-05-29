@@ -7,3 +7,4 @@ from backend.models import *
 admin.site.register(Course)
 admin.site.register(CoursePage)
 admin.site.register(PageAnswerText)
+admin.site.register(StudentAnswerText)
