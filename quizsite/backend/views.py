@@ -679,6 +679,10 @@ def group_assignments(request,group_name):
     return render(request,'backend/group_assignments.html',{'group_name':group_name,'form':form,'assignments_list':assignments_list})
 
 @login_required
+def group_assignments_delete_redir(request,group_name):
+    return HttpResponseRedirect('/groups/'+group_name+'/assignments/')
+
+@login_required
 def group_assignments_delete(request,group_name,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
