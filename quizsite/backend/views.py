@@ -494,6 +494,16 @@ def course_page_manager(request,course_name):
     n_pages=len(pages)
     return render (request,'backend/course_page_manager.html',{'course_name':course_name,"n_pages":n_pages,'pages':pages})
 
+def move_back_pages(page_number,course_obj):
+    lookup=models.CoursePage.objects.filter(parent=course_obj)
+    for i in lookup:
+        if i.number>=page_number:
+            i.number-=1
+            i.save()
+            print(i.number-1)
+        else:
+            print(i.number)
+
 @login_required
 def course_page_manager_delete(request,course_name,page_number):
     course_obj=models.Course.objects.filter(name=course_name)[0]
@@ -504,6 +514,7 @@ def course_page_manager_delete(request,course_name,page_number):
         #print(confirmation)
         page_obj.save()
         page_obj.delete()
+        move_back_pages(page_number,course_obj)
         return HttpResponseRedirect('/courses/'+course_name+'/edit/pages/')
     #TODO: implement file upload counting
     given_answers=models.StudentAnswerText.objects.filter(page=page_obj)
