@@ -692,3 +692,18 @@ def group_assignments_delete(request,group_name,course_name):
         assignment_obj.delete()
         return HttpResponseRedirect('/groups/'+group_name+'/assignments/')
     return render(request,'backend/group_assignments_delete.html',{'group_name':group_name,'course_name':course_name})
+
+@login_required
+def group_assignments_item(request,group_name,course_name):
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    n_answers=0
+    n_pages=len(models.CoursePage.objects.filter(parent=course_obj))
+    participants=set()
+    for i in models.CoursePage.objects.filter(parent=course_obj):
+        n_answers+=len(models.StudentAnswerText.objects.filter(page=i))
+        #construct a list of all users who posted answers
+        for j in models.StudentAnswerText.objects.filter(page=i):
+            print()
+    return render(request,'backend/group_assignments_item.html',{'group_name':group_name,
+    'course_name':course_name,'n_answers':n_answers,'n_pages':n_pages,'course_obj':course_obj})

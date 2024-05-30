@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <!-- font import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+    rel="stylesheet" />
+</head>
+<!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
+
+<body>
+  <div class="split">
+    <nav class="sidebar">
+      <ul class="sidebar-list">
+        <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+        <li class="sidebar-element">
+          <div class="sidebar-text" onclick="window.location.href='/'">Home Page</div>
+
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text" onclick="window.location.href='/courses/'">Course Search</div>
+
+        </li>
+        <li class="sidebar-element">
+          <div class="sidebar-text">Test 3sdagfdhfdhbdfghjgfjdhgjghkjhudsfgfgdagfdgbfdsay</div>
+
+        </li>
+      </ul>
+    </nav>
+    <main>
+      <div class="main-div-quick-access">
+        <div style="display:block;">
+          <p>
+            N notifications
+          </p>
+          <p onclick="window.location.href='/user/';" class="link-text">
+            Profile
+          </p>
+        </div>
+        <img class="pfp" src="{% static 'pfp.png' %}" />
+      </div>
+      <h2>Assignment Item</h2>
+      <p onclick="window.location.href='/groups/{{group_name}}/assignments/';" class="link-text">
+        Back</p>
+      <span class="content center">
+        <br />
+        <br />
+        <div class="user-face">
+          <div class="assignments-box">
+            <img class="course-image" src="{% static 'course.png' %}">
+            <a class="course-text">{{ course_name }}</a>
+          </div>
+          <div class="user-link-spread">
+            <p>Author: {{course_obj.author}}</p>
+            <p>Number of pages: {{n_pages}}</p>
+            <p>Number of answers: {{n_answers}}</p>
+          </div>
+        </div>
+      </span>
+      <span class="content center row">
+      </span>
+      <hr>
+      </hr>
+      <h2>List of participants</h2>
+    </main>
+
+  </div>
+</body>
+<script src="{% static 'script.js' %}"></script>
+
+</html>
