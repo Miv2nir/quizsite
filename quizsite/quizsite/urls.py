@@ -38,6 +38,7 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('user/', views.userpage, name='userpage'),
     path('courses/', views.course_list, name='course_list'),
+    path('courses/create/', views.course_create, name='course_create'),
     path('courses/<slug:course_name>/', views.course_item, name='course_item'),
     path('courses/<slug:course_name>/browse/', views.course_browse_redir, name='course_browse_redir'),
     path('courses/<slug:course_name>/browse/<int:page_number>/', views.course_browse, name='course_browse'),

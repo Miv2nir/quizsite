@@ -2,6 +2,7 @@ import json
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 
 from django.http import HttpResponse, HttpResponseRedirect, FileResponse, JsonResponse
 import backend.forms as forms
@@ -520,5 +521,13 @@ def course_page_manager_delete(request,course_name,page_number):
     given_answers=models.StudentAnswerText.objects.filter(page=page_obj)
     return render (request,'backend/course_page_manager_delete.html',{'course_name':course_name,'page_obj':page_obj,'page_number':page_number,'n_answers':len(given_answers)})
 
+def course_create(request):
+    #check if user can make courses
+    try:
+        lookup_perms=models.UserPerms.objects.filter(user=request.user)[0]
+    except IndexError:
+        lookup_perms=models.UserPerms(user=request.user,is_teacher=False)
+    if not lookup_perms.is_teacher:
+        raise PermissionDenied
 
     
