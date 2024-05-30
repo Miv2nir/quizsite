@@ -651,7 +651,7 @@ def group_students_delete(request,group_name,student_name):
     confirmation=request.GET.get('confirm',False)
     if confirmation:
         enrollment_obj.delete()
-        return HttpResponseRedirect('/groups/'+group_name+'/students/')
+        return HttpResponseRedirect('/groups/'+group_name+'/assignments/')
     return render(request,'backend/group_student_delete.html',{'group_name':group_name,'student_name':student_name})
 
 @login_required
@@ -677,3 +677,14 @@ def group_assignments(request,group_name):
     form=forms.CourseGet()
     assignments_list=models.GroupAssignments.objects.filter(group=group_obj)
     return render(request,'backend/group_assignments.html',{'group_name':group_name,'form':form,'assignments_list':assignments_list})
+
+@login_required
+def group_assignments_delete(request,group_name,course_name):
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    assignment_obj=models.GroupAssignments.objects.filter(group=group_obj,course=course_obj)[0]
+    confirmation=request.GET.get('confirm',False)
+    if confirmation:
+        assignment_obj.delete()
+        return HttpResponseRedirect('/groups/'+group_name+'/assignments/')
+    return render(request,'backend/group_assignments_delete.html',{'group_name':group_name,'course_name':course_name})
