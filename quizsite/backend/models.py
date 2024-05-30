@@ -90,3 +90,8 @@ class StudentAnswerText(StudentAnswer):
     def __str__(self):
         return 'Answer of '+str(self.user)+' for '+str(self.page)
 
+class UserPerms(models.Model):
+    user=models.OneToOneField(User,on_delete=models.CASCADE,null=True)
+    is_teacher=models.BooleanField(default=False) #can create courses, groups
+    
+

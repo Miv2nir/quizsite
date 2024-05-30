@@ -519,4 +519,6 @@ def course_page_manager_delete(request,course_name,page_number):
     #TODO: implement file upload counting
     given_answers=models.StudentAnswerText.objects.filter(page=page_obj)
     return render (request,'backend/course_page_manager_delete.html',{'course_name':course_name,'page_obj':page_obj,'page_number':page_number,'n_answers':len(given_answers)})
+
+
     
