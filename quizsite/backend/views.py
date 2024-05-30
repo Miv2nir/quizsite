@@ -612,3 +612,29 @@ def group_edit(request,group_name):
     form=forms.UserGroupsForm(initial={'name':group_name})
     return render(request,'backend/group_edit.html',{'form':form,'group_name':group_name})
     
+@login_required
+def group_students(request,group_name):
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    if group_obj.teacher!=request.user:
+        raise PermissionDenied
+    if request.method=="POST": #forceful student enrollment lol
+        form=forms.UserGet(request.POST)
+        if form.is_valid():
+            #find the user
+            try:
+                user_obj=models.User.objects.filter(username=form.cleaned_data['username'])[0]
+                try:
+                    enrollment_obj=models.GroupEnrollment.objects.filter(student=user_obj,group=group_obj)[0]
+                    return HttpResponseRedirect('/groups/'+group_name+'/students/?already_enrolled=True')
+                except IndexError:
+                    enrollment_obj=models.GroupEnrollment(student=user_obj,group=group_obj)
+                    enrollment_obj.save()
+                    #exits the thing
+            except IndexError:
+                return HttpResponseRedirect('/groups/'+group_name+'/students/?user_not_found=True')
+            return HttpResponseRedirect('/groups/'+group_name+'/students/?success=True')
+
+    form=forms.UserGet()
+    #build a list of enrolled students
+    enrolled_list=models.GroupEnrollment.objects.filter(group=group_obj)
+    return render(request,'backend/group_students.html',{'group_name':group_name,'form':form,'enrolled_list':enrolled_list})

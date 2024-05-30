@@ -106,8 +106,8 @@ class UserGroups(models.Model):
 
 class GroupEnrollment(models.Model):
     student=models.ForeignKey(User,on_delete=models.CASCADE)
-    group=models.OneToOneField(UserGroups,on_delete=models.CASCADE)
+    group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.student+' in '+self.group.name
+        return self.student.username+' in '+self.group.name
 

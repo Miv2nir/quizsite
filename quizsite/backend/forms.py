@@ -76,3 +76,11 @@ class UserResponseMultiple(forms.Form):
 
 class UserGroupsForm(forms.Form):
     name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
+
+class UserGet(forms.Form):
+    username=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Student Username','class':'form-field'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            field.label = ""
