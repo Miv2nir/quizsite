@@ -55,6 +55,12 @@ main {
     gap: 1rem;
 }
 
+.content.spread {
+    justify-content: space-between;
+    width: 40rem;
+}
+
+
 
 .sidebar {
     background-color: var(--bg-color);
@@ -451,4 +457,42 @@ main {
 
 .vertical-line {
     border-left: thick solid black;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr 4fr;
+    align-self: center;
+    text-align: center;
+
+    width: 100%;
+}
+
+.grid-item {
+    width: 100%;
+    display: inline;
+    align-items: center;
+    border-right: solid;
+    border-color: black;
+    border-width: 0.1rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+}
+
+.grid-item.head {
+    border-bottom: solid;
+    border-width: 0.1rem;
+}
+
+.grid-item.end {
+    display: flex;
+    border-right: none;
+}
+
+.list-delete-button.grid {
+    margin-left: 50%;
+    justify-content: center;
+    text-decoration: solid;
+    font-size: 1rem;
+    width: 1.5rem;
 }

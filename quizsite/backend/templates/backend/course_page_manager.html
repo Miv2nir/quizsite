@@ -58,18 +58,29 @@
             </span>
             <hr />
             <span class="content center">
-                {%for i in pages%}
-                <div class="content center row">
-                    <div>{{i.number}}</div>
-                    <div>|</div>
-                    <div>{{i.title}}</div>
-                    <div>|</div>
-                    <div>{{i.get_answer_type_display}}</div>
-                    <div>|</div>
-                    <button type="button" value="{{i.number}}" class="list-delete-button"
-                        onclick="window.location.href='/courses/{{course_name}}/edit/pages/delete/{{i.number}}/'">-</button>
-                </div>
-                {%endfor%}
+                <span class="grid">
+                    <div class="grid-item head">Page Number</div>
+                    <!--div>|</div-->
+                    <div class="grid-item head">Page Title</div>
+                    <div class="grid-item head">Answer Type</div>
+                    <div class="grid-item head end">
+
+                        <button type="button" value="{{i.number}}" class="list-delete-button grid"
+                            style="visibility: hidden;">-</button>
+                    </div>
+                    {%for i in pages%}
+                    <div class="grid-item">{{i.number}}</div>
+                    <!--div>|</div-->
+                    <div class="grid-item">{{i.title}}</div>
+                    <div class="grid-item">{{i.get_answer_type_display}}</div>
+                    <div class="grid-item end">
+                        <button type="button" value="{{i.number}}" class="list-delete-button grid head"
+                            onclick="window.location.href='/courses/{{course_name}}/edit/pages/delete/{{i.number}}/'">
+                            <div style="margin-left: 50%;">-</div>
+                        </button>
+                    </div>
+                    {%endfor%}
+                </span>
             </span>
         </main>
     </div>
