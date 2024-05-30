@@ -13,7 +13,7 @@ class Course(models.Model):
     )
     description=models.TextField(default='')
     access=models.CharField(max_length=1,choices=ACCESS_LEVEL,default='C')
-
+    is_quiz=models.BooleanField(default=False)
     def __str__(self):
         return self.name
 

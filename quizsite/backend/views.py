@@ -519,7 +519,7 @@ def course_page_manager_delete(request,course_name,page_number):
         return HttpResponseRedirect('/courses/'+course_name+'/edit/pages/')
     #TODO: implement file upload counting
     given_answers=models.StudentAnswerText.objects.filter(page=page_obj)
-    return render (request,'backend/course_page_manager_delete.html',{'course_name':course_name,'page_obj':page_obj,'page_number':page_number,'n_answers':len(given_answers)})
+    return render(request,'backend/course_page_manager_delete.html',{'course_name':course_name,'page_obj':page_obj,'page_number':page_number,'n_answers':len(given_answers)})
 
 def course_create(request):
     #check if user can make courses
@@ -529,5 +529,22 @@ def course_create(request):
         lookup_perms=models.UserPerms(user=request.user,is_teacher=False)
     if not lookup_perms.is_teacher:
         raise PermissionDenied
-
+    #can access the creation util
+    if request.method=='POST':
+        form=forms.CourseForm(request.POST)
+        if form.is_valid():
+            course_obj=models.Course(author=request.user)
+            try:
+                lookup=models.Course.objects.filter(name=form.cleaned_data['name'])[0]
+                return HttpResponseRedirect('/courses/create/?name_collision=True')
+            except IndexError:
+                pass
+            course_obj.name=form.cleaned_data['name']
+            course_obj.description=form.cleaned_data['description']
+            course_obj.access=form.cleaned_data['access']
+            course_obj.is_quiz=form.cleaned_data['quiz']
+            course_obj.save()
+            return HttpResponseRedirect('/courses/'+form.cleaned_data['name']+'/edit/0/')
+    form=forms.CourseForm()
+    return render(request,'backend/course_create.html',{'form':form})
     

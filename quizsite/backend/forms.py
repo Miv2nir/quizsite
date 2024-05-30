@@ -40,6 +40,7 @@ class CourseForm(forms.Form):
     name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
     description=forms.CharField(label='Description',required=False,widget=forms.Textarea(attrs={'placeholder':'Description','class':'form-field description'}))
     access=forms.ChoiceField(choices=ACCESS_LEVEL,widget=forms.Select(attrs={'class':'form-field'}))
+    quiz=forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={'class':'checkbox-editor'}))
     #image=forms.ImageField(required=False)
 class CoursePageForm(forms.Form):
     A_TYPE = (
