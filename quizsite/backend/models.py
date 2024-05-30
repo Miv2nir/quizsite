@@ -111,3 +111,10 @@ class GroupEnrollment(models.Model):
     def __str__(self):
         return self.student.username+' in '+self.group.name
 
+class GroupAssignments(models.Model):
+    course=models.ForeignKey(Course,on_delete=models.CASCADE)
+    group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
+    deadline=models.DateTimeField(null=True,default=None)
+
+    def __str__(self):
+        return self.course.name+' in '+self.group.name

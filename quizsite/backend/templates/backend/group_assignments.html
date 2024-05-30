@@ -47,37 +47,41 @@
                 <!--welcome-->
                 <div style="overflow: hidden;">
                     <h2>
-                        Student Group Information
+                        {{group_name}}: Assignments
                     </h2>
                 </div>
             </span>
+            <br />
+            <br />
             <span class="content center">
-                <br />
-                <br />
-                <h1>{{group_name}}</h1>
-
-                <br />
+                <h2>Added Assignments:</h2>
             </span>
             <hr />
-            <h2>Define Group Metadata</h2>
-            <!--course info form-->
-            <span class="content center" style="margin-bottom: 1rem ;">
-                <form action="/groups/create/" method="post">
-                    {% csrf_token %}
-                    <div class="content center">
-                        <div>Group Name:</div>
-                        {{form.name}}
+            <span class="content center">
+                <span class="grid smaller">
+                    {%for i in assignments_list%}
+                    <div class="grid-item" style="border:none;">{{i.course}}</div>
+                    <div class="grid-item end">
+                        <button type="button" value="{{i.number}}" class="list-delete-button grid head"
+                            onclick="window.location.href='/groups/{{group_name}}/assignments/delete/{{i.course}}/'">
+                            <div style="margin-left: 50%;">-</div>
                     </div>
-                    <br />
-                    <button class="course-button" type="submit" value="OK">Update</button>
+                    {%endfor%}
+                </span>
+            </span>
+            <!--course info form-->
+            <hr />
+            <span class="content center">
+                <h2>Add Courses by their username</h2>
+                <form action="/groups/{{group_name}}/assignments/" method="post">
+                    {% csrf_token %}
+                    <div class="content center row">
+                        {{form.course}}
+                        <button class="course-button" type="submit" value="OK">Add</button>
+                    </div>
                 </form>
             </span>
-            <span class="content center row">
-                <button class="course-button secondary"
-                    onclick="window.location.href='/groups/{{group_name}}/students/'">Students</button>
-                <button class="course-button secondary"
-                    onclick="window.location.href='/groups/{{group_name}}/assignments/'">Assignments</button>
-            </span>
+
         </main>
     </div>
 </body>

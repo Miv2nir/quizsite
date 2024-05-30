@@ -653,3 +653,27 @@ def group_students_delete(request,group_name,student_name):
         enrollment_obj.delete()
         return HttpResponseRedirect('/groups/'+group_name+'/students/')
     return render(request,'backend/group_student_delete.html',{'group_name':group_name,'student_name':student_name})
+
+@login_required
+def group_assignments(request,group_name):
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    if group_obj.teacher!=request.user:
+        raise PermissionDenied
+    if request.method=="POST":
+        form=forms.CourseGet(request.POST)
+        if form.is_valid():
+            try:
+                course_obj=models.Course.objects.filter(name=form.cleaned_data['course'])[0]
+                try:
+                    assignment_obj=models.GroupAssignments.objects.filter(group=group_obj,course=course_obj)[0]
+                    return HttpResponseRedirect('/groups/'+group_name+'/assignments/?already_added=True')
+                except IndexError:
+                    assignment_obj=models.GroupAssignments(group=group_obj,course=course_obj)
+                    assignment_obj.save()
+            except IndexError:
+                return HttpResponseRedirect('/groups/'+group_name+'/assignments/?course_not_found=True')
+            return HttpResponseRedirect('/groups/'+group_name+'/assignments/?success=True')
+        
+    form=forms.CourseGet()
+    assignments_list=models.GroupAssignments.objects.filter(group=group_obj)
+    return render(request,'backend/group_assignments.html',{'group_name':group_name,'form':form,'assignments_list':assignments_list})

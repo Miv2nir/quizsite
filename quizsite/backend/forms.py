@@ -84,3 +84,7 @@ class UserGet(forms.Form):
         super().__init__(*args, **kwargs)
         for key, field in self.fields.items():
             field.label = ""
+class CourseGet(forms.Form):
+    course=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
+    #deadline=forms.DateTimeField(widget=forms.DateTimeInput(),required=False)
+    
