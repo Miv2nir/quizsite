@@ -51,5 +51,7 @@ urlpatterns = [
     path('groups/<slug:group_name>/',views.group_redir,name='group_redir'),
     path('groups/<slug:group_name>/edit/',views.group_edit,name='group_edit'),
     path('groups/<slug:group_name>/students/',views.group_students,name='group_students'),
+    path('groups/<slug:group_name>/students/delete/',views.group_students_delete_redir,name='group_students_delete_redir'),
+    path('groups/<slug:group_name>/students/delete/<slug:student_name>/',views.group_students_delete,name='group_students_delete'),
     path('logout/', views.logout_user, name='logout')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -638,3 +638,18 @@ def group_students(request,group_name):
     #build a list of enrolled students
     enrolled_list=models.GroupEnrollment.objects.filter(group=group_obj)
     return render(request,'backend/group_students.html',{'group_name':group_name,'form':form,'enrolled_list':enrolled_list})
+
+@login_required
+def group_students_delete_redir(request,group_name):
+    return HttpResponseRedirect('/groups/'+group_name+'/students/')
+
+@login_required
+def group_students_delete(request,group_name,student_name):
+    user_obj=models.User.objects.filter(username=student_name)[0]
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    enrollment_obj=models.GroupEnrollment.objects.filter(student=user_obj,group=group_obj)[0]
+    confirmation=request.GET.get('confirm',False)
+    if confirmation:
+        enrollment_obj.delete()
+        return HttpResponseRedirect('/groups/'+group_name+'/students/')
+    return render(request,'backend/group_student_delete.html',{'group_name':group_name,'student_name':student_name})

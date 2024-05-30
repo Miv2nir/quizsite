@@ -47,43 +47,37 @@
                 <!--welcome-->
                 <div style="overflow: hidden;">
                     <h2>
-                        {{group_name}}: Students
+                        {{ group_name }}: Student Deletion
                     </h2>
                 </div>
             </span>
             <br />
-            <br />
             <span class="content center">
-                <h2>Enrolled Students:</h2>
+                <h2>Are you sure you want to delete {{student_name}} from {{group_name}}?</h2>
             </span>
             <hr />
             <span class="content center">
-                <span class="grid smaller">
-                    {%for i in enrolled_list%}
-                    <div class="grid-item">{{i.student}}</div>
-                    <div class="grid-item end">
-                        <button type="button" value="{{i.number}}" class="list-delete-button grid head"
-                            onclick="window.location.href='/groups/{{group_name}}/students/delete/{{i.student}}/'">
-                            <div style="margin-left: 50%;">-</div>
-                    </div>
-                    {%endfor%}
-                </span>
+                <div class="content center row">
+                    <div>{{student_name}}</div>
+
+                </div>
             </span>
-            <!--course info form-->
             <hr />
             <span class="content center">
-                <h2>Add Students by their username</h2>
-                <form action="/groups/{{group_name}}/students/" method="post">
-                    {% csrf_token %}
-                    <div class="content center row">
-                        {{form.username}}
-                        <button class="course-button" type="submit" value="OK">Add</button>
-                    </div>
-                </form>
+                <p>Deletion of a student from a group will cause them to miss out on any imposed deadlines, as well as
+                    you losing access to their course responses.</p>
+            </span>
+            <span class="content center row">
+                <button class="course-button"
+                    onclick="window.location.href='/groups/{{group_name}}/students/';">Abort</button>
+                <button class="course-button secondary"
+                    onclick="window.location.href='/groups/{{group_name}}/students/delete/{{student_name}}/?confirm=True';">Delete
+                    from the Group</button>
             </span>
 
         </main>
     </div>
 </body>
+<!--script src="{%static 'page_manager_trigger_warn.js' %}"></script-->
 
 </html>
