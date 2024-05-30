@@ -521,6 +521,7 @@ def course_page_manager_delete(request,course_name,page_number):
     given_answers=models.StudentAnswerText.objects.filter(page=page_obj)
     return render(request,'backend/course_page_manager_delete.html',{'course_name':course_name,'page_obj':page_obj,'page_number':page_number,'n_answers':len(given_answers)})
 
+@login_required
 def course_create(request):
     #check if user can make courses
     try:
@@ -544,7 +545,19 @@ def course_create(request):
             course_obj.access=form.cleaned_data['access']
             course_obj.is_quiz=form.cleaned_data['quiz']
             course_obj.save()
-            return HttpResponseRedirect('/courses/'+form.cleaned_data['name']+'/edit/0/')
+            return HttpResponseRedirect('/courses/'+form.cleaned_data['name']+'/edit/0/?new=True')
     form=forms.CourseForm()
     return render(request,'backend/course_create.html',{'form':form})
+
+@login_required
+def course_delete(request,course_name):
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    confirmation=request.GET.get('confirm',False)
+    if confirmation:
+        course_obj.delete()
+        return HttpResponseRedirect('/courses/')
+    n_pages=len(models.CoursePage.objects.filter(parent=course_obj))
+    return render(request,'backend/course_delete.html',{'course_obj':course_obj,
+    'course_name':course_name,
+    'n_pages':n_pages})
     

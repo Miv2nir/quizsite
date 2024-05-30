@@ -47,10 +47,14 @@
                 <!--welcome-->
                 <div style="overflow: hidden;">
                     <h2>
-                        {{ course_name }}: General Information
+                        {{ course_name }}: Course Deletion
                     </h2>
                 </div>
             </span>
+            <span class="content center">
+                <h2>Are you sure you want to delete {{course_name}}?</h2>
+            </span>
+            <hr />
             <span class="content center">
                 <br />
                 <br />
@@ -60,60 +64,36 @@
                         <a class="course-text">{{ course_name }}</a>
                     </div>
                     <div class="user-link-spread">
-                        <p>Visibility: {{course_access}}</p>
+                        <p>Author: {{course_obj.author}}</p>
                         <p>Enrolled: 0</p>
                         <p>Number of pages: {{n_pages}}</p>
                     </div>
                 </div>
+            </span>
+            <hr />
+            <span class="content center">
+                <p>Deletion of this course will delete all of the data referenced to it, including but not limited to
+                </p>
+                <ul>
+                    <!--li>{{n_answers}} student answer{%if n_answers != 1 %}s{%endif%}</li-->
+                    <li>All given student answers</li>
+                    <li>{{n_pages}} page{%if n_pages != 1 %}s{%endif%}</li>
+                    <li>Answer Type Information and contents</li>
+                    <li>Metadata Information</li>
+                </ul>
 
-                <br />
             </span>
             <span class="content center row">
                 <button class="course-button"
-                    onclick="window.location.href='/courses/{{ course_name }}/edit/pages/';">Manage Pages</button>
-            </span>
-            <hr />
-            <h2>Edit Course Metadata</h2>
-            <!--course info form-->
-            <span class="content center">
-                <form action="/courses/{{course_name}}/edit/0/" method="post">
-                    {% csrf_token %}
-                    <div class="content center">
-                        <div>Course Name:</div>
-                        {{form.name}}
-                    </div>
-                    <div class="content center">
-                        <div>Course Description:</div>
-                        {{form.description}}
-                    </div>
-                    <div class="content center">
-                        <div>Course Access Level:</div>
-                        {{form.access}}
-                    </div>
-                    <br />
-                    <button class="course-button" type="submit" value="OK">Update</button>
-                </form>
-            </span>
-            <hr />
-            <span class="content center row room-for-navbar">
+                    onclick="window.location.href='/courses/{{course_name}}/edit/pages/';">Abort</button>
                 <button class="course-button secondary"
-                    onclick="window.location.href='/courses/{{ course_name }}/delete/';">Delete Course</button>
+                    onclick="window.location.href='/courses/{{course_name}}/delete/?confirm=True';">Delete
+                    Course</button>
             </span>
-            <!--bottom navbar-->
-            <span class="content center">
-                <div class="bottom-nav">
-                    <img class="img-nav-arrow-rotate" style="visibility: hidden;" src="{% static 'nav_arrow.png' %}" />
-                    <div class="img-nav-button">
-                        <img class="img-nav-box" src="{% static 'nav_box.png' %}" />
-                        <div class="img-nav-button-text">{{ page_number }}</div>
-                    </div>
-                    <img class="img-nav-arrow"
-                        onclick="window.location.href='/courses/{{ course_name }}/edit/{{page_next}}';"
-                        src="{% static 'nav_arrow.png' %}" />
-                </div>
-            </span>
+
         </main>
     </div>
 </body>
+<!--script src="{%static 'page_manager_trigger_warn.js' %}"></script-->
 
 </html>
