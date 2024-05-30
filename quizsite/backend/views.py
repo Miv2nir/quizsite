@@ -124,6 +124,15 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_t
             answer_type_obj.correct_choices=c_choices
         if a_text!="" or course_page_obj==form_answer_type:
             answer_type_obj.text=a_text
+        print(c_choices=="{}" , form_answer_type=='S' , a_choices!={})
+        if c_choices=="{}" and form_answer_type=='S' and a_choices!="{}": #if singular undefined correct response, set it to the first value
+            pos=list(json.loads(a_choices).keys())[0]
+            #print(json.loads(a_choices)['0'])
+            #print(list(json.loads(a_choices).keys())[0])
+            substitute_answer={pos:json.loads(a_choices)[str(pos)]}
+            print(json.dumps(substitute_answer))
+            answer_type_obj.correct_choices=json.dumps(substitute_answer)
+
     try:
         answer_type_obj.save()
     except AttributeError:
@@ -272,7 +281,10 @@ def course_browse(request,course_name,page_number):
 
     answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
     template_values['question_itself']=answer_type_obj.text #get question text
-    tuple_choices=tuple(json.loads(answer_type_obj.choices).items()) #apparently it's needed to be like that in forms
+    try:
+        tuple_choices=tuple(json.loads(answer_type_obj.choices).items()) #apparently it's needed to be like that in forms
+    except TypeError:
+        tuple_choices=tuple()
     if answer_type=='T': #answer_type is text
         #got the form
         if request.method=='POST':
@@ -490,8 +502,9 @@ def course_page_manager_delete(request,course_name,page_number):
     confirmation=request.GET.get('confirm',False)
     if confirmation: #delete everything and redirect
         #print(confirmation)
+        page_obj.save()
         page_obj.delete()
-        HttpResponseRedirect('/courses/'+course_name+'/edit/pages/')
+        return HttpResponseRedirect('/courses/'+course_name+'/edit/pages/')
     #TODO: implement file upload counting
     given_answers=models.StudentAnswerText.objects.filter(page=page_obj)
     return render (request,'backend/course_page_manager_delete.html',{'course_name':course_name,'page_obj':page_obj,'page_number':page_number,'n_answers':len(given_answers)})
