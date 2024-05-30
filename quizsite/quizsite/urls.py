@@ -48,5 +48,7 @@ urlpatterns = [
     path('courses/<slug:course_name>/edit/pages/delete/<int:page_number>/', views.course_page_manager_delete, name='course_page_manager_delete'),
     path('courses/<slug:course_name>/edit/<int:page_number>/', views.course_edit, name='course_edit'),
     path('groups/create/',views.group_create,name='group_create'),
+    path('groups/<slug:group_name>/',views.group_redir,name='group_redir'),
+    path('groups/<slug:group_name>/edit/',views.group_edit,name='group_edit'),
     path('logout/', views.logout_user, name='logout')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -93,6 +93,9 @@ class StudentAnswerText(StudentAnswer):
 class UserPerms(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,null=True)
     is_teacher=models.BooleanField(default=False) #can create courses, groups
+    is_manager=models.BooleanField(default=False)
+    def __str__(self):
+        return self.user.username+'\'s permissions'
     
 class UserGroups(models.Model):
     name=models.CharField(max_length=100)
@@ -100,6 +103,7 @@ class UserGroups(models.Model):
 
     def __str__(self):
         return self.name+' group of '+self.teacher.username
+
 class GroupEnrollment(models.Model):
     student=models.ForeignKey(User,on_delete=models.CASCADE)
     group=models.OneToOneField(UserGroups,on_delete=models.CASCADE)

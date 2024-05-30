@@ -560,7 +560,7 @@ def course_delete(request,course_name):
     return render(request,'backend/course_delete.html',{'course_obj':course_obj,
     'course_name':course_name,
     'n_pages':n_pages})
-    
+
 @login_required
 def group_create(request):
     #permissions check
@@ -586,4 +586,29 @@ def group_create(request):
     form=forms.UserGroupsForm()
     return render(request,'backend/group_create.html',{'form':form})
 
+@login_required
+def group_redir(request,group_name):
+    return HttpResponseRedirect('/groups/'+group_name+'/edit/')
+
+@login_required
+def group_edit(request,group_name):
+    #permissions check
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    if group_obj.teacher!=request.user:
+        raise PermissionDenied
+    #can access the creation util
+    if request.method=='POST':
+        form=forms.UserGroupsForm(request.POST)
+        if form.is_valid():
+            group_obj=models.UserGroups(teacher=request.user)
+            try:
+                lookup=models.UserGroups.objects.filter(name=form.cleaned_data['name'])[0]
+                return HttpResponseRedirect('/groups/create/?name_collision=True')
+            except IndexError:
+                pass
+            group_obj.name=form.cleaned_data['name']
+            group_obj.save()
+            return HttpResponseRedirect('/groups/'+form.cleaned_data['name']+'/?new=True')
+    form=forms.UserGroupsForm(initial={'name':group_name})
+    return render(request,'backend/group_edit.html',{'form':form,'group_name':group_name})
     
