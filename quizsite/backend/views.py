@@ -561,3 +561,29 @@ def course_delete(request,course_name):
     'course_name':course_name,
     'n_pages':n_pages})
     
+@login_required
+def group_create(request):
+    #permissions check
+    try:
+        lookup_perms=models.UserPerms.objects.filter(user=request.user)[0]
+    except IndexError:
+        lookup_perms=models.UserPerms(user=request.user,is_teacher=False)
+    if not lookup_perms.is_teacher:
+        raise PermissionDenied
+    #can access the creation util
+    if request.method=='POST':
+        form=forms.UserGroupsForm(request.POST)
+        if form.is_valid():
+            group_obj=models.UserGroups(teacher=request.user)
+            try:
+                lookup=models.UserGroups.objects.filter(name=form.cleaned_data['name'])[0]
+                return HttpResponseRedirect('/groups/create/?name_collision=True')
+            except IndexError:
+                pass
+            group_obj.name=form.cleaned_data['name']
+            group_obj.save()
+            return HttpResponseRedirect('/groups/'+form.cleaned_data['name']+'/?new=True')
+    form=forms.UserGroupsForm()
+    return render(request,'backend/group_create.html',{'form':form})
+
+    

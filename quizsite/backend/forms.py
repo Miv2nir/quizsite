@@ -73,3 +73,6 @@ class UserResponseSingular(forms.Form):
 
 class UserResponseMultiple(forms.Form):
     user_response=forms.MultipleChoiceField(label='Select all correct answers below:',widget=forms.CheckboxSelectMultiple(),required=False)
+
+class UserGroupsForm(forms.Form):
+    name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))

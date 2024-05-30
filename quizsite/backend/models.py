@@ -94,4 +94,16 @@ class UserPerms(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,null=True)
     is_teacher=models.BooleanField(default=False) #can create courses, groups
     
+class UserGroups(models.Model):
+    name=models.CharField(max_length=100)
+    teacher=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+
+    def __str__(self):
+        return self.name+' group of '+self.teacher.username
+class GroupEnrollment(models.Model):
+    student=models.ForeignKey(User,on_delete=models.CASCADE)
+    group=models.OneToOneField(UserGroups,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.student+' in '+self.group.name
 
