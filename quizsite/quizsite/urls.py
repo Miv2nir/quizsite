@@ -43,6 +43,7 @@ urlpatterns = [
     path('courses/<slug:course_name>/browse/<int:page_number>/', views.course_browse, name='course_browse'),
     path('courses/<slug:course_name>/edit/', views.course_edit_redir, name='course_edit_redir'),
     path('courses/<slug:course_name>/edit/pages/', views.course_page_manager, name='course_page_manager'),
+    path('courses/<slug:course_name>/edit/pages/delete/<int:page_number>/', views.course_page_manager_delete, name='course_page_manager_delete'),
     path('courses/<slug:course_name>/edit/<int:page_number>/', views.course_edit, name='course_edit'),
     path('logout/', views.logout_user, name='logout')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

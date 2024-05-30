@@ -47,30 +47,43 @@
                 <!--welcome-->
                 <div style="overflow: hidden;">
                     <h2>
-                        {{ course_name }}: Page Manager
+                        {{ course_name }}: Page Deletion
                     </h2>
                 </div>
             </span>
             <span class="content center">
-                <p>This course contains {{n_pages}} page{%if n_pages != 1 %}s{%endif%}.</p>
-                <button class="course-button secondary"
-                    onclick="window.location.href='/courses/{{course_name}}/edit/'">Return to the editor</button>
+                <h2>Are you sure you want to delete {{page_obj.title}}?</h2>
             </span>
             <hr />
             <span class="content center">
-                {%for i in pages%}
                 <div class="content center row">
-                    <div>{{i.number}}</div>
+                    <div>{{page_obj.number}}</div>
                     <div>|</div>
-                    <div>{{i.title}}</div>
+                    <div>{{page_obj.title}}</div>
                     <div>|</div>
-                    <div>{{i.get_answer_type_display}}</div>
-                    <div>|</div>
-                    <button type="button" value="{{i.number}}" class="list-delete-button"
-                        onclick="window.location.href='/courses/{{course_name}}/edit/pages/delete/{{i.number}}/'">-</button>
+                    <div>{{page_obj.get_answer_type_display}}</div>
                 </div>
-                {%endfor%}
             </span>
+            <hr />
+            <span class="content center">
+                <p>Deletion of this page will cause all of the submitted answers related to it to be deleted as well, as
+                    well as all of the inputted data to it, including but not limited to:</p>
+                <ul>
+                    <li>{{n_answers}} student answer{%if n_answers != 1 %}s{%endif%}</li>
+                    <li>Page text</li>
+                    <li>Answer Type Information and contents</li>
+                </ul>
+                <p>Other pages will move back to fill the missing space accordingly.</p>
+
+            </span>
+            <span class="content center row">
+                <button class="course-button"
+                    onclick="window.location.href='/courses/{{course_name}}/edit/pages/';">Abort</button>
+                <button class="course-button secondary"
+                    onclick="window.location.href='/courses/{{course_name}}/edit/pages/delete/{{page_number}}/?confirm=True';">Delete
+                    Page</button>
+            </span>
+
         </main>
     </div>
 </body>
