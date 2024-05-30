@@ -117,4 +117,4 @@ class GroupAssignments(models.Model):
     deadline=models.DateTimeField(null=True,default=None)
 
     def __str__(self):
-        return self.course.name+' in '+self.group.name
+        return self.course.name+' in '+self.group

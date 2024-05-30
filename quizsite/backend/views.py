@@ -704,6 +704,8 @@ def group_assignments_item(request,group_name,course_name):
         n_answers+=len(models.StudentAnswerText.objects.filter(page=i))
         #construct a list of all users who posted answers
         for j in models.StudentAnswerText.objects.filter(page=i):
-            print()
+            participants.add(j.user)
+    print(participants)
     return render(request,'backend/group_assignments_item.html',{'group_name':group_name,
-    'course_name':course_name,'n_answers':n_answers,'n_pages':n_pages,'course_obj':course_obj})
+    'course_name':course_name,'n_answers':n_answers,'n_pages':n_pages,'course_obj':course_obj,
+    'participants':participants})

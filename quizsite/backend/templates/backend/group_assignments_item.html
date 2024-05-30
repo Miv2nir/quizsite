@@ -61,11 +61,21 @@
           </div>
         </div>
       </span>
-      <span class="content center row">
-      </span>
+
       <hr>
       </hr>
       <h2>List of participants</h2>
+      <span class="grid smaller">
+        {%for i in participants%}
+        <div class="grid-item" style="border: none;">{{i}}</div>
+        <div class="grid-item end">
+          <button type="button" value="{{i.number}}" class="course-button"
+            onclick="window.location.href='/groups/{{group_name}}/assignments/{{course_name}}/{{i}}/'">See
+            Details</button>
+        </div>
+        {%endfor%}
+      </span>
+      </span>
     </main>
 
   </div>
