@@ -57,7 +57,9 @@
             <hr />
             <span class="content center">
                 {%for i in keys_list%}
-                <p>Question {{i}}: {{question_texts|get_item:i}}</p>
+                <h2>Question {{i}}: {{question_texts|get_item:i}}</h2>
+                <p>{{student_name}}:{{user_answers|get_item:i}}</p>
+                <p>Correct Answers:{{correct_answers|get_item:i}}</p>
                 {%endfor%}
             </span>
         </main>
