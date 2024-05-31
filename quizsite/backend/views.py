@@ -1,6 +1,6 @@
 import json 
 
-from django.template.defaulttags import register
+
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -738,6 +738,3 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     'user_answers':user_answers,'correct_answers':correct_answers,'answer_types':answer_types,
     'keys_list':user_answers.keys(),'question_texts':question_texts})
 #https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
-@register.filter #django template filter TODO: move it out elsewhere
-def get_item(dictionary,key):
-    return dictionary.get(key)
