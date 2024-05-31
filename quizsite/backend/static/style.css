@@ -500,3 +500,9 @@ main {
     font-size: 1rem;
     width: 1.5rem;
 }
+
+.spread-evenly {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

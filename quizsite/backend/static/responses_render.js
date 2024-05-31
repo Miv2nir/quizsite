@@ -23,6 +23,10 @@ for (var i = 1; i <= n_pages; i++) {
     var answer_text = spans[0];
     var answer_type = spans[1];
     if (answer_type.innerHTML == 'T') {
+        console.log(responses.getElementsByClassName('hide-if-t').length);
+        for (var a = 0; a < responses.getElementsByClassName('hide-if-t').length; a++) {
+            responses.getElementsByClassName('hide-if-t')[a].style.display = 'None';
+        }
         continue;
     }
     var student_answer = spans[2];
@@ -56,6 +60,7 @@ for (var i = 1; i <= n_pages; i++) {
         //manually append answer text where it needs to go
         var answer_html = document.createElement('div');
         answer_html.innerHTML = JSON.parse(answer_text.innerHTML)[k[j]];
+        answer_html.style.height = '1.5rem';
         target_text.appendChild(answer_html);
         render_list_item(k[j], found, html_text_template, target_student);
         render_list_item(k[j], JSON.parse(correct_answer.innerHTML)[k[j]], html_text_template, target_correct);
