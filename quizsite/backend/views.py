@@ -1,5 +1,7 @@
 import json 
 
+from django.template.defaulttags import register
+
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
@@ -709,3 +711,33 @@ def group_assignments_item(request,group_name,course_name):
     return render(request,'backend/group_assignments_item.html',{'group_name':group_name,
     'course_name':course_name,'n_answers':n_answers,'n_pages':n_pages,'course_obj':course_obj,
     'participants':participants})
+
+#we've finally arrived
+@login_required
+def group_assignments_user_results(request,group_name,course_name,student_name):
+    #get the objects
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    user_obj=models.User.objects.filter(username=student_name)[0]
+    #get all of user's responses to course pages
+    user_answers={}
+    correct_answers={}
+    answer_types={}
+    question_texts={}
+    for i in models.CoursePage.objects.filter(parent=course_obj):
+        user_answers[i.number]=models.StudentAnswerText.objects.filter(page=i)[0].response
+        correct_answers[i.number]=models.PageAnswerText.objects.filter(page=i)[0].correct_choices
+        answer_types[i.number]=i.answer_type
+        question_texts[i.number]=models.PageAnswerText.objects.filter(page=i)[0].text
+    print(user_answers)
+    print(correct_answers)
+    print(answer_types)
+
+    return render(request,'backend/group_assignments_user_results.html',{'group_name':group_name,
+    'course_name':course_name,'student_name':student_name,
+    'user_answers':user_answers,'correct_answers':correct_answers,'answer_types':answer_types,
+    'keys_list':user_answers.keys(),'question_texts':question_texts})
+#https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
+@register.filter #django template filter TODO: move it out elsewhere
+def get_item(dictionary,key):
+    return dictionary.get(key)
