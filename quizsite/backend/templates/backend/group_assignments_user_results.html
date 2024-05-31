@@ -59,10 +59,12 @@
             {%for i in keys_list%}
             <span class="content center" id="response_{{i}}">
                 <h2>Question {{i}}: {{question_texts|get_item:i}}</h2>
-                <p>Answer Texts: <span>{{answer_texts|get_item:i}}</span></p>
-                <p>Answer Type: <span>{{answer_types|get_item:i}}</span></p>
+                <p style="display: none;">Answer Texts:
+                    <span>{{answer_texts|get_item:i}}</span>
+                </p>
+                <p style="display: none;">Answer Type: <span>{{answer_types|get_item:i}}</span></p>
                 <p>{{student_name}}: <span>{{user_answers|get_item:i}}</span></p>
-                <p>Correct Answers:
+                <p style="display: none;">Correct Answers:
                     <span>{{correct_answers|get_item:i}}</span>
                 </p>
                 <div class="content row">

@@ -27,6 +27,9 @@ for (var i = 1; i <= n_pages; i++) {
     }
     var student_answer = spans[2];
     var correct_answer = spans[3];
+    for (var a = 0; a < responses.getElementsByTagName('p').length; a++) {
+        responses.getElementsByTagName('p')[a].style.display = 'None';
+    }
     //console.log(answer_text);
     var choices = JSON.parse(student_answer.innerHTML);
     var correct_choices = JSON.parse(correct_answer.innerHTML);
