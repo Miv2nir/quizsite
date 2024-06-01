@@ -277,6 +277,7 @@ def course_browse(request,course_name,page_number):
     'page_previous':page_previous,
     'page_next':page_next,
     'next_exists':next_exists,
+    'is_quiz':course_obj.is_quiz,
     'first_page':page_number==1}
 
     if answer_type=='N': #no answer, proceed with the serving
@@ -402,6 +403,7 @@ def course_edit(request,course_name,page_number=0):
             course_obj.name=form.cleaned_data['name']
             course_obj.description=form.cleaned_data['description']
             course_obj.access=form.cleaned_data['access']
+            course_page_obj.is_quiz=form.cleaned_data['quiz']
             course_obj.save()
             return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0/')
 
@@ -414,6 +416,7 @@ def course_edit(request,course_name,page_number=0):
         'page_previous':page_previous,
         'page_next':page_next,
         'n_pages':pages,
+        'is_quiz':course_obj.is_quiz,
         'course_access':course_obj.get_access_display()})
 
     #content pages
@@ -441,6 +444,7 @@ def course_edit(request,course_name,page_number=0):
         
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
+        
         #time to handle the answer type model
         #choices={0:'Choice 1',1:'Choice 2',2:'Choice 3'} #get as json from client somehow
         choices=form.cleaned_data['choices']
@@ -488,6 +492,7 @@ def course_edit(request,course_name,page_number=0):
     'page_next':page_next,
     'option_type':course_page_obj.answer_type,
     'question_presence':course_page_obj.answer_type!='N',
+    'is_quiz':course_obj.is_quiz,
     'choice_type':course_page_obj.answer_type in ['S','M']})
     
 @login_required
@@ -729,7 +734,10 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     for i in models.CoursePage.objects.filter(parent=course_obj):
         #user_answer=models.StudentAnswerText.objects.filter(page=i)[0].response
         answer_types[i.number]=i.answer_type
-        user_answers[i.number]=models.StudentAnswerText.objects.filter(page=i,user=user_obj)[0].response.replace("'",'"')
+        try:
+            user_answers[i.number]=models.StudentAnswerText.objects.filter(page=i,user=user_obj)[0].response.replace("'",'"')
+        except IndexError: #must be a null
+            user_answers[i.number]="[]"
         if answer_types[i.number]=='S':
             user_answers[i.number]='["'+user_answers[i.number]+'"]'
         correct_answers[i.number]=models.PageAnswerText.objects.filter(page=i)[0].correct_choices

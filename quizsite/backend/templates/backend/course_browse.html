@@ -104,5 +104,9 @@
 <script src="https://cdn.jsdelivr.net/npm/showdown@2.0.4/dist/showdown.min.js"></script>
 <script src="{% static 'mdread.js' %}"></script>
 <script src="{% static 'browse_checkbox_reshaper.js' %}"></script>
+{%if is_quiz%}
+<div style="display: none;" id="page_next_number">{{page_next}}</div>
+<script src="{% static 'quiz_timer.js' %}"></script>
+{%endif%}
 
 </html>

@@ -22,6 +22,7 @@ class CoursePage(models.Model):
     number=models.IntegerField()
     title=models.TextField(default='')
     text=models.TextField(default='')
+    is_quiz=models.BooleanField(default=False)
     #has_answer=models.BooleanField(default=False)
 
     ANSWER_TYPE = (
