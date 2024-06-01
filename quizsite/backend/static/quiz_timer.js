@@ -26,6 +26,7 @@ function countdown() {
 
 };
 
+
 /*function form_submit_flag() {
     localStorage.setItem('form_submitted', true);
 }
