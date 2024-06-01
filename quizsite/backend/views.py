@@ -244,6 +244,14 @@ def course_item(request,course_name):
 def course_browse_redir(request,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
 
+def handle_quiz_redir(course_obj,page_number,page_next,course_name):
+    print('course_obj.is_quiz',course_obj.is_quiz)
+    if course_obj.is_quiz:
+        if page_number == page_next: #end of the quiz
+            return HttpResponseRedirect('/courses/'+course_name+'/')
+        return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_next)+'/')
+    return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
+
 @login_required
 def course_browse(request,course_name,page_number):
     
@@ -302,7 +310,7 @@ def course_browse(request,course_name,page_number):
                     user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
                 user_response_obj.response=form.cleaned_data['user_response']
                 user_response_obj.save()
-            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
+            return handle_quiz_redir(course_obj,page_number,page_next,course_name)
         #request is a get
         form=forms.UserResponseText()
         try: #grab existing response and serve in a form
@@ -329,7 +337,7 @@ def course_browse(request,course_name,page_number):
                     user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
                 user_response_obj.response=form.cleaned_data['user_response']
                 user_response_obj.save()
-            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
+            return handle_quiz_redir(course_obj,page_number,page_next,course_name)
         form=forms.UserResponseSingular()
         form.fields['user_response'].choices=tuple(tuple_choices)
         print(form.fields['user_response'].choices)
@@ -362,7 +370,7 @@ def course_browse(request,course_name,page_number):
                     user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
                 user_response_obj.response=form.cleaned_data['user_response']
                 user_response_obj.save()
-            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
+            return handle_quiz_redir(course_obj,page_number,page_next,course_name)
         form=forms.UserResponseMultiple()
         print(tuple(tuple_choices))
         form.fields['user_response'].choices=tuple(tuple_choices)
