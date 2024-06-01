@@ -60,6 +60,7 @@
                     <h2>
                         {{ course_name }}: {{page_title}}
                     </h2>
+                    <h3 style="display: none;" id="timer">Time left: </h3>
                 </div>
             </span>
             <span class="content center">
@@ -107,6 +108,8 @@
 {%if is_quiz%}
 <div style="display: none;" id="page_next_number">{{page_next}}</div>
 <div style="display: none;" id="current_page_number">{{page_number}}</div>
+<div style="display: none;" id="current_page_number">{{wait_time}}</div>
+<div style="display: none;" id="current_course_name">{{course_name}}</div>
 <script src="{% static 'quiz_timer.js' %}"></script>
 {%endif%}
 
