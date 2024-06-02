@@ -34,6 +34,8 @@ class CoursePage(models.Model):
     )
     answer_type=models.CharField(max_length=1,choices=ANSWER_TYPE,default='N')
 
+    time=models.IntegerField(default=15,null=True)
+
     def __str__(self):
         return 'Page '+str(self.number)+' of '+self.parent.name
 
@@ -55,7 +57,9 @@ class PageAnswerText(CoursePageAnswer):
     is_multiple=models.BooleanField(default=False)
     choices=models.JSONField(default=dict,blank=True)
     correct_choices=models.JSONField(default=dict,blank=True)
-
+    # grading
+    correct_grade=models.IntegerField(default=0)
+    incorrect_penalty=models.IntegerField(default=0)
 
 #this simply didn't work :(
 '''
@@ -119,3 +123,11 @@ class GroupAssignments(models.Model):
 
     def __str__(self):
         return self.course.name+' in '+self.group
+
+class CurrentPageControl(models.Model):
+    page=models.ForeignKey(CoursePage,on_delete=models.CASCADE)
+    student=models.ForeignKey(User,on_delete=models.CASCADE)
+
+class Notifications(models.Model):
+    group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
+    text=models.TextField(default='')
