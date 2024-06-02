@@ -94,6 +94,10 @@ class StudentAnswerText(StudentAnswer):
     response=models.TextField(default='',blank=True)
     def __str__(self):
         return 'Answer of '+str(self.user)+' for '+str(self.page)
+class StudentAnswerFile(StudentAnswer):
+    response=models.FileField(default=None)
+    def __str__(self):
+        return 'File Answer of '+str(self.user)+' for '+str(self.page)
 
 class UserPerms(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE,null=True)
