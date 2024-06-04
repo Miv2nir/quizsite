@@ -468,6 +468,10 @@ main {
     width: 100%;
 }
 
+.grid.small {
+    grid-template-columns: 4fr 4fr 4fr;
+}
+
 .grid.smaller {
     grid-template-columns: 4fr 4fr;
 }

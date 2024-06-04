@@ -764,3 +764,11 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     'keys_list':user_answers.keys(),'question_texts':question_texts,'n_pages':n_pages,
     'answer_texts':answer_texts})
 #https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
+
+def group_browse(request):
+    group_lookup=models.UserGroups.objects.filter(teacher=request.user)
+    #get the amount of added students
+    student_count={}
+    for i in group_lookup:
+        student_count[i]=len(models.GroupEnrollment.objects.filter(group=i))
+    return render(request,'backend/group_browse.html',{'group_lookup':group_lookup,'student_count':student_count})
