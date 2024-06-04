@@ -62,7 +62,8 @@
             <span class="content center">
                 <span class="grid smaller">
                     {%for i in assignments_list%}
-                    <div class="grid-item" style="border:none;">{{i.course}}</div>
+                    <a class="grid-item" href="/groups/{{group_name}}/assignments/{{i.course}}/"
+                        style="border:none; display: block;">{{i.course}}</a>
                     <div class="grid-item end">
                         <button type="button" value="{{i.number}}" class="list-delete-button grid head"
                             onclick="window.location.href='/groups/{{group_name}}/assignments/delete/{{i.course}}/'">
