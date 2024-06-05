@@ -666,7 +666,7 @@ def group_students_delete(request,group_name,student_name):
     confirmation=request.GET.get('confirm',False)
     if confirmation:
         enrollment_obj.delete()
-        return HttpResponseRedirect('/groups/'+group_name+'/assignments/')
+        return HttpResponseRedirect('/groups/'+group_name+'/students/')
     return render(request,'backend/group_student_delete.html',{'group_name':group_name,'student_name':student_name})
 
 @login_required
@@ -764,7 +764,7 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     'keys_list':user_answers.keys(),'question_texts':question_texts,'n_pages':n_pages,
     'answer_texts':answer_texts})
 #https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
-
+@login_required
 def group_browse(request):
     group_lookup=models.UserGroups.objects.filter(teacher=request.user)
     #get the amount of added students
@@ -772,3 +772,19 @@ def group_browse(request):
     for i in group_lookup:
         student_count[i]=len(models.GroupEnrollment.objects.filter(group=i))
     return render(request,'backend/group_browse.html',{'group_lookup':group_lookup,'student_count':student_count})
+
+@login_required
+def group_delete(request,group_name):
+    group_obj=models.UserGroups.objects.filter(name=group_name,teacher=request.user)[0]
+
+    #if we're actually deleting the thing
+    confirmation=request.GET.get('confirm',False)
+    if confirmation: #delete everything and redirect
+        #print(confirmation)
+        group_obj.save()
+        group_obj.delete()
+        return HttpResponseRedirect('/groups/')
+    n_assignments=len(models.GroupAssignments.objects.filter(group=group_obj))
+    n_students=len(models.GroupEnrollment.objects.filter(group=group_obj))
+    return render(request,'backend/group_delete.html',{'group_name':group_name,
+    'n_assignments':n_assignments,'n_students':n_students})
