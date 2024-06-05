@@ -50,7 +50,7 @@
                     <h2>
                         My Groups
                     </h2>
-                    <p onclick="window.location.href='/groups/{{group_name}}/';" class="link-text">
+                    <p onclick="window.location.href='/';" class="link-text">
                         Back</p>
                 </div>
             </span>
@@ -62,6 +62,11 @@
             <hr />
             <span class="content center">
                 <span class="grid small">
+                    <a class="grid-item smaller-head" style=" display: block;">Group name</a>
+                    <div class="grid-item smaller-head">Student Count</div>
+                    <div class="grid-item smaller-head">
+                        Group Deletion
+                    </div>
                     {%for i in group_lookup%}
                     <a class="grid-item" href="/groups/{{i.name}}/" style="border:none; display: block;">{{i.name}}</a>
                     <div class="grid-item" style="border:none;">{{student_count|get_item:i}}</div>

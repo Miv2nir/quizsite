@@ -492,6 +492,13 @@ main {
     border-width: 0.1rem;
 }
 
+.grid-item.smaller-head {
+    border-right: none;
+    border-bottom: inset;
+    border-width: 1px;
+
+}
+
 .grid-item.end {
     display: flex;
     border-right: none;
