@@ -118,6 +118,7 @@ def course_item(request,course_name):
 def course_browse_redir(request,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
 
+#utility function i forgot about
 def handle_quiz_redir(course_obj,page_number,page_next,course_name):
     print('course_obj.is_quiz',course_obj.is_quiz)
     if course_obj.is_quiz:
@@ -127,6 +128,7 @@ def handle_quiz_redir(course_obj,page_number,page_next,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
 
 @login_required
+
 def course_browse(request,course_name,page_number):
     
     #get the course object & page
@@ -269,6 +271,7 @@ def course_edit_redir(request,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/edit/0')
 
 @login_required
+@perm_groups_check
 def course_edit(request,course_name,page_number=0):
     #metadata page (does not really exist but is a way to fit some general info of the course here)
     page_previous=max(0,page_number-1)
@@ -378,12 +381,14 @@ def course_edit(request,course_name,page_number=0):
     'choice_type':course_page_obj.answer_type in ['S','M']})
     
 @login_required
+@perm_groups_check
 def course_page_manager(request,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     pages=models.CoursePage.objects.filter(parent=course_obj)
     n_pages=len(pages)
     return render (request,'backend/course_page_manager.html',{'course_name':course_name,"n_pages":n_pages,'pages':pages})
 
+#utility function
 def move_back_pages(page_number,course_obj):
     lookup=models.CoursePage.objects.filter(parent=course_obj)
     for i in lookup:
@@ -395,6 +400,7 @@ def move_back_pages(page_number,course_obj):
             print(i.number)
 
 @login_required
+@perm_groups_check
 def course_page_manager_delete(request,course_name,page_number):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
@@ -411,14 +417,8 @@ def course_page_manager_delete(request,course_name,page_number):
     return render(request,'backend/course_page_manager_delete.html',{'course_name':course_name,'page_obj':page_obj,'page_number':page_number,'n_answers':len(given_answers)})
 
 @login_required
+@perm_groups_check
 def course_create(request):
-    #check if user can make courses
-    try:
-        lookup_perms=models.UserPerms.objects.filter(user=request.user)[0]
-    except IndexError:
-        lookup_perms=models.UserPerms(user=request.user,is_teacher=False)
-    if not lookup_perms.is_teacher:
-        raise PermissionDenied
     #can access the creation util
     if request.method=='POST':
         form=forms.CourseForm(request.POST)
@@ -439,6 +439,7 @@ def course_create(request):
     return render(request,'backend/course_create.html',{'form':form})
 
 @login_required
+@perm_groups_check
 def course_delete(request,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     confirmation=request.GET.get('confirm',False)
@@ -451,14 +452,8 @@ def course_delete(request,course_name):
     'n_pages':n_pages})
 
 @login_required
+@perm_groups_check
 def group_create(request):
-    #permissions check
-    try:
-        lookup_perms=models.UserPerms.objects.filter(user=request.user)[0]
-    except IndexError:
-        lookup_perms=models.UserPerms(user=request.user,is_teacher=False)
-    if not lookup_perms.is_teacher:
-        raise PermissionDenied
     #can access the creation util
     if request.method=='POST':
         form=forms.UserGroupsForm(request.POST)
@@ -480,6 +475,7 @@ def group_redir(request,group_name):
     return HttpResponseRedirect('/groups/'+group_name+'/edit/')
 
 @login_required
+@perm_groups_check
 def group_edit(request,group_name):
     #permissions check
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
@@ -502,6 +498,7 @@ def group_edit(request,group_name):
     return render(request,'backend/group_edit.html',{'form':form,'group_name':group_name})
     
 @login_required
+@perm_groups_check
 def group_students(request,group_name):
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
     if group_obj.teacher!=request.user:
@@ -533,6 +530,7 @@ def group_students_delete_redir(request,group_name):
     return HttpResponseRedirect('/groups/'+group_name+'/students/')
 
 @login_required
+@perm_groups_check
 def group_students_delete(request,group_name,student_name):
     user_obj=models.User.objects.filter(username=student_name)[0]
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
@@ -544,6 +542,7 @@ def group_students_delete(request,group_name,student_name):
     return render(request,'backend/group_student_delete.html',{'group_name':group_name,'student_name':student_name})
 
 @login_required
+@perm_groups_check
 def group_assignments(request,group_name):
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
     if group_obj.teacher!=request.user:
@@ -572,6 +571,7 @@ def group_assignments_delete_redir(request,group_name):
     return HttpResponseRedirect('/groups/'+group_name+'/assignments/')
 
 @login_required
+@perm_groups_check
 def group_assignments_delete(request,group_name,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
@@ -583,6 +583,7 @@ def group_assignments_delete(request,group_name,course_name):
     return render(request,'backend/group_assignments_delete.html',{'group_name':group_name,'course_name':course_name})
 
 @login_required
+@perm_groups_check
 def group_assignments_item(request,group_name,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
@@ -601,6 +602,7 @@ def group_assignments_item(request,group_name,course_name):
 
 #we've finally arrived
 @login_required
+@perm_groups_check
 def group_assignments_user_results(request,group_name,course_name,student_name):
     #get the objects
     course_obj=models.Course.objects.filter(name=course_name)[0]
@@ -639,6 +641,7 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     'answer_texts':answer_texts})
 #https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
 @login_required
+@perm_groups_check
 def group_browse(request):
     group_lookup=models.UserGroups.objects.filter(teacher=request.user)
     #get the amount of added students
@@ -648,6 +651,7 @@ def group_browse(request):
     return render(request,'backend/group_browse.html',{'group_lookup':group_lookup,'student_count':student_count})
 
 @login_required
+@perm_groups_check
 def group_delete(request,group_name):
     group_obj=models.UserGroups.objects.filter(name=group_name,teacher=request.user)[0]
 

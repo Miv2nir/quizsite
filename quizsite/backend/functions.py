@@ -140,3 +140,24 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_t
     except AttributeError:
         pass
     return answer_type_obj
+
+#decorator for permissions check
+def perm_groups_check(view_func):
+    def wrapped(request,*args,**kwargs):
+        print('hello from a decorator!')
+        try:
+            lookup_perms=models.UserPerms.objects.filter(user=request.user)[0]
+        except IndexError:
+            lookup_perms=models.UserPerms(user=request.user,is_teacher=False)
+        if not lookup_perms.is_teacher:
+            raise PermissionDenied
+        return view_func(request,*args,**kwargs)
+    return wrapped
+    '''
+    try:
+        lookup_perms=models.UserPerms.objects.filter(user=request.user)[0]
+    except IndexError:
+        lookup_perms=models.UserPerms(user=request.user,is_teacher=False)
+    if not lookup_perms.is_teacher:
+        raise PermissionDenied
+    '''
