@@ -141,6 +141,18 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_t
         pass
     return answer_type_obj
 
+#utility function
+def move_back_pages(page_number,course_obj):
+    lookup=models.CoursePage.objects.filter(parent=course_obj)
+    for i in lookup:
+        if i.number>=page_number:
+            i.number-=1
+            i.save()
+            print(i.number-1)
+        else:
+            print(i.number)
+
+
 #decorator for permissions check
 def perm_groups_check(view_func):
     def wrapped(request,*args,**kwargs):

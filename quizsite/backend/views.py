@@ -118,7 +118,7 @@ def course_item(request,course_name):
 def course_browse_redir(request,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
 
-#utility function i forgot about
+@login_required
 def handle_quiz_redir(course_obj,page_number,page_next,course_name):
     print('course_obj.is_quiz',course_obj.is_quiz)
     if course_obj.is_quiz:
@@ -128,7 +128,6 @@ def handle_quiz_redir(course_obj,page_number,page_next,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
 
 @login_required
-
 def course_browse(request,course_name,page_number):
     
     #get the course object & page
@@ -388,16 +387,6 @@ def course_page_manager(request,course_name):
     n_pages=len(pages)
     return render (request,'backend/course_page_manager.html',{'course_name':course_name,"n_pages":n_pages,'pages':pages})
 
-#utility function
-def move_back_pages(page_number,course_obj):
-    lookup=models.CoursePage.objects.filter(parent=course_obj)
-    for i in lookup:
-        if i.number>=page_number:
-            i.number-=1
-            i.save()
-            print(i.number-1)
-        else:
-            print(i.number)
 
 @login_required
 @perm_groups_check
