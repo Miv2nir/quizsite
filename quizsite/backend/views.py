@@ -118,14 +118,6 @@ def course_item(request,course_name):
 def course_browse_redir(request,course_name):
     return HttpResponseRedirect('/courses/'+course_name+'/browse/1')
 
-@login_required
-def handle_quiz_redir(course_obj,page_number,page_next,course_name):
-    print('course_obj.is_quiz',course_obj.is_quiz)
-    if course_obj.is_quiz:
-        if page_number == page_next: #end of the quiz
-            return HttpResponseRedirect('/courses/'+course_name+'/')
-        return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_next)+'/')
-    return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
 
 @login_required
 def course_browse(request,course_name,page_number):
@@ -151,7 +143,7 @@ def course_browse(request,course_name,page_number):
         page_previous=page_number-1
 
     answer_type=course_page_obj.answer_type
-    #1. No answer needed
+
     template_values={'username':request.user,
     'course_name':course_name,
     'page_title':page_title,
@@ -160,7 +152,7 @@ def course_browse(request,course_name,page_number):
     'page_previous':page_previous,
     'page_next':page_next,
     'next_exists':next_exists,
-    'is_quiz':course_obj.is_quiz,
+    'is_quiz':course_obj.is_quiz, 'quiz_time':course_page_obj.time,
     'first_page':page_number==1}
 
     if answer_type=='N': #no answer, proceed with the serving

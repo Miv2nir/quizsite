@@ -31,7 +31,8 @@ function countdown() {
     localStorage.setItem('form_submitted', true);
 }
 */
-var wait = 15;
+var wait = parseInt(document.getElementById('quiz_time').innerHTML);
+
 
 //localStorage.setItem('form_submitted', false);
 
