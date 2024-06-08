@@ -3,6 +3,7 @@
 
 <head>
     {% load static %}
+    {% load filters %}
     <link rel="stylesheet" href="{% static 'style.css' %}" />
     <!-- font import -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -36,10 +37,11 @@
                     <div class="sidebar-text" onclick="window.location.href='/courses/'">Course Search</div>
 
                 </li>
+                {%if user|check_teacher%}
                 <li class="sidebar-element">
-                    <div class="sidebar-text">Enrolled Courses</div>
-
+                    <div onclick="window.location.href='/groups/'" class="sidebar-text">Student Groups</div>
                 </li>
+                {%endif%}
             </ul>
         </nav>
         <main>
