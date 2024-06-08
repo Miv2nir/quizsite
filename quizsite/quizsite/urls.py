@@ -43,6 +43,7 @@ urlpatterns = [
     path('courses/<slug:course_name>/delete/', views.course_delete, name='course_delete'),
     path('courses/<slug:course_name>/browse/', views.course_browse_redir, name='course_browse_redir'),
     path('courses/<slug:course_name>/browse/<int:page_number>/', views.course_browse, name='course_browse'),
+    path('courses/<slug:course_name>/browse/end/', views.course_browse_end, name='course_browse_end'),
     path('courses/<slug:course_name>/edit/', views.course_edit_redir, name='course_edit_redir'),
     path('courses/<slug:course_name>/edit/pages/', views.course_page_manager, name='course_page_manager'),
     path('courses/<slug:course_name>/edit/pages/delete/<int:page_number>/', views.course_page_manager_delete, name='course_page_manager_delete'),

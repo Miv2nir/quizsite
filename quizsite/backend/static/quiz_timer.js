@@ -51,7 +51,7 @@ else {
 }
 localStorage.setItem('page_number_old', page_number);
 if (page_number == page_next) {
-    var redir_target = '/courses/' + course_name + '/';
+    var redir_target = '/courses/' + course_name + '/browse/end/';
 }
 else {
 

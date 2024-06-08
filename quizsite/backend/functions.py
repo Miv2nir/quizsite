@@ -178,6 +178,6 @@ def handle_quiz_redir(course_obj,page_number,page_next,course_name):
     print('course_obj.is_quiz',course_obj.is_quiz)
     if course_obj.is_quiz:
         if page_number == page_next: #end of the quiz
-            return HttpResponseRedirect('/courses/'+course_name+'/')
+            return HttpResponseRedirect('/courses/'+course_name+'/browse/end/')
         return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_next)+'/')
     return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')

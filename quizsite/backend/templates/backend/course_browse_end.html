@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <!-- font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet" />
+</head>
+<!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
+<style>
+    input[type='checkbox'] {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    input[type='radio'] {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+</style>
+
+<body>
+    <div class="split">
+        <nav class="sidebar">
+            <ul class="sidebar-list">
+                <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+                <li class="sidebar-element">
+                    <div class="sidebar-text" onclick="window.location.href='/'">Home Page</div>
+
+                </li>
+                <li class="sidebar-element">
+                    <div class="sidebar-text" onclick="window.location.href='/courses/'">Course Search</div>
+
+                </li>
+                <li class="sidebar-element">
+                    <div class="sidebar-text">Enrolled Courses</div>
+
+                </li>
+            </ul>
+        </nav>
+        <main>
+            <span style="overflow: hidden;">
+                <div class="main-div-quick-access">
+                    <div style="display:block;">
+                        <p>
+                            N notifications
+                        </p>
+                        <p onclick="window.location.href='/user/';" class="link-text">
+                            Profile
+                        </p>
+                    </div>
+                    <img class="pfp" src="{% static 'pfp.png' %}" />
+                </div>
+                <!--welcome-->
+                <div style="overflow: hidden;">
+                    <h2>
+                        {{ course_name }}: End of the quiz
+                    </h2>
+                </div>
+            </span>
+            <br />
+            <br />
+            <hr />
+
+            <span class="content center">
+                <h1>Congratulations on quiz completion!</h1>
+                <button onclick="window.location.href='/courses/{{course_name}}'" class="course-button">Back to the quiz
+                    page</button>
+            </span>
+        </main>
+    </div>
+</body>
+
+</html>

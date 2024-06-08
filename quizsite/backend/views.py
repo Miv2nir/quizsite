@@ -256,6 +256,11 @@ def course_browse(request,course_name,page_number):
     return render (request,'backend/course_browse.html',template_values)
     #TODO: move the tuple out of the function somewhere else
 
+@login_required
+def course_browse_end(request,course_name):
+    return render(request,'backend/course_browse_end.html',{
+        'course_name':course_name,
+    })
 
 @login_required
 def course_edit_redir(request,course_name):
