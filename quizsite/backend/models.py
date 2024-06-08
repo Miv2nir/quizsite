@@ -129,6 +129,7 @@ class GroupAssignments(models.Model):
         return self.course.name+' in '+self.group
 
 class CurrentPageControl(models.Model):
+    course=models.ForeignKey(Course,on_delete=models.CASCADE)
     page=models.ForeignKey(CoursePage,on_delete=models.CASCADE)
     student=models.ForeignKey(User,on_delete=models.CASCADE)
 

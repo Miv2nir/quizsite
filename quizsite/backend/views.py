@@ -144,6 +144,20 @@ def course_browse(request,course_name,page_number):
 
     answer_type=course_page_obj.answer_type
 
+    #quiz page control
+    try:
+        page_control=models.CurrentPageControl.objects.filter(course=course_obj,student=request.user)[0]
+        if page_control.page != course_page_obj:
+            correct_page_num=page_control.page.number
+            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(correct_page_num))
+    except IndexError:
+        page_control=models.CurrentPageControl(course=course_obj,student=request.user)
+        if course_page_obj.number==1:
+            page_control.page=course_page_obj
+        else:
+            page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=1)[0]
+        page_control.save()
+
     template_values={'username':request.user,
     'course_name':course_name,
     'page_title':page_title,
@@ -156,6 +170,9 @@ def course_browse(request,course_name,page_number):
     'first_page':page_number==1}
 
     if answer_type=='N': #no answer, proceed with the serving
+        #switch the lock to the next page
+        page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=page_next)[0]
+        page_control.save()
         return render (request,'backend/course_browse.html',template_values)
 
     answer_type_obj=models.PageAnswerText.objects.filter(page=course_page_obj)[0]
@@ -177,6 +194,9 @@ def course_browse(request,course_name,page_number):
                     user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
                 user_response_obj.response=form.cleaned_data['user_response']
                 user_response_obj.save()
+            #switch the lock to the next page
+            page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=page_next)[0]
+            page_control.save()
             return handle_quiz_redir(course_obj,page_number,page_next,course_name)
         #request is a get
         form=forms.UserResponseText()
@@ -204,6 +224,9 @@ def course_browse(request,course_name,page_number):
                     user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
                 user_response_obj.response=form.cleaned_data['user_response']
                 user_response_obj.save()
+            #switch the lock to the next page
+            page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=page_next)[0]
+            page_control.save()
             return handle_quiz_redir(course_obj,page_number,page_next,course_name)
         form=forms.UserResponseSingular()
         form.fields['user_response'].choices=tuple(tuple_choices)
@@ -237,6 +260,9 @@ def course_browse(request,course_name,page_number):
                     user_response_obj=models.StudentAnswerText(page=course_page_obj,user=request.user,answer_type=answer_type)
                 user_response_obj.response=form.cleaned_data['user_response']
                 user_response_obj.save()
+            #switch the lock to the next page
+            page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=page_next)[0]
+            page_control.save()
             return handle_quiz_redir(course_obj,page_number,page_next,course_name)
         form=forms.UserResponseMultiple()
         print(tuple(tuple_choices))
@@ -258,6 +284,21 @@ def course_browse(request,course_name,page_number):
 
 @login_required
 def course_browse_end(request,course_name):
+    #page lock operations
+    #if the page lock's page is the last one, remove it
+    #otherwise, redirect the user back there
+    course_obj=models.Course.objects.filter(name=course_name)[0]
+    try:
+        page_control=models.CurrentPageControl.objects.filter(course=course_obj,student=request.user)[0]
+        last_page_num=get_last_page(course_obj)
+        if last_page_num==page_control.page.number:
+            page_control.delete()
+        else:
+            correct_page_num=page_control.page.number
+            return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(correct_page_num))
+    except IndexError:
+        pass
+    
     return render(request,'backend/course_browse_end.html',{
         'course_name':course_name,
     })

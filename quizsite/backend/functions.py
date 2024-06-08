@@ -181,3 +181,10 @@ def handle_quiz_redir(course_obj,page_number,page_next,course_name):
             return HttpResponseRedirect('/courses/'+course_name+'/browse/end/')
         return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_next)+'/')
     return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
+
+def get_last_page(course_obj):
+    lookup=models.CoursePage.objects.filter(parent=course_obj)
+    max_page_num=0
+    for i in lookup:
+        max_page_num=max(max_page_num,i.number)
+    return max_page_num
