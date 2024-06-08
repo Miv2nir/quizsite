@@ -58,12 +58,17 @@
           </h2>
         </div>
       </span>
-      <span class="content">
-        <br />
-        <br />
-        <h2>Quick Access Panel</h2>
-        <p>TODO</p>
-        <h2>Current Assignments</h2>
+
+      <br />
+      <br />
+      <h2>Quick Access Panel</h2>
+      <span class="content center row">
+        <button class="course-button" onclick="window.location.href='/courses/'">See public Courses</button>
+        <button class="course-button" onclick="window.location.href='/courses/create/'">Create a Course</button>
+        <button class="course-button" onclick="window.location.href='/assignments/'">See issued Assignments</button>
+      </span>
+      <h2>Current Assignments</h2>
+      <span class="content center">
         <span class="assignments-container">
           <div class="assignments-list">
             <!--current assignments section-->
@@ -75,8 +80,12 @@
             {%endfor%}
           </div>
         </span>
-        <br />
-        <h2>Available Courses</h2>
+      </span>
+      <br />
+      <h2>Available Courses</h2>
+      <span class="content center">
+
+
         <span class="assignments-container">
           <div class="assignments-grid" style="margin-bottom: 1rem;">
             <!--available assignments section-->
