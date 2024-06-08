@@ -13,7 +13,7 @@ function width_update() {
     var target_width = precalc.toString() + "rem";
     var target_width_2 = (precalc + 0.9).toString() + "rem";
     assignments_list.style.maxWidth = target_width;
-    assignments_grid.style.maxWidth = target_width_2;
+    assignments_grid.style.maxWidth = target_width;
     console.log(target_width, assignments_list.clientWidth);
     requestAnimationFrame(width_update);
 }

@@ -80,8 +80,12 @@ def logout_user(request):
 
 #site's landing page
 @login_required
-def home(request):
-    return render (request,'backend/home.html',{'username':request.user})
+def home(request): #same deal as in the assignments page
+    assignments=get_group_assignments(request.user)
+    courses=find_courses('')
+    #gather public courses, same as in the course list
+
+    return render (request,'backend/home.html',{'username':request.user,'assignments':assignments,'courses':courses})
 
 @login_required
 def userpage(request):

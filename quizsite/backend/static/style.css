@@ -146,6 +146,7 @@ main {
     min-width: none;
     direction: row;
     overflow-x: scroll;
+    gap: 1rem;
 }
 
 .assignments-grid {
@@ -153,14 +154,26 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 1rem;
     max-width: 66rem;
     max-height: 100vh;
     overflow: hidden;
     justify-content: flex-start;
-    padding-left: 0.9rem;
+    /*padding-left: 0.9rem;*/
+    overflow-x: auto;
 }
 
+/*
+.assignments-grid {
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr;
+    align-self: center;
+    text-align: center;
 
+    max-width: 66rem;
+    max-height: 100vh;
+}
+*/
 .assignments-box {
     flex-shrink: 1;
     cursor: pointer;
@@ -171,7 +184,7 @@ main {
     width: 20rem;
     min-width: 20rem;
     text-align: right;
-    margin-right: 1rem;
+    /*margin-right: 1rem;*/
     transition: 200ms ease;
     border-radius: 0;
 }
@@ -180,11 +193,12 @@ main {
     border-radius: 1rem;
 }
 
+/*
 .assignments-grid>.assignments-box {
     margin-bottom: 1rem;
 
 }
-
+*/
 .assignments-box:last-child {
     margin-right: 0;
 }
