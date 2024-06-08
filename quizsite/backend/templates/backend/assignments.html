@@ -26,10 +26,11 @@
           <div class="sidebar-text" onclick="window.location.href='/courses/'">Course Search</div>
 
         </li>
+        {%if user|check_teacher%}
         <li class="sidebar-element">
           <div onclick="window.location.href='/groups/'" class="sidebar-text">My Groups</div>
-
         </li>
+        {%endif%}
       </ul>
     </nav>
     <main>

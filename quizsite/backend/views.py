@@ -707,4 +707,4 @@ def group_delete(request,group_name):
 @login_required
 def assignments_browse(request):
     assignments=get_group_assignments(request.user)
-    return render(request,'backend/assignments.html',{'assignments':list(assignments)})
+    return render(request,'backend/assignments.html',{'assignments':list(assignments),'user':request.user})
