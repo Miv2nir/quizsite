@@ -31,6 +31,11 @@
           <div onclick="window.location.href='/groups/'" class="sidebar-text">Student Groups</div>
         </li>
         {%endif%}
+        {%if user|check_group_enrollment%}
+        <li class="sidebar-element">
+          <div onclick="window.location.href='/assignments/'" class="sidebar-text">Handed-out Assignments</div>
+        </li>
+        {%endif%}
       </ul>
     </nav>
     <main>

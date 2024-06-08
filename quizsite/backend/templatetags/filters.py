@@ -18,4 +18,10 @@ def check_teacher(user):
     except IndexError:
         condition=False
     return condition
-    
+
+@register.filter #see user enrollment in any group
+def check_group_enrollment(user):
+    lookup=models.GroupEnrollment.objects.filter(student=user)
+    if len(lookup)>0:
+        return True
+    return False
