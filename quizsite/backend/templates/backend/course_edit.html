@@ -71,6 +71,12 @@
                         <div>Body Text:</div>
                         {{form.text}}
                     </div>
+                    {%if is_quiz %}
+                    <div class="content center">
+                        <div>Quiz Timer:</div>
+                        {{form.timer}}
+                    </div>
+                    {%endif%}
 
                     <br />
                     {%if question_presence%}

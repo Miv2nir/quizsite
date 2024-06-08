@@ -318,6 +318,9 @@ def course_edit(request,course_name,page_number=0):
             return HttpResponseRedirect('/courses/'+course_name+'/edit/'+str(page_number)+'/')
         #get the answer object if present
         
+        #quiz timer thingy
+        course_page_obj.time=form.cleaned_data['timer']
+
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
         
@@ -359,7 +362,7 @@ def course_edit(request,course_name,page_number=0):
     'answer_type':course_page_obj.answer_type,
     'question':answer_type_obj.text,
     'choices':answer_type_obj.choices,
-    'correct_choices':answer_type_obj.correct_choices,})
+    'correct_choices':answer_type_obj.correct_choices,'timer':course_page_obj.time})
     
     return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
     'course_name':course_name,

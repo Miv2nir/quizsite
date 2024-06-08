@@ -56,6 +56,7 @@ class CoursePageForm(forms.Form):
     question=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Question here','class':'form-field description'}))
     choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input','style':'display:none;'}))
     correct_choices=forms.CharField(label='Correct Choices',required=False,widget=forms.Textarea(attrs={'id':'json_check','style':'display:none;'}))
+    timer=forms.IntegerField(label='Timer',required=False,widget=forms.NumberInput(attrs={'class':'form-field'}))
 '''
 class AnswerTypeForm(forms.Form):
     def __init__(self, *args, **kwargs):
