@@ -123,10 +123,10 @@ class GroupEnrollment(models.Model):
 class GroupAssignments(models.Model):
     course=models.ForeignKey(Course,on_delete=models.CASCADE)
     group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
-    deadline=models.DateTimeField(null=True,default=None)
+    deadline=models.DateTimeField(null=True,default=None,blank=True)
 
     def __str__(self):
-        return self.course.name+' in '+self.group
+        return self.course.name+' in '+self.group.name
 
 class CurrentPageControl(models.Model):
     course=models.ForeignKey(Course,on_delete=models.CASCADE)

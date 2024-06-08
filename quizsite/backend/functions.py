@@ -188,3 +188,18 @@ def get_last_page(course_obj):
     for i in lookup:
         max_page_num=max(max_page_num,i.number)
     return max_page_num
+
+def get_group_assignments(user):
+    #check all groups in which a user is enrolled in
+    lookup=models.GroupEnrollment.objects.filter(student=user)
+    groups=set()
+    for i in lookup:
+        groups.add(i.group)
+    #get all courses assigned to our completion
+    assignments=set()
+    for g in groups:
+        lookup_assignments=models.GroupAssignments.objects.filter(group=g)
+        for i in lookup_assignments:
+            assignments.add(i.course)
+    print(assignments)
+    return assignments

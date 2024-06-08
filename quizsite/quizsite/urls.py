@@ -61,5 +61,6 @@ urlpatterns = [
     path('groups/<slug:group_name>/assignments/delete/<slug:course_name>/',views.group_assignments_delete,name='group_assignments_delete'),
     path('groups/<slug:group_name>/assignments/<slug:course_name>/',views.group_assignments_item,name='group_assignments_item'),
     path('groups/<slug:group_name>/assignments/<slug:course_name>/<slug:student_name>/',views.group_assignments_user_results,name='group_assignments_user_results'),
+    path('assignments/',views.assignments_browse,name='assignments_browse'),
     path('logout/', views.logout_user, name='logout')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

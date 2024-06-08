@@ -703,3 +703,8 @@ def group_delete(request,group_name):
     n_students=len(models.GroupEnrollment.objects.filter(group=group_obj))
     return render(request,'backend/group_delete.html',{'group_name':group_name,
     'n_assignments':n_assignments,'n_students':n_students})
+
+@login_required
+def assignments_browse(request):
+    assignments=get_group_assignments(request.user)
+    return render(request,'backend/assignments.html',{'assignments':list(assignments)})
