@@ -18,23 +18,22 @@
         <nav class="sidebar">
             <ul class="sidebar-list">
                 <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
-                <li class="sidebar-element">
-                    <div class="sidebar-text" onclick="window.location.href='/'">Home Page</div>
+                <li class="sidebar-element" onclick="window.location.href='/'">
+                    <div class="sidebar-text">Home Page</div>
 
                 </li>
-                <li class="sidebar-element">
-                    <div class="sidebar-text" onclick="window.location.href='/courses/'">Course Search</div>
+                <li class="sidebar-element" onclick="window.location.href='/courses/'">
+                    <div class="sidebar-text">Course Search</div>
 
                 </li>
                 {%if user|check_teacher%}
-                <li class="sidebar-element">
-                    <div onclick="window.location.href='/groups/'" class="sidebar-text">Student Groups</div>
+                <li class="sidebar-element" onclick="window.location.href='/groups/'">
+                    <div class="sidebar-text">Student Groups</div>
                 </li>
                 {%endif%}
                 {%if user|check_group_enrollment%}
-                <li class="sidebar-element">
-                    <div onclick="window.location.href='/assignments/'" class="sidebar-text">Handed-out Assignments
-                    </div>
+                <li class="sidebar-element" onclick="window.location.href='/assignments/'">
+                    <div class="sidebar-text">Handed-out Assignments</div>
                 </li>
                 {%endif%}
             </ul>
