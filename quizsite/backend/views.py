@@ -409,6 +409,13 @@ def course_edit(request,course_name,page_number=0):
     'question':answer_type_obj.text,
     'choices':answer_type_obj.choices,
     'correct_choices':answer_type_obj.correct_choices,'timer':course_page_obj.time})
+
+    if course_obj.is_quiz:
+        A_TYPE_QUIZ = (
+        ('S','Singular Choice'),
+        ('M','Multiple Choice'),
+    )
+        form.fields['answer_type'].choices=A_TYPE_QUIZ
     
     return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
     'course_name':course_name,
