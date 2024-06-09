@@ -49,7 +49,7 @@
               Profile
             </p>
           </div>
-          <img class="pfp" src="{% static 'pfp.png' %}" />
+          <img class="pfp" src="{{user|get_pfp}}" />
         </div>
         <!--welcome-->
         <div style="overflow: hidden;">

@@ -46,7 +46,7 @@
         <br />
         <br />
         <div class="user-face">
-          <img class="pfp" src="{% static 'pfp.png' %}" />
+          <img class="pfp" src="{{user|get_pfp}}" />
           <div class="user-link-spread">
             <h2>{{ username }}</h2>
             <p onclick="window.location.href='/user/settings/';" class="link-text">Settings</p>

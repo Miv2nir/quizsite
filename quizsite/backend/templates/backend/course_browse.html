@@ -29,6 +29,7 @@
         <nav class="sidebar">
             <ul class="sidebar-list">
                 <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+                {%if not is_quiz%}
                 <li class="sidebar-element" onclick="window.location.href='/'">
                     <div class="sidebar-text">Home Page</div>
 
@@ -47,11 +48,13 @@
                     <div class="sidebar-text">Handed-out Assignments</div>
                 </li>
                 {%endif%}
+                {%endif%}
             </ul>
         </nav>
         <main>
             <span style="overflow: hidden;">
                 <div class="main-div-quick-access">
+                    {%if not is_quiz%}
                     <div style="display:block;">
                         <p>
                             N notifications
@@ -60,7 +63,8 @@
                             Profile
                         </p>
                     </div>
-                    <img class="pfp" src="{% static 'pfp.png' %}" />
+                    {%endif%}
+                    <img class="pfp" src="{{user|get_pfp}}" />
                 </div>
                 <!--welcome-->
                 <div style="overflow: hidden;">

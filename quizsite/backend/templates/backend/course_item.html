@@ -48,7 +48,7 @@
             Profile
           </p>
         </div>
-        <img class="pfp" src="{% static 'pfp.png' %}" />
+        <img class="pfp" src="{{user|get_pfp}}" />
       </div>
       <h2>Course Description</h2>
       <p onclick="window.location.href='/courses';" class="link-text">
