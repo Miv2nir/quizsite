@@ -85,7 +85,7 @@ def clear_answers(course_page_obj,form_answer_type): #void
         #TODO: deletion for files after they're done
         return True
 
-def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_text=""):
+def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_text="",grade=0,penalty=0):
     '''
     Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
     returns either a None (when no new object is being made) or the object itself
@@ -134,7 +134,9 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_t
             substitute_answer={pos:json.loads(a_choices)[str(pos)]}
             print(json.dumps(substitute_answer))
             answer_type_obj.correct_choices=json.dumps(substitute_answer)
-
+    #grades
+    answer_type_obj.correct_grade=grade
+    answer_type_obj.incorrect_penalty=penalty
     try:
         answer_type_obj.save()
     except AttributeError:

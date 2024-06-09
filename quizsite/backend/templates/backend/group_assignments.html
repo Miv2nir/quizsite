@@ -90,7 +90,22 @@
                     </div>
                 </form>
             </span>
+            <span class="content center">
 
+                <h2>Or select the public ones to add</h2>
+                <span class="assignments-container">
+                    <div class="assignments-grid" style="margin-bottom: 1rem;">
+                        <!--available assignments section-->
+                        {%for i in courses%}
+                        <div class="assignments-box" onclick="window.location.href='/courses/{{i}}/'">
+                            <img class=" course-image" src="{% static 'course.png' %}">
+                            <a class="course-text">{{i}}</a>
+                        </div>
+                        {%endfor%}
+                    </div>
+                </span>
+
+            </span>
         </main>
     </div>
 </body>

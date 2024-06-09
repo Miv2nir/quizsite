@@ -106,6 +106,17 @@
                     <button type="button" class="course-button secondary editor" style="margin-bottom: 1rem;"
                         onclick="add_list_item(this);">Add</button>
                     <br />
+                    <div class="content row" style="margin-bottom: 1rem;">
+
+                        <div class="content center">
+                            <div>Correct Answer Points</div>
+                            {{form.grade}}
+                        </div>
+                        <div class="content center">
+                            <div>Penalty</div>
+                            {{form.penalty}}
+                        </div>
+                    </div>
                     {%endif%}
                     <button class="course-button editor" type="submit" value="OK">Save Changes</button>
                 </form>

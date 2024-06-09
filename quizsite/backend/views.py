@@ -373,6 +373,7 @@ def course_edit(request,course_name,page_number=0):
 
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
+        print('aaaaaaaaaaaaaaaaaaaa')
         
         #time to handle the answer type model
         #choices={0:'Choice 1',1:'Choice 2',2:'Choice 3'} #get as json from client somehow
@@ -389,9 +390,9 @@ def course_edit(request,course_name,page_number=0):
             q_text=""
         #on change of the answer type: delete all of the given answers to that question
         clear_answers(course_page_obj,form.cleaned_data['answer_type'])
-        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,c_choices=correct_choices,a_text=q_text)
+        answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,
+        c_choices=correct_choices,a_text=q_text,grade=form.cleaned_data['grade'],penalty=form.cleaned_data['penalty'])
         #choices=answer_type_obj.choices
-        
 
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
@@ -412,7 +413,8 @@ def course_edit(request,course_name,page_number=0):
     'answer_type':course_page_obj.answer_type,
     'question':answer_type_obj.text,
     'choices':answer_type_obj.choices,
-    'correct_choices':answer_type_obj.correct_choices,'timer':course_page_obj.time})
+    'correct_choices':answer_type_obj.correct_choices,
+    'timer':course_page_obj.time,'grade':answer_type_obj.correct_grade,'penalty':answer_type_obj.incorrect_penalty})
 
     if course_obj.is_quiz:
         A_TYPE_QUIZ = (
@@ -604,8 +606,9 @@ def group_assignments(request,group_name):
             return HttpResponseRedirect('/groups/'+group_name+'/assignments/?success=True')
         
     form=forms.CourseGet()
+    courses=find_courses('')
     assignments_list=models.GroupAssignments.objects.filter(group=group_obj)
-    return render(request,'backend/group_assignments.html',{'group_name':group_name,'form':form,'assignments_list':assignments_list})
+    return render(request,'backend/group_assignments.html',{'group_name':group_name,'form':form,'assignments_list':assignments_list,'courses':courses})
 
 @login_required
 def group_assignments_delete_redir(request,group_name):
