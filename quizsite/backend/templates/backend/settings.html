@@ -43,23 +43,24 @@
       <p onclick="window.location.href='/user/';" class="link-text">
         Back to Profile </p>
       <span class="content center">
-        <br />
-        <br />
-        <div class="content row">
-          <img class="pfp" src="{% get_media_prefix %}{{pfp}}" />
+        <img class="pfp" style="margin: 0;" src="{{user|get_pfp}}" />
 
-          <form action="/user/settings/" enctype="multipart/form-data" method="post" id="pfp_form">
-            {% csrf_token %}
-            {{form.pfp}}
-          </form>
-        </div>
-        <button class="course-button" form="pfp_form" type="submit" value="OK">Upload new PFP</button>
+        <form class="content center" action="/user/settings/" enctype="multipart/form-data" method="post" id="pfp_form">
+          {% csrf_token %}
+          {{form.pfp}}
+
+        </form>
+
 
       </span>
       <hr>
       </hr>
       <h2>User Information</h2>
       <span class="content center">
+      </span>
+      <hr />
+      <span class="content center">
+        <button class="course-button" form="pfp_form" type="submit" value="OK">Save Changes</button>
       </span>
     </main>
   </div>

@@ -93,4 +93,4 @@ class CourseGet(forms.Form):
     
 class UserDetailsForm(forms.Form):
     username=forms.CharField(required=False,widget=forms.TextInput(attrs={'placeholder':'Username','class':'form-field'}))
-    pfp=forms.ImageField(required=False,widget=forms.FileInput())
+    pfp=forms.ImageField(required=False,widget=forms.FileInput(attrs={'style':'margin-top: 0.5rem; margin-bottom: 0.5rem;'}))

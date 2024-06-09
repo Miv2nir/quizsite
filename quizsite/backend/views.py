@@ -733,12 +733,16 @@ def user_settings(request):
     if request.method=="POST":
         form=forms.UserDetailsForm(request.POST,request.FILES)
         if form.is_valid():
-            
-            pfp_obj.pfp=form.cleaned_data['pfp']
-            extension=pfp_obj.pfp.name.split('.')[-1]
-            print(extension)
-            pfp_obj.pfp.name=request.user.username+'.'+extension
-            pfp_obj.save()
+            if request.FILES:
+                pfp_obj.pfp.delete(save=True)
+            try:
+                pfp_obj.pfp=form.cleaned_data['pfp']
+                extension=pfp_obj.pfp.name.split('.')[-1]
+                print(extension)
+                pfp_obj.pfp.name=request.user.username+'.'+extension
+                pfp_obj.save()
+            except AttributeError:
+                pass
             return HttpResponseRedirect('/user/settings/?success=true')
         return HttpResponseRedirect('/user/settings/')
 

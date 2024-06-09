@@ -4,6 +4,8 @@ import backend.forms as forms
 import backend.models as models
 from django.contrib.auth.models import User
 
+from django.conf import settings
+
 register=template.Library()
 
 @register.filter #django template filter TODO: move it out elsewhere
@@ -25,3 +27,14 @@ def check_group_enrollment(user):
     if len(lookup)>0:
         return True
     return False
+
+@register.filter #get user pfp
+def get_pfp(user):
+    try:
+        pfp_obj=models.UserPFP.objects.filter(user=user)[0]
+        #return settings.MEDIA_ROOT+pfp_obj.pfp
+        return pfp_obj.pfp.url
+    except IndexError:
+        return settings.STATIC_URL+'pfp.png'
+    except ValueError:
+        return settings.STATIC_URL+'pfp.png'

@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from django.core.files.storage import FileSystemStorage
+
 from django.conf import settings
 
 # Create your models here.
@@ -138,6 +140,8 @@ class CurrentPageControl(models.Model):
 class Notifications(models.Model):
     group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
     text=models.TextField(default='')
+
+
 
 class UserPFP(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
