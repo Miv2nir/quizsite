@@ -2,6 +2,8 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
+from django.conf import settings
+
 # Create your models here.
 class Course(models.Model):
     name=models.CharField(max_length=30)
@@ -136,3 +138,7 @@ class CurrentPageControl(models.Model):
 class Notifications(models.Model):
     group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
     text=models.TextField(default='')
+
+class UserPFP(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    pfp=models.ImageField(null=True,blank=True,upload_to='user_pfps/')

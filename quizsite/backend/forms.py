@@ -91,3 +91,6 @@ class CourseGet(forms.Form):
     course=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
     #deadline=forms.DateTimeField(widget=forms.DateTimeInput(),required=False)
     
+class UserDetailsForm(forms.Form):
+    username=forms.CharField(required=False,widget=forms.TextInput(attrs={'placeholder':'Username','class':'form-field'}))
+    pfp=forms.ImageField(required=False,widget=forms.FileInput())

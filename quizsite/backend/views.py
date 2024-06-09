@@ -722,3 +722,22 @@ def group_delete(request,group_name):
 def assignments_browse(request):
     assignments=get_group_assignments(request.user)
     return render(request,'backend/assignments.html',{'assignments':list(assignments),'user':request.user})
+
+@login_required
+def user_settings(request):
+    print(request.FILES)
+    try:
+        pfp_obj=models.UserPFP.objects.filter(user=request.user)[0]
+    except IndexError:
+        pfp_obj=models.UserPFP(user=request.user)
+    if request.method=="POST":
+        form=forms.UserDetailsForm(request.POST,request.FILES)
+        if form.is_valid():
+            
+            pfp_obj.pfp=form.cleaned_data['pfp']
+            pfp_obj.save()
+            return HttpResponseRedirect('/user/settings/?success=true')
+        return HttpResponseRedirect('/user/settings/')
+
+    form=forms.UserDetailsForm()
+    return render(request,'backend/settings.html',{'user':request.user,'form':form})
