@@ -76,7 +76,7 @@
           <div class="assignments-grid">
             <!--available assignments section-->
             {% for item in lookup %}
-            <div class="assignments-box" onclick="window.location.href='/courses/{{item.name}}'">
+            <div class="assignments-box" onclick="window.location.href='/courses/{{item.name}}/'">
               <img class="course-image" src="{% static 'course.png' %}">
               <a class="course-text">{{item.name}}</a>
             </div>
