@@ -64,4 +64,4 @@ urlpatterns = [
     path('assignments/',views.assignments_browse,name='assignments_browse'),
     path('user/settings/',views.user_settings,name='user_settings'),
     path('logout/', views.logout_user, name='logout')
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) 
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

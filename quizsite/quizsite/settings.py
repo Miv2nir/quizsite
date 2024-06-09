@@ -123,6 +123,7 @@ APPEND_SLASH = True
 
 STATIC_URL = 'backend/static/'
 MEDIA_ROOT = 'backend/media/'
+MEDIA_URL = 'backend/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
