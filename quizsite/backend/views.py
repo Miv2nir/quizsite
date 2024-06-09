@@ -659,22 +659,29 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     question_texts={}
     n_pages=0
     answer_texts={}
+    answer_points={}
     for i in models.CoursePage.objects.filter(parent=course_obj):
         #user_answer=models.StudentAnswerText.objects.filter(page=i)[0].response
         answer_types[i.number]=i.answer_type
         try:
             user_answers[i.number]=models.StudentAnswerText.objects.filter(page=i,user=user_obj)[0].response.replace("'",'"')
         except IndexError: #must be a null
-            user_answers[i.number]="[]"
+            user_answers[i.number]="No answer Given"
         if answer_types[i.number]=='S':
             user_answers[i.number]='["'+user_answers[i.number]+'"]'
         correct_answers[i.number]=models.PageAnswerText.objects.filter(page=i)[0].correct_choices
         question_texts[i.number]=models.PageAnswerText.objects.filter(page=i)[0].text
         n_pages+=1
         answer_texts[i.number]=models.PageAnswerText.objects.filter(page=i)[0].choices
+        if answer_types[i.number] in ['S','M']: #supports autograding
+            page_answer_obj=models.PageAnswerText.objects.filter(page=i)[0]
+            answer_points[i.number] = max(0,page_answer_obj.correct_grade-page_answer_obj.incorrect_penalty)
+        else:
+            answer_points[i.number]=0
     print(user_answers)
     print(correct_answers)
     print(answer_types)
+    print(answer_points)
     
     #wrangle user_ansers into json objects
 
@@ -682,7 +689,7 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     'course_name':course_name,'student_name':student_name,
     'user_answers':user_answers,'correct_answers':correct_answers,'answer_types':answer_types,
     'keys_list':user_answers.keys(),'question_texts':question_texts,'n_pages':n_pages,
-    'answer_texts':answer_texts})
+    'answer_texts':answer_texts,'answer_points':answer_points})
 #https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable
 @login_required
 @perm_groups_check

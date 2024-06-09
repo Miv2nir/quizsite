@@ -81,10 +81,15 @@
 
                     <div class="choices-container">
                         <div class="hide-if-t">{{student_name}}</div>
-
                     </div>
                     <div class="choices-container">
                         <div class="hide-if-t">Correct Answers</div>
+                    </div>
+                    <div class="choices-container spread-evenly">
+                        <div class="hide-if-t">Grade</div>
+                        <div class="hide-if-t" style="font-size: 1.5rem;">{{answer_points|get_item:i}}</div>
+                        <div class="hide-if-t" style="visibility: hidden;">0</div>
+
                     </div>
                 </div>
             </span>
