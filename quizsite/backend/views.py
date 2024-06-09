@@ -735,9 +735,13 @@ def user_settings(request):
         if form.is_valid():
             
             pfp_obj.pfp=form.cleaned_data['pfp']
+            extension=pfp_obj.pfp.name.split('.')[-1]
+            print(extension)
+            pfp_obj.pfp.name=request.user.username+'.'+extension
             pfp_obj.save()
             return HttpResponseRedirect('/user/settings/?success=true')
         return HttpResponseRedirect('/user/settings/')
 
     form=forms.UserDetailsForm()
-    return render(request,'backend/settings.html',{'user':request.user,'form':form})
+    return render(request,'backend/settings.html',{'user':request.user,'form':form,
+    'pfp':pfp_obj.pfp})

@@ -46,7 +46,7 @@
         <br />
         <br />
         <div class="content row">
-          <img class="pfp" src="{% static 'pfp.png' %}" />
+          <img class="pfp" src="{% get_media_prefix %}{{pfp}}" />
 
           <form action="/user/settings/" enctype="multipart/form-data" method="post" id="pfp_form">
             {% csrf_token %}

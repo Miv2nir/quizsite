@@ -130,10 +130,11 @@ main {
 }
 
 .pfp {
-    padding-left: 1rem;
-    padding-top: 0.5rem;
+    margin-left: 1rem;
+    margin-top: 0.5rem;
     width: 120px;
     overflow: hidden;
+    border-radius: 50%;
 }
 
 .assignments-container {
