@@ -745,7 +745,31 @@ def user_settings(request):
             except AttributeError:
                 pass
             #deal with the rest of the form
-            print('input',form.cleaned_data['username'])
+            new_username=form.cleaned_data['username']
+            print('input',new_username)
+            if new_username:
+                #check if the username is already taken
+                try:
+                    lookup=User.objects.filter(username=new_username)[0]
+                    return HttpResponseRedirect('/user/settings/?username_taken=true')
+                except IndexError:
+                    pass
+                user_obj.username=new_username
+            old_password=form.cleaned_data['old_password']
+            new_password=form.cleaned_data['password']
+            verify_password=form.cleaned_data['password_verify']
+            if old_password and new_password and verify_password:
+                upd_user=authenticate(request,username=request.user,password=old_password)
+                print(upd_user)
+                if upd_user is None: #credentials didn't match
+                    return HttpResponseRedirect('/user/settings/?wrong_password=true')
+                if new_password==verify_password:
+                    user_obj.set_password(new_password)
+                else:
+                    return HttpResponseRedirect('/user/settings/?password_mismatch=true')
+
+            user_obj.save()
+            
             return HttpResponseRedirect('/user/settings/?success=true')
         return HttpResponseRedirect('/user/settings/')
 
