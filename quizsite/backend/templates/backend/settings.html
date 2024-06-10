@@ -43,21 +43,35 @@
       <p onclick="window.location.href='/user/';" class="link-text">
         Back to Profile </p>
       <span class="content center">
+        <h2>{{user}}</h2>
         <img class="pfp" style="margin: 0;" src="{{user|get_pfp}}" />
+        <h3>Profile Picture Update:</h3>
 
-        <form class="content center" action="/user/settings/" enctype="multipart/form-data" method="post" id="pfp_form">
+        <form style="width: 100%;" action="/user/settings/" enctype="multipart/form-data" method="post" id="pfp_form">
           {% csrf_token %}
           {{form.pfp}}
+          <hr />
+          <h2>User Information:</h2>
+          <span class="content row">
+            <div class="content center" style="justify-content: space-around;">
+              <div>Username:</div>
+              <div>Old Password:</div>
+              <div>New Password:</div>
+              <div>Verify Password:</div>
+            </div>
+            <div class="content center" style="gap:0.2rem;">
+              {{form.username}}
+              {{form.old_password}}
+              {{form.password}}
+              {{form.password_verify}}
+            </div>
+          </span>
 
         </form>
+      </span>
 
 
-      </span>
-      <hr>
-      </hr>
-      <h2>User Information</h2>
-      <span class="content center">
-      </span>
+
       <hr />
       <span class="content center">
         <button class="course-button" form="pfp_form" type="submit" value="OK">Save Changes</button>

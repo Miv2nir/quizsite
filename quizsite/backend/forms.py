@@ -92,5 +92,8 @@ class CourseGet(forms.Form):
     #deadline=forms.DateTimeField(widget=forms.DateTimeInput(),required=False)
     
 class UserDetailsForm(forms.Form):
-    username=forms.CharField(required=False,widget=forms.TextInput(attrs={'placeholder':'Username','class':'form-field'}))
     pfp=forms.ImageField(required=False,widget=forms.FileInput(attrs={'style':'margin-top: 0.5rem; margin-bottom: 0.5rem;'}))
+    username=forms.CharField(required=False,widget=forms.TextInput(attrs={'placeholder':'Username','class':'form-field'}))
+    old_password = forms.CharField(required=False,label='Old Password', widget=forms.PasswordInput(attrs={'placeholder': 'Old Password','class': 'form-field'}))
+    password = forms.CharField(required=False,label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'New Password','class': 'form-field'}))
+    password_verify = forms.CharField(required=False,label='Repeat Password', widget=forms.PasswordInput(attrs={'placeholder': 'Repeat New Password','class': 'form-field'}))

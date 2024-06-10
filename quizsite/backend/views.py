@@ -725,7 +725,8 @@ def assignments_browse(request):
 
 @login_required
 def user_settings(request):
-    print(request.FILES)
+    #print(request.FILES)
+    user_obj=request.user
     try:
         pfp_obj=models.UserPFP.objects.filter(user=request.user)[0]
     except IndexError:
@@ -738,11 +739,13 @@ def user_settings(request):
             try:
                 pfp_obj.pfp=form.cleaned_data['pfp']
                 extension=pfp_obj.pfp.name.split('.')[-1]
-                print(extension)
+                #print(extension)
                 pfp_obj.pfp.name=request.user.username+'.'+extension
                 pfp_obj.save()
             except AttributeError:
                 pass
+            #deal with the rest of the form
+            print('input',form.cleaned_data['username'])
             return HttpResponseRedirect('/user/settings/?success=true')
         return HttpResponseRedirect('/user/settings/')
 

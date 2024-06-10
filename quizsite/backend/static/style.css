@@ -162,6 +162,7 @@ main {
     justify-content: flex-start;
     /*padding-left: 0.9rem;*/
     overflow-x: auto;
+    margin-bottom: 1rem;
 }
 
 /*
