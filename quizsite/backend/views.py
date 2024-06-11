@@ -389,9 +389,15 @@ def course_edit(request,course_name,page_number=0):
         if not q_text:
             q_text=""
         #on change of the answer type: delete all of the given answers to that question
+        grade=form.cleaned_data['grade']
+        if not grade:
+            grade=0
+        penalty=form.cleaned_data['penalty']
+        if not penalty:
+            penalty=0
         clear_answers(course_page_obj,form.cleaned_data['answer_type'])
         answer_type_obj=define_answer(course_page_obj,form.cleaned_data['answer_type'],a_choices=choices,
-        c_choices=correct_choices,a_text=q_text,grade=form.cleaned_data['grade'],penalty=form.cleaned_data['penalty'])
+        c_choices=correct_choices,a_text=q_text,grade=grade,penalty=penalty)
         #choices=answer_type_obj.choices
 
         course_page_obj.answer_type=form.cleaned_data['answer_type']

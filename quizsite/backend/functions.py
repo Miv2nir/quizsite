@@ -19,7 +19,7 @@ def find_courses(prompt=''):
     else:
         lookup=models.Course.objects.filter(access='A',name__contains=prompt)
     return lookup
-
+'''
 def define_answer_old(course_page_obj,form_answer_type,a_choices={}):
     #Creates an answer type for the course page object with the definition of choices and types based on the input of form_answer_type
     #returns either a None (when no new object is being made) or the object itself
@@ -60,6 +60,7 @@ def define_answer_old(course_page_obj,form_answer_type,a_choices={}):
     #1. None to something: create new object
     #2. Something to something
     #3. Something to none
+'''
 #TODO Sort these functions out so that it wouldn't go yandere sim mode like last year
 #I imagine that the auth will have to be served by django/passed through vue without much change
 def to_paired_tuples(l):
