@@ -59,6 +59,7 @@ class PageAnswerText(CoursePageAnswer):
     text=models.TextField(default='',blank=True)
     is_choice=models.BooleanField(default=False)
     is_multiple=models.BooleanField(default=False)
+    is_file=models.BooleanField(default=False)
     choices=models.JSONField(default=dict,blank=True)
     correct_choices=models.JSONField(default=dict,blank=True)
     # grading

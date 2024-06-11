@@ -109,9 +109,12 @@ def define_answer(course_page_obj,form_answer_type,a_choices={},c_choices={},a_t
         #answer_type_obj=models.PageAnswerText(page=course_page_obj)
         answer_type_obj.is_choice=False
         answer_type_obj.is_multiple=False
+        answer_type_obj.is_file=False
         #answer_type_obj.text=a_text
     elif form_answer_type=='F':
-        raise NotImplementedError
+        answer_type_obj.is_choice=False
+        answer_type_obj.is_multiple=False
+        answer_type_obj.is_file=True
     else:
         #answer_type_obj=models.PageAnswerText(page=course_page_obj,choices=a_choices)
         answer_type_obj.is_choice=True

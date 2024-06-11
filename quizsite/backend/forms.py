@@ -51,7 +51,7 @@ class CoursePageForm(forms.Form):
         ('F','File Upload'),
     )
     answer_type=forms.ChoiceField(choices=A_TYPE,widget=forms.Select(attrs={'class':'form-field','id':'answer_type','onChange':'displayWarning();'}))
-    title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field stretch'}))
+    title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Page Name','class':'form-field stretch'}))
     text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Page Text here','class':'form-field description big','id':'textfield'}))
     question=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Question here','class':'form-field description'}))
     choices=forms.CharField(label='Answer Choices',required=False,widget=forms.Textarea(attrs={'id':'json_input','style':'display:none;'}))
