@@ -11,6 +11,8 @@ import backend.forms as forms
 import backend.models as models
 from django.contrib.auth import authenticate, login, logout
 
+import uuid
+
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -170,6 +172,7 @@ def course_browse(request,course_name,page_number):
     'page_previous':page_previous,
     'page_next':page_next,
     'next_exists':next_exists,
+    'is_file':answer_type=='F',
     'is_quiz':course_obj.is_quiz, 'quiz_time':course_page_obj.time,
     'first_page':page_number==1}
 
@@ -208,6 +211,29 @@ def course_browse(request,course_name,page_number):
             user_response_obj=models.StudentAnswerText.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
             form.initial={'user_response':user_response_obj.response}
         except IndexError: #if it does not exist, pass
+            pass
+    if answer_type=='F': #answer_type is a file
+        #got the form
+        if request.method=='POST':
+            form=forms.UserResponseFile(request.POST,request.FILES)
+            print(form)
+            if form.is_valid():
+                lookup=models.StudentAnswerFile.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)
+                if lookup:
+                    user_response_obj=lookup[0]
+                else:
+                    user_response_obj=models.StudentAnswerFile(page=course_page_obj,user=request.user,answer_type=answer_type)
+                if request.FILES:
+                    user_response_obj.response.delete(save=True)
+                user_response_obj.response=form.cleaned_data['user_response']
+                extension=user_response_obj.response.name.split('.')[-1]
+                user_response_obj.name='file_'+request.user.username+'_'+str(uuid.uuid4())+'.'+extension
+                user_response_obj.save()                
+        form=forms.UserResponseFile()
+        try:
+            user_response_obj=models.StudentAnswerFile.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
+            form.initial={'user_response':user_response_obj.response}
+        except IndexError:
             pass
     if answer_type=='S': #answer_type is singular choice
         #got the form

@@ -86,8 +86,8 @@
                 <!--reponse goes here-->
                 {%if form%}
                 <p>{{question_itself}}</p>
-                <form action="/courses/{{course_name}}/browse/{{page_number}}/" class="content center" method="post"
-                    id="answer_form">
+                <form action="/courses/{{course_name}}/browse/{{page_number}}/" {%if is_file%}
+                    enctype="multipart/form-data" {%endif%} class="content center" method="post" id="answer_form">
                     {%csrf_token%}
                     <h3>{{form.user_response.label}}</h3>
                     <div class="room-for-button">{{form.user_response}}</div>

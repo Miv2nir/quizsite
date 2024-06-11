@@ -100,7 +100,7 @@ class StudentAnswerText(StudentAnswer):
     def __str__(self):
         return 'Answer of '+str(self.user)+' for '+str(self.page)
 class StudentAnswerFile(StudentAnswer):
-    response=models.FileField(default=None)
+    response=models.FileField(default=None,upload_to='user_responses/')
     def __str__(self):
         return 'File Answer of '+str(self.user)+' for '+str(self.page)
 
