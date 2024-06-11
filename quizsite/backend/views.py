@@ -223,8 +223,7 @@ def course_browse(request,course_name,page_number):
                     user_response_obj=lookup[0]
                 else:
                     user_response_obj=models.StudentAnswerFile(page=course_page_obj,user=request.user,answer_type=answer_type)
-                if request.FILES:
-                    user_response_obj.response.delete(save=True)
+                user_response_obj.response.delete(save=True)
                 user_response_obj.response=form.cleaned_data['user_response']
                 extension=user_response_obj.response.name.split('.')[-1]
                 user_response_obj.response.name='file_'+request.user.username+'_'+str(uuid.uuid4())+'.'+extension
