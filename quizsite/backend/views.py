@@ -13,6 +13,8 @@ from django.contrib.auth import authenticate, login, logout
 
 import uuid
 
+from quizsite.settings import MEDIA_URL
+
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -673,8 +675,11 @@ def group_assignments_item(request,group_name,course_name):
     participants=set()
     for i in models.CoursePage.objects.filter(parent=course_obj):
         n_answers+=len(models.StudentAnswerText.objects.filter(page=i))
+        n_answers+=len(models.StudentAnswerFile.objects.filter(page=i))
         #construct a list of all users who posted answers
         for j in models.StudentAnswerText.objects.filter(page=i):
+            participants.add(j.user)
+        for j in models.StudentAnswerFile.objects.filter(page=i):
             participants.add(j.user)
     print(participants)
     return render(request,'backend/group_assignments_item.html',{'group_name':group_name,
@@ -700,8 +705,12 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     for i in models.CoursePage.objects.filter(parent=course_obj):
         #user_answer=models.StudentAnswerText.objects.filter(page=i)[0].response
         answer_types[i.number]=i.answer_type
+        #print('aaaa',i.answer_type)
         try:
-            user_answers[i.number]=models.StudentAnswerText.objects.filter(page=i,user=user_obj)[0].response.replace("'",'"')
+            if answer_types[i.number]=='F':
+                user_answers[i.number]=MEDIA_URL+models.StudentAnswerFile.objects.filter(page=i,user=user_obj)[0].response.name
+            else:
+                user_answers[i.number]=models.StudentAnswerText.objects.filter(page=i,user=user_obj)[0].response.replace("'",'"')
         except IndexError: #must be a null
             user_answers[i.number]="No answer Given"
         if answer_types[i.number]=='S':

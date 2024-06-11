@@ -29,6 +29,18 @@ for (var i = 1; i <= n_pages; i++) {
         }
         continue;
     }
+    if (answer_type.innerHTML == 'F') { //file answer
+        console.log(responses.getElementsByClassName('hide-if-t').length);
+        for (var a = 0; a < responses.getElementsByClassName('hide-if-t').length; a++) {
+            responses.getElementsByClassName('hide-if-t')[a].style.display = 'None';
+        }
+        var student_answer = spans[2]; //grab the file path
+        student_answer.innerHTML = '<a href="/' + student_answer.innerHTML + '"><button class="course-button secondary" style="min-width:6rem;">Get the file</button></a>';
+        student_answer.parentElement.classList.add('content');
+        student_answer.parentElement.classList.add('center');
+        student_answer.parentElement.classList.add('row');
+        continue;
+    }
     var student_answer = spans[2];
     var correct_answer = spans[3];
     for (var a = 0; a < responses.getElementsByTagName('p').length; a++) {
