@@ -216,18 +216,23 @@ def course_browse(request,course_name,page_number):
         #got the form
         if request.method=='POST':
             form=forms.UserResponseFile(request.POST,request.FILES)
-            print(form)
+            #print(form)
             if form.is_valid():
+                print('hi im valid')
                 lookup=models.StudentAnswerFile.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)
                 if lookup:
                     user_response_obj=lookup[0]
                 else:
                     user_response_obj=models.StudentAnswerFile(page=course_page_obj,user=request.user,answer_type=answer_type)
+                print(user_response_obj.response)
                 user_response_obj.response.delete(save=True)
-                user_response_obj.response=form.cleaned_data['user_response']
-                extension=user_response_obj.response.name.split('.')[-1]
-                user_response_obj.response.name='file_'+request.user.username+'_'+str(uuid.uuid4())+'.'+extension
-                user_response_obj.save()                
+                try:
+                    user_response_obj.response=form.cleaned_data['user_response']
+                    extension=user_response_obj.response.name.split('.')[-1]
+                    user_response_obj.response.name='file_'+request.user.username+'_'+str(uuid.uuid4())+'.'+extension
+                    user_response_obj.save()         
+                except AttributeError: #no file was actually uploaded
+                    pass       
         form=forms.UserResponseFile()
         try:
             user_response_obj=models.StudentAnswerFile.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
