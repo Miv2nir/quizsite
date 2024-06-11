@@ -90,8 +90,13 @@
                     enctype="multipart/form-data" {%endif%} class="content center" method="post" id="answer_form">
                     {%csrf_token%}
                     <h3>{{form.user_response.label}}</h3>
+                    {%if is_file and file_name %}
+                    <a href="{%get_media_prefix%}{{file_name}}">View Currently uploaded file</a>
+                    <br />
+                    {%endif%}
                     <div class="room-for-button">{{form.user_response}}</div>
-                    <button class="course-button editor" type="submit" value="OK">Submit Answer</button>
+                    <button class="course-button editor" id="form-button" type="submit" value="OK">
+                        {%if is_file and file_name%}Clear Uploaded File{%else%}Submit Answer{%endif%}</button>
                 </form>
                 {%endif%}
             </span>
@@ -123,6 +128,9 @@
 <div style="display: none;" id="quiz_time">{{quiz_time}}</div>
 <div style="display: none;" id="current_course_name">{{course_name}}</div>
 <script src="{% static 'quiz_timer.js' %}"></script>
+{%endif%}
+{%if is_file%}
+<script src="{%static 'browse_button_upd.js'%}"></script>
 {%endif%}
 
 </html>

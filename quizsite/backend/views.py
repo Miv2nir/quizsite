@@ -218,7 +218,6 @@ def course_browse(request,course_name,page_number):
             form=forms.UserResponseFile(request.POST,request.FILES)
             #print(form)
             if form.is_valid():
-                print('hi im valid')
                 lookup=models.StudentAnswerFile.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)
                 if lookup:
                     user_response_obj=lookup[0]
@@ -237,6 +236,8 @@ def course_browse(request,course_name,page_number):
         try:
             user_response_obj=models.StudentAnswerFile.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
             form.initial={'user_response':user_response_obj.response}
+            if user_response_obj.response:
+                template_values['file_name']=user_response_obj.response.name
         except IndexError:
             pass
     if answer_type=='S': #answer_type is singular choice
