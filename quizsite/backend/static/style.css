@@ -189,6 +189,7 @@ main {
     /*margin-right: 1rem;*/
     transition: 200ms ease;
     border-radius: 0;
+    position: relative;
 }
 
 .assignments-box:hover {
@@ -550,4 +551,10 @@ main {
     cursor: pointer;
     border-color: var(--border-color);
     transition: 200ms ease;
+}
+
+.deadline {
+    position: absolute;
+    bottom: 2rem;
+    right: 0.2rem;
 }

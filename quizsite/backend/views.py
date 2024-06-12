@@ -1,5 +1,5 @@
 import json 
-
+import datetime
 
 
 from django.shortcuts import render
@@ -707,10 +707,11 @@ def group_assignments_item(request,group_name,course_name):
             assignment_obj.deadline=form.cleaned_data['deadline']
             assignment_obj.save()
         return HttpResponseRedirect('/groups/'+group_name+'/assignments/'+course_name+'/?success=true')
+    #generate time difference
     form=forms.AssignmentDeadlines(initial={'deadline':assignment_obj.deadline})    
     return render(request,'backend/group_assignments_item.html',{'group_name':group_name,
     'course_name':course_name,'n_answers':n_answers,'n_pages':n_pages,'course_obj':course_obj,
-    'participants':participants,'form':form})
+    'participants':participants,'form':form,'deadline':assignment_obj.deadline.timestamp})
 
 #we've finally arrived
 @login_required
