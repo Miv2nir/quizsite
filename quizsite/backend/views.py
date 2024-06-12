@@ -333,7 +333,7 @@ def course_browse_end(request,course_name):
     #if the page lock's page is the last one, remove it
     #otherwise, redirect the user back there
     course_obj=models.Course.objects.filter(name=course_name)[0]
-    try:
+    try: #page lock release
         page_control=models.CurrentPageControl.objects.filter(course=course_obj,student=request.user)[0]
         last_page_num=get_last_page(course_obj)
         if last_page_num==page_control.page.number:
@@ -343,9 +343,18 @@ def course_browse_end(request,course_name):
             return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(correct_page_num))
     except IndexError:
         pass
+    #calculate the results
+    answer_sum=0
+    answer_max=0
+    for i in models.CoursePage.objects.filter(parent=course_obj):
+        if i.answer_type in ['S','M']:
+            page_answer_obj=models.PageAnswerText.objects.filter(page=i)[0]
+            print(i)
+            answer_sum+=max(0,page_answer_obj.correct_grade-page_answer_obj.incorrect_penalty)
+            answer_max+=page_answer_obj.correct_grade
     
     return render(request,'backend/course_browse_end.html',{
-        'course_name':course_name,
+        'course_name':course_name,'answer_sum':answer_sum,'answer_max':answer_max
     })
 
 @login_required
