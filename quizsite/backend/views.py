@@ -152,10 +152,12 @@ def course_browse(request,course_name,page_number):
 
     answer_type=course_page_obj.answer_type
 
+    is_quiz=course_obj.is_quiz
     #quiz page control
+
     try:
         page_control=models.CurrentPageControl.objects.filter(course=course_obj,student=request.user)[0]
-        if page_control.page != course_page_obj:
+        if (page_control.page != course_page_obj) and is_quiz:
             correct_page_num=page_control.page.number
             return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(correct_page_num))
     except IndexError:
@@ -164,8 +166,8 @@ def course_browse(request,course_name,page_number):
             page_control.page=course_page_obj
         else:
             page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=1)[0]
-        page_control.save()
-
+        if is_quiz:
+            page_control.save()
     template_values={'username':request.user,
     'course_name':course_name,
     'page_title':page_title,
@@ -175,7 +177,7 @@ def course_browse(request,course_name,page_number):
     'page_next':page_next,
     'next_exists':next_exists,
     'is_file':answer_type=='F',
-    'is_quiz':course_obj.is_quiz, 'quiz_time':course_page_obj.time,
+    'is_quiz':is_quiz, 'quiz_time':course_page_obj.time,
     'first_page':page_number==1}
 
     if answer_type=='N': #no answer, proceed with the serving
@@ -214,6 +216,7 @@ def course_browse(request,course_name,page_number):
             form.initial={'user_response':user_response_obj.response}
         except IndexError: #if it does not exist, pass
             pass
+
     if answer_type=='F': #answer_type is a file
         #got the form
         if request.method=='POST':
@@ -234,6 +237,10 @@ def course_browse(request,course_name,page_number):
                     user_response_obj.save()         
                 except AttributeError: #no file was actually uploaded
                     pass       
+                #switch the lock to the next page
+                page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=page_next)[0]
+                page_control.save()
+                return handle_quiz_redir(course_obj,page_number,page_next,course_name)
         form=forms.UserResponseFile()
         try:
             user_response_obj=models.StudentAnswerFile.objects.filter(page=course_page_obj,user=request.user,answer_type=answer_type)[0]
@@ -242,6 +249,7 @@ def course_browse(request,course_name,page_number):
                 template_values['file_name']=user_response_obj.response.name
         except IndexError:
             pass
+
     if answer_type=='S': #answer_type is singular choice
         #got the form
         if request.method=='POST':

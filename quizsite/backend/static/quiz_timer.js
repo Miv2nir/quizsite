@@ -12,10 +12,10 @@ function countdown() {
     localStorage.setItem('now', now);
     passed_time = Math.floor(now - initial);
     timer_target.innerHTML = 'Time left: ' + (wait - passed_time).toString();
-    console.log(passed_time);
-    console.log(localStorage.getItem('form_submitted'));
+    //console.log(passed_time);
+    //console.log(localStorage.getItem('form_submitted'));
     if (passed_time >= wait) {
-        console.log(true);
+        //console.log(true);
         //console.log(submitted_test);
         //if (localStorage.getItem('form_submitted') == 'true') {
         //    localStorage.setItem('form_submitted', false);
