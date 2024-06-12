@@ -1,5 +1,7 @@
 from django import forms
 
+from django.contrib.admin.widgets import AdminDateWidget
+
 class RegisterForm(forms.Form): #reused from the last year's project
     email = forms.CharField(label='Email', widget=forms.EmailInput(attrs={'placeholder': 'Email','class': 'login-input-box'}))
     login = forms.CharField(label='Login', widget=forms.TextInput(attrs={'placeholder': 'Login','class': 'login-input-box'}))
@@ -94,6 +96,9 @@ class CourseGet(forms.Form):
     course=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
     #deadline=forms.DateTimeField(widget=forms.DateTimeInput(),required=False)
     
+class AssignmentDeadlines(forms.Form):
+    deadline=forms.DateTimeField(required=False,widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
+
 class UserDetailsForm(forms.Form):
     pfp=forms.ImageField(required=False,widget=forms.FileInput(attrs={'style':'margin-top: 0.5rem; margin-bottom: 0.5rem;'}))
     username=forms.CharField(required=False,widget=forms.TextInput(attrs={'placeholder':'Username','class':'form-field'}))

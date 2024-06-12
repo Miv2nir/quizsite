@@ -68,7 +68,14 @@
           </div>
         </div>
       </span>
-
+      <span class="content center">
+        <form action="/groups/{{group_name}}/assignments/{{course_name}}/" method="post">
+          {%csrf_token%}
+          {{form}}
+          <br />
+          <button class="course-button primary" type="submit" value="OK">Update Deadline</button>
+        </form>
+      </span>
       <hr>
       </hr>
       <h2>List of participants</h2>

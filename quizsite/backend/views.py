@@ -687,6 +687,7 @@ def group_assignments_delete(request,group_name,course_name):
 def group_assignments_item(request,group_name,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    assignment_obj=models.GroupAssignments.objects.filter(group=group_obj,course=course_obj)[0]
     n_answers=0
     n_pages=len(models.CoursePage.objects.filter(parent=course_obj))
     participants=set()
@@ -699,9 +700,17 @@ def group_assignments_item(request,group_name,course_name):
         for j in models.StudentAnswerFile.objects.filter(page=i):
             participants.add(j.user)
     print(participants)
+    #set deadlines
+    if request.method=="POST":
+        form=forms.AssignmentDeadlines(request.POST)
+        if form.is_valid():
+            assignment_obj.deadline=form.cleaned_data['deadline']
+            assignment_obj.save()
+        return HttpResponseRedirect('/groups/'+group_name+'/assignments/'+course_name+'/?success=true')
+    form=forms.AssignmentDeadlines(initial={'deadline':assignment_obj.deadline})    
     return render(request,'backend/group_assignments_item.html',{'group_name':group_name,
     'course_name':course_name,'n_answers':n_answers,'n_pages':n_pages,'course_obj':course_obj,
-    'participants':participants})
+    'participants':participants,'form':form})
 
 #we've finally arrived
 @login_required
