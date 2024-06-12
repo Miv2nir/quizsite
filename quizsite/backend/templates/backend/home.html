@@ -75,6 +75,7 @@
             {%for i in assignments%}
             <div class="assignments-box" onclick="window.location.href='/courses/{{i}}/'">
               <img class="course-image" src="{% static 'course.png' %}">
+              <div class="deadline">{{deadlines|get_item:i}}</div></img>
               <a class="course-text">{{i}}</a>
             </div>
             {%endfor%}
@@ -102,5 +103,6 @@
   </div>
 </body>
 <script src="{% static 'element_resizer_home.js' %}"></script>
+<script src="{% static 'deadline_countdown.js' %}"></script>
 
 </html>

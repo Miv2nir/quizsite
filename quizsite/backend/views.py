@@ -85,11 +85,11 @@ def logout_user(request):
 #site's landing page
 @login_required
 def home(request): #same deal as in the assignments page
-    assignments=get_group_assignments(request.user)
-    courses=find_courses('')
+    courses,deadlines=get_group_courses(request.user)
+    public_courses=find_courses('')
     #gather public courses, same as in the course list
 
-    return render (request,'backend/home.html',{'username':request.user,'assignments':assignments,'courses':courses})
+    return render (request,'backend/home.html',{'username':request.user,'assignments':courses,'deadlines':deadlines,'courses':public_courses})
 
 @login_required
 def userpage(request):
@@ -708,10 +708,14 @@ def group_assignments_item(request,group_name,course_name):
             assignment_obj.save()
         return HttpResponseRedirect('/groups/'+group_name+'/assignments/'+course_name+'/?success=true')
     #generate time difference
+    try:
+        deadline=assignment_obj.deadline.timestamp
+    except AttributeError:
+        deadline=None
     form=forms.AssignmentDeadlines(initial={'deadline':assignment_obj.deadline})    
     return render(request,'backend/group_assignments_item.html',{'group_name':group_name,
     'course_name':course_name,'n_answers':n_answers,'n_pages':n_pages,'course_obj':course_obj,
-    'participants':participants,'form':form,'deadline':assignment_obj.deadline.timestamp})
+    'participants':participants,'form':form,'deadline':deadline})
 
 #we've finally arrived
 @login_required
@@ -793,8 +797,9 @@ def group_delete(request,group_name):
 
 @login_required
 def assignments_browse(request):
-    assignments=get_group_assignments(request.user)
-    return render(request,'backend/assignments.html',{'assignments':list(assignments),'user':request.user})
+    courses,deadlines=get_group_courses(request.user)
+    print(deadlines)
+    return render(request,'backend/assignments.html',{'courses':list(courses),'user':request.user,'deadlines':deadlines})
 
 @login_required
 def user_settings(request):
