@@ -63,5 +63,6 @@ urlpatterns = [
     path('groups/<str:group_name>/assignments/<str:course_name>/<str:student_name>/',views.group_assignments_user_results,name='group_assignments_user_results'),
     path('assignments/',views.assignments_browse,name='assignments_browse'),
     path('user/settings/',views.user_settings,name='user_settings'),
+    path('notifications/',views.notifications,name='notifications'),
     path('logout/', views.logout_user, name='logout')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

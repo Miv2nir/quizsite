@@ -854,3 +854,13 @@ def user_settings(request):
     form=forms.UserDetailsForm()
     return render(request,'backend/settings.html',{'user':request.user,'form':form,
     'pfp':pfp_obj.pfp})
+
+@login_required
+def notifications(request):
+    notifications=[]
+    for i in models.GroupEnrollment.objects.filter(student=request.user):
+        group_obj=i.group
+        for j in models.Notifications.objects.filter(group=group_obj):
+            notifications.append(j)
+    print(notifications)
+    return render(request,'backend/notifications.html',{'notifications':notifications})

@@ -140,8 +140,9 @@ class CurrentPageControl(models.Model):
 
 class Notifications(models.Model):
     group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
+    title=models.TextField(default='')
     text=models.TextField(default='')
-
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class UserPFP(models.Model):
