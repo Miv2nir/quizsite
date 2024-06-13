@@ -186,7 +186,7 @@ def handle_quiz_redir(course_obj,page_number,page_next,course_name):
         if page_number == page_next: #end of the quiz
             return HttpResponseRedirect('/courses/'+course_name+'/browse/end/')
         return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_next)+'/')
-    return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/')
+    return HttpResponseRedirect('/courses/'+course_name+'/browse/'+str(page_number)+'/?success=true')
 
 def get_last_page(course_obj):
     lookup=models.CoursePage.objects.filter(parent=course_obj)

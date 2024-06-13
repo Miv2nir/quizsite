@@ -166,7 +166,8 @@ def course_browse_redir(request,course_name):
 
 @login_required
 def course_browse(request,course_name,page_number):
-    
+    #success query
+    confirmation=request.GET.get('success',False)
     #get the course object & page
     course_obj=models.Course.objects.filter(name=course_name)[0]
     try:
@@ -208,7 +209,7 @@ def course_browse(request,course_name,page_number):
             page_control.page=models.CoursePage.objects.filter(parent=course_obj,number=1)[0]
         if is_quiz:
             page_control.save()
-    template_values={'username':request.user,
+    template_values={'username':request.user,'confirmation':confirmation,
     'course_name':course_name,
     'page_title':page_title,
     'page_text':page_text,
