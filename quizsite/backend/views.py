@@ -24,7 +24,7 @@ def register_user(request):  #reused from the past year's course project
     if request.method == 'POST':
         form = forms.RegisterForm(request.POST)
         if form.is_valid():
-            user_login = form.cleaned_data['login']
+            user_login = form.cleaned_data['login'].replace('/','')
             try:  # check for existing users
                 user = User.objects.get(username=user_login)
                 return render(request, 'backend/register.html', {'form': form,'register':False, 'user_found': True})
@@ -580,7 +580,7 @@ def course_create(request):
             course_obj.access=form.cleaned_data['access']
             course_obj.is_quiz=form.cleaned_data['quiz']
             course_obj.save()
-            return HttpResponseRedirect('/courses/'+form.cleaned_data['name']+'/edit/0/?new=True')
+            return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0/?new=True')
     form=forms.CourseForm()
     return render(request,'backend/course_create.html',{'form':form})
 
@@ -903,7 +903,7 @@ def user_settings(request):
             except AttributeError:
                 pass
             #deal with the rest of the form
-            new_username=form.cleaned_data['username']
+            new_username=form.cleaned_data['username'].replace('/','').replace('?','')
             print('input',new_username)
             if new_username:
                 #check if the username is already taken

@@ -20,6 +20,10 @@ class Course(models.Model):
     is_quiz=models.BooleanField(default=False)
     def __str__(self):
         return self.name
+    
+    def save(self,*args,**kwargs):
+        self.name=self.name.replace('/','').replace('?','')
+        super(Course,self).save(*args,**kwargs)
 
 class CoursePage(models.Model):
     parent=models.ForeignKey(Course,on_delete=models.CASCADE)
@@ -114,7 +118,9 @@ class UserPerms(models.Model):
 class UserGroups(models.Model):
     name=models.CharField(max_length=100)
     teacher=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
-
+    def save(self,*args,**kwargs):
+        self.name=self.name.replace('/','').replace('?','')
+        super(UserGroups,self).save(*args,**kwargs)
     def __str__(self):
         return self.name+' group of '+self.teacher.username
 
