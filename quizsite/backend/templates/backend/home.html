@@ -64,7 +64,9 @@
       <h2>Quick Access Panel</h2>
       <span class="content center row">
         <button class="course-button" onclick="window.location.href='/courses/'">See public Courses</button>
+        {%if user|check_teacher%}
         <button class="course-button" onclick="window.location.href='/courses/create/'">Create a Course</button>
+        {%endif%}
         <button class="course-button" onclick="window.location.href='/assignments/'">See issued Assignments</button>
       </span>
       <h2>Current Assignments</h2>
