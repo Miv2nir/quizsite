@@ -94,7 +94,11 @@ def home(request): #same deal as in the assignments page
 @login_required
 def userpage(request):
     courses,deadlines=get_group_courses(request.user)
-    access_level=models.UserPerms.objects.filter(user=request.user)[0]
+    try:
+        access_level=models.UserPerms.objects.filter(user=request.user)[0]
+    except IndexError:
+        access_level=models.UserPerms(user=request.user)
+        access_level.save()
     #count the number of completed courses
     completed_pages={}
     page_counts={}
@@ -111,13 +115,13 @@ def userpage(request):
     for i in models.Course.objects.filter():
         pages=i.coursepage_set.all()
         page_counts[i]=len(pages)
-    print(completed_pages)
-    print(page_counts)
+    #print(completed_pages)
+    #print(page_counts)
     count=0
     for i in completed_pages.keys():
         if completed_pages[i]==page_counts[i]:
             count+=1
-    print(count)
+    #print(count)
     #authored courses
     authored_courses=models.Course.objects.filter(author=request.user)
     return render (request,'backend/user.html',{'courses':list(courses),
@@ -143,6 +147,7 @@ def course_list(request):
 def course_item(request,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     if_owner=request.user==course_obj.author
+    course_privacy_check(request.user,course_obj)
     pages=len(models.CoursePage.objects.filter(parent=course_obj))
     return render (request,'backend/course_item.html',{'username':request.user,
     'course_name':course_name,

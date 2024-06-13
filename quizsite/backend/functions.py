@@ -216,3 +216,11 @@ def get_group_courses(user):
     #print(courses)
     return (courses,deadlines)
 
+def course_privacy_check(user,course_obj): #void
+    #only the course author is allowed to see the course itself if it's in private
+    if course_obj.access=='C':
+        if user!=course_obj.author: #private course yet the user is not an author
+            raise PermissionDenied
+
+
+
