@@ -77,7 +77,11 @@
       <hr />
       <span class="content">
         <h2>{{i.title}}</h2>
-        <p>{{i.text}}</p>
+        <p class="content row" style="justify-content: space-between;">
+          <span>{{i.text}}</span>
+          <span><a href="/groups/{{group_name}}/notifications/?delete={{i.id}}"><button class="list-delete-button"
+                style="margin-right: 3rem;">-</button></a></span>
+        </p>
       </span>
       {%endfor%}
       <hr />

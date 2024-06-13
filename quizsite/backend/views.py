@@ -686,6 +686,12 @@ def group_assignments_delete(request,group_name,course_name):
 @perm_groups_check
 def group_notifications(request,group_name):
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    #making a new notification
+    delete=request.GET.get('delete',False)
+    if delete:
+        notif_obj=models.Notifications.objects.get(pk=int(delete))
+        notif_obj.delete()
+        #return HttpResponseRedirect('/groups/'+group_name+'/notifications/')
     if request.method=="POST":
         form=forms.NotificationForm(request.POST)
         if form.is_valid():
@@ -699,6 +705,7 @@ def group_notifications(request,group_name):
     notifications=[]
     for j in models.Notifications.objects.filter(group=group_obj):
         notifications.append(j)
+    notifications.reverse()
     print(notifications)
     form=forms.NotificationForm()
     return render(request,'backend/group_notifications_manager.html',{'form':form,'group_name':group_name,'notifications':notifications})
@@ -883,5 +890,6 @@ def notifications(request):
         group_obj=i.group
         for j in models.Notifications.objects.filter(group=group_obj):
             notifications.append(j)
+    notifications.reverse()
     print(notifications)
     return render(request,'backend/notifications.html',{'notifications':notifications})
