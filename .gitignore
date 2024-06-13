@@ -4,3 +4,5 @@ __pycache__
 quizsite/backend/media/user_pfps/*
 quizsite/backend/media/user_responses/*
 quizsite/backend/media/*.*
+static_
+quizsite/static

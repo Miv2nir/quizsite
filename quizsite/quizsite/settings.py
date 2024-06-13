@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&xvl%cyr^6-imyted3(wl^b56^krjh*l4kqy2lb01smn@s$qw1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','192.168.1.237','192.168.1.231','quizsite.miv2nir.me']
 
 
 # Application definition
@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://quizsite.miv2nir.me','http://*.127.0.0.1']
 
 ROOT_URLCONF = 'quizsite.urls'
 
@@ -122,6 +124,7 @@ APPEND_SLASH = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'backend/static/'
+STATIC_ROOT = 'static/'
 MEDIA_ROOT = 'backend/media/'
 MEDIA_URL = 'backend/media/'
 
