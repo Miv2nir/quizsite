@@ -56,8 +56,8 @@
                 <div class="main-div-quick-access">
                     {%if not is_quiz%}
                     <div style="display:block;">
-                        <p>
-                            N notifications
+                        <p onclick="window.location.href='/notifications/'" class="link-text">
+                            {{user|get_notif_number}} notifications
                         </p>
                         <p onclick="window.location.href='/user/';" class="link-text">
                             Profile

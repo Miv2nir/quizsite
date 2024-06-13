@@ -42,8 +42,8 @@
       <span style="overflow: hidden;">
         <div class="main-div-quick-access">
           <div style="display:block;">
-            <p>
-              N notifications
+            <p onclick="window.location.href='/notifications/'" class="link-text">
+              {{user|get_notif_number}} notifications
             </p>
             <p onclick="window.location.href='/user/';" class="link-text">
               Profile
@@ -56,6 +56,8 @@
           <h2>
             My notifications
           </h2>
+          <p onclick="window.location.href='/';" class="link-text">
+            Back to Home </p>
         </div>
       </span>
       <br />

@@ -38,3 +38,17 @@ def get_pfp(user):
         return settings.STATIC_URL+'pfp.png'
     except ValueError:
         return settings.STATIC_URL+'pfp.png'
+
+@register.filter #get the number of unread notifications
+def get_notif_number(user):
+    #get all the relevant notifications
+    count=0
+    try:
+        for i in models.GroupEnrollment.objects.filter(student=user):
+            group_obj=i.group
+            for j in models.Notifications.objects.filter(group=group_obj):
+                if user not in j.read.all():
+                    count+=1
+    except IndexError:
+        pass
+    return count

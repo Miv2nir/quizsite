@@ -41,8 +41,8 @@
     <main>
       <div class="main-div-quick-access">
         <div style="display:block;">
-          <p>
-            N notifications
+          <p onclick="window.location.href='/notifications/'" class="link-text">
+            {{user|get_notif_number}} notifications
           </p>
           <p onclick="window.location.href='/user/';" class="link-text">
             Profile
