@@ -17,7 +17,7 @@ def find_courses(prompt=''):
     if not prompt:
         lookup=models.Course.objects.filter(access='A')
     else:
-        lookup=models.Course.objects.filter(access='A',name__contains=prompt)
+        lookup=models.Course.objects.filter(access='A',name__icontains=prompt)
     return lookup
 '''
 def define_answer_old(course_page_obj,form_answer_type,a_choices={}):
