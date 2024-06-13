@@ -43,6 +43,9 @@ def register_user(request):  #reused from the past year's course project
             if user is not None:  # login the newly created user
                 print('New User Logging in '+user_login)  # for the tests
                 login(request, user)
+                #create the permissions object
+                perm_obj=models.UserPerms(user=user)
+                perm_obj.save()
             return HttpResponseRedirect('/')
     else:  # prompt the form
         form = forms.RegisterForm()
