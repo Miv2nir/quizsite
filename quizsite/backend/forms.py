@@ -105,3 +105,6 @@ class UserDetailsForm(forms.Form):
     old_password = forms.CharField(required=False,label='Old Password', widget=forms.PasswordInput(attrs={'placeholder': 'Old Password','class': 'form-field'}))
     password = forms.CharField(required=False,label='Password', widget=forms.PasswordInput(attrs={'placeholder': 'New Password','class': 'form-field'}))
     password_verify = forms.CharField(required=False,label='Repeat Password', widget=forms.PasswordInput(attrs={'placeholder': 'Repeat New Password','class': 'form-field'}))
+class NotificationForm(forms.Form):
+    title=forms.CharField(label='Page Title',widget=forms.TextInput(attrs={'placeholder':'Notification Title','class':'form-field'}))
+    text=forms.CharField(label='Text',required=False,widget=forms.Textarea(attrs={'placeholder':'Notification Text','class':'form-field stretch','style':'height:1.5rem;'}))

@@ -61,6 +61,7 @@ urlpatterns = [
     path('groups/<str:group_name>/assignments/delete/<str:course_name>/',views.group_assignments_delete,name='group_assignments_delete'),
     path('groups/<str:group_name>/assignments/<str:course_name>/',views.group_assignments_item,name='group_assignments_item'),
     path('groups/<str:group_name>/assignments/<str:course_name>/<str:student_name>/',views.group_assignments_user_results,name='group_assignments_user_results'),
+    path('groups/<str:group_name>/notifications/',views.group_notifications,name='group_notifications'),
     path('assignments/',views.assignments_browse,name='assignments_browse'),
     path('user/settings/',views.user_settings,name='user_settings'),
     path('notifications/',views.notifications,name='notifications'),

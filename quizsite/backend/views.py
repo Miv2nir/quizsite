@@ -684,6 +684,27 @@ def group_assignments_delete(request,group_name,course_name):
 
 @login_required
 @perm_groups_check
+def group_notifications(request,group_name):
+    group_obj=models.UserGroups.objects.filter(name=group_name)[0]
+    if request.method=="POST":
+        form=forms.NotificationForm(request.POST)
+        if form.is_valid():
+            notif_obj=models.Notifications()
+            notif_obj.title=form.cleaned_data['title']
+            notif_obj.text=form.cleaned_data['text']
+            notif_obj.group=group_obj
+            notif_obj.save()
+        return HttpResponseRedirect('/groups/'+group_name+'/notifications/')
+
+    notifications=[]
+    for j in models.Notifications.objects.filter(group=group_obj):
+        notifications.append(j)
+    print(notifications)
+    form=forms.NotificationForm()
+    return render(request,'backend/group_notifications_manager.html',{'form':form,'group_name':group_name,'notifications':notifications})
+
+@login_required
+@perm_groups_check
 def group_assignments_item(request,group_name,course_name):
     course_obj=models.Course.objects.filter(name=course_name)[0]
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
