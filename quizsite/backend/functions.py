@@ -237,3 +237,21 @@ def calc_answers_group(course_obj,group_obj,page_obj):
             n_answers+=1
     return n_answers
 
+def calc_grade(correct_grade,incorrect_penalty,student_answers,correct_answers):
+    points=0
+    print(correct_grade,incorrect_penalty,student_answers,correct_answers)
+    student_answers=json.loads(student_answers)
+    correct_answers=json.loads(correct_answers)
+    for i in student_answers:
+        if i in correct_answers.keys():
+            points+=correct_grade
+        else:
+            points-=incorrect_penalty
+    return max(0,points)
+
+def calc_max_points(correct_grade,correct_answers):
+    points=0
+    correct_answers=json.loads(correct_answers)
+    for i in correct_answers.keys():
+        points+=correct_grade
+    return max(0,points)

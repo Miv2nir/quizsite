@@ -391,8 +391,13 @@ def course_browse_end(request,course_name):
         if i.answer_type in ['S','M']:
             page_answer_obj=models.PageAnswerText.objects.filter(page=i)[0]
             print(i)
-            answer_sum+=max(0,page_answer_obj.correct_grade-page_answer_obj.incorrect_penalty)
-            answer_max+=page_answer_obj.correct_grade
+            #answer_sum+=max(0,page_answer_obj.correct_grade-page_answer_obj.incorrect_penalty)
+            student_answer=models.StudentAnswerText.objects.filter(page=i,user=request.user)[0].response.replace("'",'"')
+            if i.answer_type=='S':
+                student_answer='["'+student_answer+'"]'
+            correct_answer=models.PageAnswerText.objects.filter(page=i)[0].correct_choices
+            answer_sum+=calc_grade(page_answer_obj.correct_grade,page_answer_obj.incorrect_penalty,student_answer,correct_answer)
+            answer_max+=calc_max_points(page_answer_obj.correct_grade,correct_answer)
     
     return render(request,'backend/course_browse_end.html',{
         'course_name':course_name,'answer_sum':answer_sum,'answer_max':answer_max
@@ -806,7 +811,8 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
     n_pages=0
     answer_texts={}
     answer_points={}
-    for i in models.CoursePage.objects.filter(parent=course_obj):
+    print(models.CoursePage.objects.filter(parent=course_obj))
+    for i in models.CoursePage.objects.filter(parent=course_obj).order_by('number'):
         #user_answer=models.StudentAnswerText.objects.filter(page=i)[0].response
         answer_types[i.number]=i.answer_type
         #print('aaaa',i.answer_type)
@@ -823,15 +829,16 @@ def group_assignments_user_results(request,group_name,course_name,student_name):
         question_texts[i.number]=models.PageAnswerText.objects.filter(page=i)[0].text
         n_pages+=1
         answer_texts[i.number]=models.PageAnswerText.objects.filter(page=i)[0].choices
-        if answer_types[i.number] in ['S','M']: #supports autograding
+        if answer_types[i.number] in ['S','M']: #autograding
             page_answer_obj=models.PageAnswerText.objects.filter(page=i)[0]
-            answer_points[i.number] = max(0,page_answer_obj.correct_grade-page_answer_obj.incorrect_penalty)
+            #answer_points[i.number] = max(0,page_answer_obj.correct_grade-page_answer_obj.incorrect_penalty)
+            answer_points[i.number]=calc_grade(page_answer_obj.correct_grade,page_answer_obj.incorrect_penalty,user_answers[i.number],correct_answers[i.number])
         else:
             answer_points[i.number]=0
-    print(user_answers)
-    print(correct_answers)
-    print(answer_types)
-    print(answer_points)
+    #print(user_answers)
+    #print(correct_answers)
+    #print(answer_types)
+    #print(answer_points)
     
     #wrangle user_ansers into json objects
 
