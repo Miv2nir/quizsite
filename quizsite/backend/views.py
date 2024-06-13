@@ -420,7 +420,7 @@ def course_edit(request,course_name,page_number=0):
         if request.method=='POST':
             form=forms.CourseForm(request.POST)
             if not form.is_valid():
-                return HttpResponseRedirect('/courses/'+course_name+'/edit/0')
+                return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0')
 
             course_obj.name=form.cleaned_data['name']
             course_obj.description=form.cleaned_data['description']
@@ -454,7 +454,7 @@ def course_edit(request,course_name,page_number=0):
         course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
     except: #no page created yet
         return render (request,'backend/course_edit_empty.html',{'username':request.user,
-    'course_name':course_name,
+    'course_name':course_obj.name,
     'page_number':page_number,
     'page_previous':page_previous})
 
@@ -462,7 +462,7 @@ def course_edit(request,course_name,page_number=0):
     if request.method=='POST':
         form=forms.CoursePageForm(request.POST)
         if not form.is_valid():
-            return HttpResponseRedirect('/courses/'+course_name+'/edit/'+str(page_number)+'/')
+            return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/'+str(page_number)+'/')
         #get the answer object if present
         
         #quiz timer thingy
@@ -470,7 +470,7 @@ def course_edit(request,course_name,page_number=0):
 
         course_page_obj.title=form.cleaned_data['title']
         course_page_obj.text=form.cleaned_data['text']
-        print('aaaaaaaaaaaaaaaaaaaa')
+        #print('aaaaaaaaaaaaaaaaaaaa')
         
         #time to handle the answer type model
         #choices={0:'Choice 1',1:'Choice 2',2:'Choice 3'} #get as json from client somehow
@@ -527,7 +527,7 @@ def course_edit(request,course_name,page_number=0):
         form.fields['answer_type'].choices=A_TYPE_QUIZ
     
     return render (request,'backend/course_edit.html',{'username':request.user,'form':form,
-    'course_name':course_name,
+    'course_name':course_obj.name,
     'page_number':page_number,
     'page_previous':page_previous,
     'page_next':page_next,
@@ -612,7 +612,7 @@ def group_create(request):
                 pass
             group_obj.name=form.cleaned_data['name']
             group_obj.save()
-            return HttpResponseRedirect('/groups/'+form.cleaned_data['name']+'/?new=True')
+            return HttpResponseRedirect('/groups/'+group_obj.name+'/?new=True')
     form=forms.UserGroupsForm()
     return render(request,'backend/group_create.html',{'form':form})
 
@@ -639,9 +639,9 @@ def group_edit(request,group_name):
                 pass
             group_obj.name=form.cleaned_data['name']
             group_obj.save()
-            return HttpResponseRedirect('/groups/'+form.cleaned_data['name']+'/?new=True')
+            return HttpResponseRedirect('/groups/'+group_obj.name+'/?new=True')
     form=forms.UserGroupsForm(initial={'name':group_name})
-    return render(request,'backend/group_edit.html',{'form':form,'group_name':group_name})
+    return render(request,'backend/group_edit.html',{'form':form,'group_name':group_obj.name})
     
 @login_required
 @perm_groups_check
@@ -657,19 +657,19 @@ def group_students(request,group_name):
                 user_obj=models.User.objects.filter(username=form.cleaned_data['username'])[0]
                 try:
                     enrollment_obj=models.GroupEnrollment.objects.filter(student=user_obj,group=group_obj)[0]
-                    return HttpResponseRedirect('/groups/'+group_name+'/students/?already_enrolled=True')
+                    return HttpResponseRedirect('/groups/'+group_obj.name+'/students/?already_enrolled=True')
                 except IndexError:
                     enrollment_obj=models.GroupEnrollment(student=user_obj,group=group_obj)
                     enrollment_obj.save()
                     #exits the thing
             except IndexError:
-                return HttpResponseRedirect('/groups/'+group_name+'/students/?user_not_found=True')
-            return HttpResponseRedirect('/groups/'+group_name+'/students/?success=True')
+                return HttpResponseRedirect('/groups/'+group_obj.name+'/students/?user_not_found=True')
+            return HttpResponseRedirect('/groups/'+group_obj.name+'/students/?success=True')
 
     form=forms.UserGet()
     #build a list of enrolled students
     enrolled_list=models.GroupEnrollment.objects.filter(group=group_obj)
-    return render(request,'backend/group_students.html',{'group_name':group_name,'form':form,'enrolled_list':enrolled_list})
+    return render(request,'backend/group_students.html',{'group_name':group_obj.name,'form':form,'enrolled_list':enrolled_list})
 
 @login_required
 def group_students_delete_redir(request,group_name):
@@ -747,7 +747,7 @@ def group_notifications(request,group_name):
             notif_obj.text=form.cleaned_data['text']
             notif_obj.group=group_obj
             notif_obj.save()
-        return HttpResponseRedirect('/groups/'+group_name+'/notifications/')
+        return HttpResponseRedirect('/groups/'+group_obj.name+'/notifications/')
 
     notifications=[]
     for j in models.Notifications.objects.filter(group=group_obj):
@@ -784,7 +784,7 @@ def group_assignments_item(request,group_name,course_name):
         if form.is_valid():
             assignment_obj.deadline=form.cleaned_data['deadline']
             assignment_obj.save()
-        return HttpResponseRedirect('/groups/'+group_name+'/assignments/'+course_name+'/?success=true')
+        return HttpResponseRedirect('/groups/'+group_obj.name+'/assignments/'+course_name+'/?success=true')
     #generate time difference
     try:
         deadline=assignment_obj.deadline.timestamp
