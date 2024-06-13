@@ -210,9 +210,9 @@ def get_group_courses(user):
             courses.add(i.course)
             try:
                 deadlines[i.course]=str(i.deadline.timestamp())
-                print(i.deadline.timestamp())
+                #print(i.deadline.timestamp())
             except AttributeError:
                 pass
-    print(courses)
+    #print(courses)
     return (courses,deadlines)
 

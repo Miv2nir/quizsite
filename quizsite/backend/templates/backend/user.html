@@ -49,6 +49,10 @@
           <img class="pfp" src="{{user|get_pfp}}" />
           <div class="user-link-spread">
             <h2>{{ username }}</h2>
+            {%if is_teacher%}
+            <p style="color:purple">Teacher Permissions</p>
+            {%endif%}
+            <p>Courses completed: {{course_count}}</p>
             <p onclick="window.location.href='/user/settings/';" class="link-text">Settings</p>
             <p onclick="window.location.href='/logout/';" class="link-text">Log Out</p>
           </div>
@@ -56,38 +60,42 @@
       </span>
       <hr>
       </hr>
-      <h2>Enrolled Courses</h2>
+      <h2>Current Assignments</h2>
       <span class="content center">
-
         <span class="assignments-container">
-          <div class="assignments-grid">
-            <!--available assignments section-->
-            <div class="assignments-box">
+          <div class="assignments-list">
+            <!--current assignments section-->
+            {%for i in courses%}
+            <div class="assignments-box" onclick="window.location.href='/courses/{{i}}/'">
               <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
+              <div class="deadline">{{deadlines|get_item:i}}</div></img>
+              <a class="course-text">{{i}}</a>
             </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
-            <div class="assignments-box">
-              <img class="course-image" src="{% static 'course.png' %}">
-              <a class="course-text">Course Name</a>
-            </div>
+            {%endfor%}
           </div>
         </span>
       </span>
+      <hr />
+      {%if is_teacher%}
+      <h2>Authored Courses</h2>
+      <span class="content center">
+        <span class="assignments-container">
+          <div class="assignments-grid" style="margin-bottom: 1rem;">
+            <!--available assignments section-->
+            {%for i in authored_courses%}
+            <div class="assignments-box" onclick="window.location.href='/courses/{{i}}/'">
+              <img class=" course-image" src="{% static 'course.png' %}">
+              <a class="course-text">{{i}}</a>
+            </div>
+            {%endfor%}
+          </div>
+        </span>
+      </span>
+      {%endif%}
     </main>
   </div>
 </body>
-<script src="{% static 'script.js' %}"></script>
+<script src="{% static 'deadline_countdown.js' %}"></script>
+<script src="{% static 'element_resizer_home.js' %}"></script>
 
 </html>

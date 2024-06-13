@@ -93,7 +93,36 @@ def home(request): #same deal as in the assignments page
 
 @login_required
 def userpage(request):
-    return render (request,'backend/user.html',{'username':request.user})
+    courses,deadlines=get_group_courses(request.user)
+    access_level=models.UserPerms.objects.filter(user=request.user)[0]
+    #count the number of completed courses
+    completed_pages={}
+    page_counts={}
+    for i in models.StudentAnswerText.objects.filter(user=request.user):
+        try:
+            completed_pages[i.page.parent]+=1
+        except KeyError:
+            completed_pages[i.page.parent]=1
+    for i in models.StudentAnswerFile.objects.filter(user=request.user):
+        try:
+            completed_pages[i.page.parent]+=1
+        except KeyError:
+            completed_pages[i.page.parent]=1
+    for i in models.Course.objects.filter():
+        pages=i.coursepage_set.all()
+        page_counts[i]=len(pages)
+    print(completed_pages)
+    print(page_counts)
+    count=0
+    for i in completed_pages.keys():
+        if completed_pages[i]==page_counts[i]:
+            count+=1
+    print(count)
+    #authored courses
+    authored_courses=models.Course.objects.filter(author=request.user)
+    return render (request,'backend/user.html',{'courses':list(courses),
+    'username':request.user,'deadlines':deadlines,'is_teacher':access_level.is_teacher,'course_count':count,
+    'authored_courses':authored_courses})
 
 #TODO: change basis of name to ID
 @login_required
@@ -379,12 +408,13 @@ def course_edit(request,course_name,page_number=0):
             course_obj.name=form.cleaned_data['name']
             course_obj.description=form.cleaned_data['description']
             course_obj.access=form.cleaned_data['access']
-            course_page_obj.is_quiz=form.cleaned_data['quiz']
+            #course_page_obj.is_quiz=form.cleaned_data['quiz']
             course_obj.save()
             return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0/')
 
         #if the page is being requested
-        form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description})
+        form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description,
+        'access':course_obj.access})
         pages=len(models.CoursePage.objects.filter(parent=course_obj))
         return render (request,'backend/course_edit_page0.html',{'username':request.user,'form':form,
         'course_name':course_name,
