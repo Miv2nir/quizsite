@@ -166,7 +166,10 @@ def course_browse(request,course_name,page_number):
     
     #get the course object & page
     course_obj=models.Course.objects.filter(name=course_name)[0]
-    course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
+    try:
+        course_page_obj=models.CoursePage.objects.filter(parent=course_obj,number=page_number)[0]
+    except IndexError: #no pages yet
+        return render(request,'backend/course_browse_no_pages.html',{'user':request.user,'course_name':course_name})
     page_title=course_page_obj.title
     page_text=course_page_obj.text
     

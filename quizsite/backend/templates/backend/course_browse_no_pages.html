@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    {% load filters %}
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <!-- font import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet" />
+</head>
+<!-- wanted to make it one template but thought that id rather not do that right now, maybe later -->
+<style>
+    input[type='checkbox'] {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    input[type='radio'] {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+</style>
+
+<body>
+    <div class="split">
+        <nav class="sidebar">
+            <ul class="sidebar-list">
+                <img class="icon" src="{% static 'hse_logo.svg' %}" alt="HSE Logo" />
+                <li class="sidebar-element" onclick="window.location.href='/'">
+                    <div class="sidebar-text">Home Page</div>
+
+                </li>
+                <li class="sidebar-element" onclick="window.location.href='/courses/'">
+                    <div class="sidebar-text">Course Search</div>
+
+                </li>
+                {%if user|check_teacher%}
+                <li class="sidebar-element" onclick="window.location.href='/groups/'">
+                    <div class="sidebar-text">Student Groups</div>
+                </li>
+                {%endif%}
+                {%if user|check_group_enrollment%}
+                <li class="sidebar-element" onclick="window.location.href='/assignments/'">
+                    <div class="sidebar-text">Handed-out Assignments</div>
+                </li>
+                {%endif%}
+            </ul>
+        </nav>
+        <main>
+            <span style="overflow: hidden;">
+                <div class="main-div-quick-access">
+                    <div style="display:block;">
+                        <p onclick="window.location.href='/notifications/'" class="link-text">
+                            {{user|get_notif_number}} notifications
+                        </p>
+                        <p onclick="window.location.href='/user/';" class="link-text">
+                            Profile
+                        </p>
+                    </div>
+                    <img class="pfp" src="{{user|get_pfp}}" />
+                </div>
+                <!--welcome-->
+                <div style="overflow: hidden;">
+                    <h2>
+                        {{ course_name }}: No pages
+                    </h2>
+                </div>
+            </span>
+            <br />
+            <br />
+            <hr />
+
+            <span class="content center">
+                <h1>Looks like this course has no pages yet</h1>
+                <h2>Please check in later.</h2>
+                <button onclick="window.location.href='/courses/{{course_name}}'" class="course-button">Back to the
+                    course
+                    page</button>
+            </span>
+        </main>
+    </div>
+</body>
+
+</html>
