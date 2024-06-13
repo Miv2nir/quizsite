@@ -758,13 +758,16 @@ def group_assignments_item(request,group_name,course_name):
     n_pages=len(models.CoursePage.objects.filter(parent=course_obj))
     participants=set()
     for i in models.CoursePage.objects.filter(parent=course_obj):
-        n_answers+=len(models.StudentAnswerText.objects.filter(page=i))
-        n_answers+=len(models.StudentAnswerFile.objects.filter(page=i))
+        #n_answers+=len(models.StudentAnswerText.objects.filter(page=i))
+        #n_answers+=len(models.StudentAnswerFile.objects.filter(page=i))
+        n_answers+=calc_answers_group(course_obj,group_obj,i)
         #construct a list of all users who posted answers
         for j in models.StudentAnswerText.objects.filter(page=i):
-            participants.add(j.user)
+            if check_user_group(j.user,group_obj):
+                participants.add(j.user)
         for j in models.StudentAnswerFile.objects.filter(page=i):
-            participants.add(j.user)
+            if check_user_group(j.user,group_obj):
+                participants.add(j.user)
     print(participants)
     #set deadlines
     if request.method=="POST":

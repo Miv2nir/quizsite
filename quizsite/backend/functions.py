@@ -221,6 +221,19 @@ def course_privacy_check(user,course_obj): #void
     if course_obj.access=='C':
         if user!=course_obj.author: #private course yet the user is not an author
             raise PermissionDenied
-
-
+def check_user_group(user,group_obj):
+    if models.GroupEnrollment.objects.filter(student=user,group=group_obj):
+        return True     
+    return False
+def calc_answers_group(course_obj,group_obj,page_obj):
+    n_answers=0
+    for i in models.StudentAnswerText.objects.filter(page=page_obj):
+        if models.GroupEnrollment.objects.filter(student=i.user,group=group_obj):
+            #print(models.GroupEnrollment.objects.filter(student=i.user,group=group_obj))
+            n_answers+=1
+    for i in models.StudentAnswerFile.objects.filter(page=page_obj):
+        if models.GroupEnrollment.objects.filter(student=i.user,group=group_obj):
+            #print(models.GroupEnrollment.objects.filter(student=i.user,group=group_obj))
+            n_answers+=1
+    return n_answers
 
