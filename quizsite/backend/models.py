@@ -142,9 +142,9 @@ class Notifications(models.Model):
     group=models.ForeignKey(UserGroups,on_delete=models.CASCADE)
     title=models.TextField(default='')
     text=models.TextField(default='')
+    read=models.ManyToManyField(User,blank=True,default=None)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
+    
 class UserPFP(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     pfp=models.ImageField(null=True,blank=True,upload_to='user_pfps/')

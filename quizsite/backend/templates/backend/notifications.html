@@ -60,10 +60,14 @@
       </span>
       <br />
       <br />
+      <!--div class="content center">
+        <a href="/notifications?all=true">
+          <button class="course-button secondary">Show All</button></a>
+      </div-->
       {% for i in notifications%}
       <hr />
-      <span class="content">
-        <h2>{{i.title}}</h2>
+      <span class="content" {%if reads|get_item:i%}style="color: #bdbdbd;" {%endif%}>
+        <h2>{{i.title}}{%if reads|get_item:i%} (read){%endif%}</h2>
         <p>{{i.text}}</p>
       </span>
       {%endfor%}

@@ -19,7 +19,9 @@ body {
     /* flex-direction: row;*/
 }
 
-
+a {
+    display: contents;
+}
 
 .split {
     position: relative;

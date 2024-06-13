@@ -886,10 +886,25 @@ def user_settings(request):
 @login_required
 def notifications(request):
     notifications=[]
+    #show_all= request.GET.get('all',False) #ignore the read field
+    show_all=True
+    reads={}
+    print(show_all)
     for i in models.GroupEnrollment.objects.filter(student=request.user):
         group_obj=i.group
         for j in models.Notifications.objects.filter(group=group_obj):
-            notifications.append(j)
+            reads[j]=True
+            if request.user not in j.read.all():
+                reads[j]=False
+                j.read.add(request.user)
+                j.save()
+                if not show_all: #render only the unread
+                    notifications.append(j)
+            if show_all: #render all of them
+                notifications.append(j)
+
+            print(j.read.all())
+            #mark all as read
     notifications.reverse()
-    print(notifications)
-    return render(request,'backend/notifications.html',{'notifications':notifications})
+    print(reads)
+    return render(request,'backend/notifications.html',{'notifications':notifications,'reads':reads,'show_all':show_all})
