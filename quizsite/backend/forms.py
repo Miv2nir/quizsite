@@ -83,7 +83,7 @@ class UserResponseFile(forms.Form):
     user_response=forms.FileField(required=False,label='Upload your file below:',widget=forms.FileInput(attrs={'class':'content center'}))
 
 class UserGroupsForm(forms.Form):
-    name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Course Name','class':'form-field'}))
+    name=forms.CharField(label='Name',widget=forms.TextInput(attrs={'placeholder':'Group Name','class':'form-field'}))
 
 class UserGet(forms.Form):
     username=forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Student Username','class':'form-field'}))

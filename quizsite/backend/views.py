@@ -45,6 +45,8 @@ def register_user(request):  #reused from the past year's course project
                 login(request, user)
                 #create the permissions object
                 perm_obj=models.UserPerms(user=user)
+                #temporary measure
+                perm_obj.is_teacher=True
                 perm_obj.save()
             return HttpResponseRedirect('/')
     else:  # prompt the form
