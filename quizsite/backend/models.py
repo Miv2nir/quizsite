@@ -124,7 +124,7 @@ class UserGroups(models.Model):
         self.name=self.name.replace('/','').replace('?','')
         super(UserGroups,self).save(*args,**kwargs)
     def __str__(self):
-        return self.name+' group of '+self.teacher.username
+        return self.name
 
 class GroupEnrollment(models.Model):
     student=models.ForeignKey(User,on_delete=models.CASCADE)

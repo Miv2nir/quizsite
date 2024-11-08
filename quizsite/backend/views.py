@@ -416,6 +416,10 @@ def course_edit(request,course_name,page_number=0):
     page_previous=max(0,page_number-1)
     page_next=page_number+1 #add check for page limit
     course_obj=models.Course.objects.filter(name=course_name)[0]
+    success=request.GET.get('success',False)
+    if success:
+        success=True
+    print(success)
     #page 0 stuff
     if page_number==0:
         #if the form was submitted waawawa
@@ -429,7 +433,7 @@ def course_edit(request,course_name,page_number=0):
             course_obj.access=form.cleaned_data['access']
             #course_page_obj.is_quiz=form.cleaned_data['quiz']
             course_obj.save()
-            return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0/')
+            return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/0/?success=true')
 
         #if the page is being requested
         form=forms.CourseForm(initial={'name':course_obj.name,'description':course_obj.description,
@@ -441,7 +445,7 @@ def course_edit(request,course_name,page_number=0):
         'page_previous':page_previous,
         'page_next':page_next,
         'n_pages':pages,
-        'is_quiz':course_obj.is_quiz,
+        'is_quiz':course_obj.is_quiz,'success':success,
         'course_access':course_obj.get_access_display()})
 
     #content pages
@@ -502,7 +506,7 @@ def course_edit(request,course_name,page_number=0):
         course_page_obj.answer_type=form.cleaned_data['answer_type']
         course_page_obj.save()
 
-        return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/'+str(page_number)+'/')
+        return HttpResponseRedirect('/courses/'+course_obj.name+'/edit/'+str(page_number)+'/?success=true')
     #come up with some choices as an example, should change it to prompting the user later on
     #if answer_type_obj:
         #form_answer_type=forms.AnswerTypeForm(initial={'question':answer_type_obj.text,'choices':answer_type_obj.choices})
@@ -532,7 +536,7 @@ def course_edit(request,course_name,page_number=0):
     'course_name':course_obj.name,
     'page_number':page_number,
     'page_previous':page_previous,
-    'page_next':page_next,
+    'page_next':page_next, 'success':success,
     'option_type':course_page_obj.answer_type,
     'question_presence':course_page_obj.answer_type!='N',
     'is_quiz':course_obj.is_quiz,
@@ -626,6 +630,7 @@ def group_redir(request,group_name):
 @perm_groups_check
 def group_edit(request,group_name):
     #permissions check
+    print('aa')
     group_obj=models.UserGroups.objects.filter(name=group_name)[0]
     if group_obj.teacher!=request.user:
         raise PermissionDenied
@@ -633,9 +638,10 @@ def group_edit(request,group_name):
     if request.method=='POST':
         form=forms.UserGroupsForm(request.POST)
         if form.is_valid():
-            group_obj=models.UserGroups(teacher=request.user)
+            #group_obj=models.UserGroups.objects.filter(teacher=request.user)[0]
             try:
                 lookup=models.UserGroups.objects.filter(name=form.cleaned_data['name'])[0]
+                
                 return HttpResponseRedirect('/groups/create/?name_collision=True')
             except IndexError:
                 pass

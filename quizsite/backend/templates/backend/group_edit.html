@@ -71,7 +71,7 @@
             <h2>Define Group Metadata</h2>
             <!--course info form-->
             <span class="content center" style="margin-bottom: 1rem ;">
-                <form action="/groups/create/" method="post">
+                <form action="/groups/{{group_name}}/edit/" method="post">
                     {% csrf_token %}
                     <div class="content center">
                         <div>Group Name:</div>

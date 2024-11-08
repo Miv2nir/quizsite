@@ -62,6 +62,9 @@
             <span class="content center room-for-navbar">
                 <br />
                 <br />
+                {%if success%}
+                <p style="color:green;">Your changes have been saved successfully!</p>
+                {%endif%}
                 <form action="/courses/{{course_name}}/edit/{{page_number}}/" method="post">
                     {% csrf_token %}
                     <div class="content center">

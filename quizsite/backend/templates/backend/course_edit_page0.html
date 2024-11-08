@@ -63,6 +63,9 @@
             <span class="content center">
                 <br />
                 <br />
+                {%if success%}
+                <p style="color:green;">Your changes have been saved successfully!</p>
+                {%endif%}
                 <div class="user-face">
                     <div class="assignments-box">
                         <img class="course-image" src="{% static 'course.png' %}">
